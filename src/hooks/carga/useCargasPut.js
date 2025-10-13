@@ -1,15 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../services/api.js";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '../../services/api.js'
 
-export function useCargaPut() {
-  const queryClient = useQueryClient();
+export function useCargaPut () {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: ["cargaPut"],
+    mutationKey: ['cargaPut'],
     mutationFn: async (carga) => {
-      await api.put("/carga/" + carga.id, carga, { withCredentials: true });
+      await api.put('/carga/'+carga.id, carga, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["cargasQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['cargasQuery'])
+    }
+  })
 }

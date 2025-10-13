@@ -1,15 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../services/api";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '../../services/api'
 
-export function useTipoCargaPost() {
-  const queryClient = useQueryClient();
+export function useTipoCargaPost () {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: ["tipoCargaPost"],
+    mutationKey: ['tipoCargaPost'],
     mutationFn: async (tipoCarga) => {
-      await api.post("/tipoCarga", tipoCarga, { withCredentials: true });
+      await api.post('/tipoCarga', tipoCarga, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["tipoCargasQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['tipoCargasQuery'])
+    }
+  })
 }

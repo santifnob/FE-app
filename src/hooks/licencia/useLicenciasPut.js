@@ -1,17 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../services/api";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '../../services/api'
 
-export function useLicenciaPut() {
-  const queryClient = useQueryClient();
+export function useLicenciaPut () {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: ["licenciaPut"],
+    mutationKey: ['licenciaPut'],
     mutationFn: async (licencia) => {
-      await api.put("/licencia/" + licencia.id, licencia, {
-        withCredentials: true,
-      });
+      await api.put('/licencia/' + licencia.id, licencia, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["licenciasQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['licenciasQuery'])
+    }
+  })
 }

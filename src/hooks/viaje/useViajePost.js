@@ -1,15 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../services/api";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '../../services/api'
 
-export function useViajePost() {
-  const queryClient = useQueryClient();
+export function useViajePost () {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: ["viajePost"],
+    mutationKey: ['viajePost'],
     mutationFn: async (viaje) => {
-      await api.post("/viaje", viaje, { withCredentials: true });
+      await api.post('/viaje', viaje, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["viajesQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['viajesQuery'])
+    }
+  })
 }

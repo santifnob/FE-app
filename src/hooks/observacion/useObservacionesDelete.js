@@ -1,16 +1,16 @@
-import { api } from "../../services/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from '../../services/api'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-export function useObservacionesDelete() {
-  const queryClient = useQueryClient();
+export function useObservacionesDelete () {
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ["observacionDelete"],
+    mutationKey: ['observacionDelete'],
     mutationFn: async (idToDelete) => {
-      await api.delete("/observacion/" + idToDelete, { withCredentials: true });
+      await api.delete('/observacion/' + idToDelete, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["observacionesQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['observacionesQuery'])
+    }
+  })
 }

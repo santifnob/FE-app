@@ -1,9 +1,10 @@
-import { Modal } from "../../components/Modal.jsx";
-import { ConductorForm } from "../../components/conductor/ConductorForm.jsx";
-import { ConductorList } from "../../components/conductor/ConductorList.jsx";
-import { useConductorCrud } from "../../hooks/conductor/useConductorCrud.js";
+import { Modal } from '../../components/Modal.jsx'
+import { ConductorForm } from '../../components/conductor/ConductorForm.jsx'
+import { ConductorList } from '../../components/conductor/ConductorList.jsx'
+import { useConductorCrud } from '../../hooks/conductor/useConductorCrud.js'
 
-export function ConductorCrud() {
+export function ConductorCrud () {
+
   const {
     conductores,
     showModal,
@@ -18,44 +19,35 @@ export function ConductorCrud() {
     ascOrder,
     handleEdit,
     handleCreate,
-    handleAscOrder,
-  } = useConductorCrud();
+    handleAscOrder
+  } = useConductorCrud()
 
-  if (isLoading) return <h1 className="text-center">Cargando..</h1>;
+  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
 
-  if (isError) return <h1>{error}</h1>;
+  if (isError) return <h1>{error}</h1>
 
   return (
     <div>
-      <h1 className="h1 mt-2 text-center">Lista de Conductores</h1>
+      <h1 className='h1 mt-2 text-center'>Lista de Conductores</h1>
 
-      <div className="d-flex justify-content-between mb-4">
-        <button className="btn btn-info" onClick={handleCreate}>
+      <div className='d-flex justify-content-between mb-4'>
+        <button
+          className='btn btn-info'
+          onClick={handleCreate}
+        >
           Crear un Conductor
         </button>
       </div>
       {/* Logica pensada para ordenar los Conductors segun el atributo que apreta el usuario, todavian no hecha */}
-      <ConductorList
-        conductores={conductores}
-        handleAscOrder={handleAscOrder}
-        ascOrder={ascOrder}
-        fetchNextPage={fetchNextPage}
-        hasNextPage={hasNextPage}
-        handleEdit={handleEdit}
-        deleteMutation={deleteMutation}
-      />
+      <ConductorList conductores={conductores} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation} />
 
-      {showModal && (
-        <Modal
-          onClose={() => setShowModal(false)}
-          title={(conductorToEdit.current ? "Editar" : "Crear") + " Conductor"}
-        >
-          <ConductorForm
-            onSuccess={() => setShowModal(false)}
-            conductorToEdit={conductorToEdit.current}
-          />
+      {
+        showModal &&
+          <Modal onClose={() => setShowModal(false)} title={(conductorToEdit.current ? 'Editar' : 'Crear') + ' Conductor'}>
+          <ConductorForm onSuccess={() => setShowModal(false)} conductorToEdit={conductorToEdit.current} />
         </Modal>
-      )}
+      }
     </div>
-  );
+
+  )
 }

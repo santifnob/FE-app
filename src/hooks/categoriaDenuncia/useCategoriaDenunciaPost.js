@@ -1,17 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../services/api";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '../../services/api'
 
-export function useCategoriaDenunciaPost() {
-  const queryClient = useQueryClient();
+export function useCategoriaDenunciaPost () {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: ["categoriaDenunciaPost"],
+    mutationKey: ['categoriaDenunciaPost'],
     mutationFn: async (categoriaDenuncia) => {
-      await api.post("/categoriaDenuncia", categoriaDenuncia, {
-        withCredentials: true,
-      });
+      await api.post('/categoriaDenuncia', categoriaDenuncia, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["categoriaDenunciasQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['categoriaDenunciasQuery'])
+    }
+  })
 }

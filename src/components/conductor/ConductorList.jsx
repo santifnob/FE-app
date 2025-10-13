@@ -68,12 +68,6 @@ export function ConductorList ({ conductores, fetchNextPage, hasNextPage, handle
   };
 
   return (
-    
-  <div
-    id="scrollableDiv"
-    style={{ height: '80vh', overflow: 'auto' }}
-  >
-
     <InfiniteScroll
       dataLength={conductores.length}
       next={fetchNextPage}
@@ -150,6 +144,5 @@ export function ConductorList ({ conductores, fetchNextPage, hasNextPage, handle
         </table>
       </div>
     </InfiniteScroll>
-  </div>
   )
 }

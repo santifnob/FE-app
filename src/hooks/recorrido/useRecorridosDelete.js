@@ -1,16 +1,16 @@
-import { api } from "../../services/api.js";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from '../../services/api.js'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-export function useRecorridosDelete() {
-  const queryClient = useQueryClient();
+export function useRecorridosDelete () {
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ["recorridoDelete"],
+    mutationKey: ['recorridoDelete'],
     mutationFn: async (idToDelete) => {
-      await api.delete("/recorrido/" + idToDelete, { withCredentials: true });
+      await api.delete('/recorrido/' + idToDelete, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["recorridosQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['recorridosQuery'])
+    }
+  })
 }

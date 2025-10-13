@@ -1,18 +1,18 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { api } from "../../services/api.js";
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { api } from '../../services/api.js'
 
-export function useObservacionesInfinite() {
+export function useObservacionesInfinite () {
   return useInfiniteQuery({
-    queryKey: ["observacionesInfinite"],
+    queryKey: ['observacionesInfinite'],
     queryFn: async ({ pageParam = null }) => {
-      const res = await api.get("/observacion", {
+      const res = await api.get('/observacion', {
         params: { limit: 10, cursor: pageParam },
-        withCredentials: true,
-      });
-      return res.data;
+        withCredentials: true
+      })
+      return res.data
     },
     getNextPageParam: (lastPage) => {
-      return lastPage.hasNextPage ? lastPage.nextCursor : undefined;
-    },
-  });
+      return lastPage.hasNextPage ? lastPage.nextCursor : undefined
+    }
+  })
 }

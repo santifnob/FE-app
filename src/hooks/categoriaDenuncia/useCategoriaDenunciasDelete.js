@@ -1,18 +1,16 @@
-import { api } from "../../services/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from '../../services/api'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-export function useCategoriaDenunciasDelete() {
-  const queryClient = useQueryClient();
+export function useCategoriaDenunciasDelete () {
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ["categoriaDenunciaDelete"],
+    mutationKey: ['categoriaDenunciaDelete'],
     mutationFn: async (idToDelete) => {
-      await api.delete("/categoriaDenuncia/" + idToDelete, {
-        withCredentials: true,
-      });
+      await api.delete('/categoriaDenuncia/' + idToDelete, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["categoriaDenunciasQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['categoriaDenunciasQuery'])
+    }
+  })
 }

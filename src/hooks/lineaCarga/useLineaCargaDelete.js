@@ -1,16 +1,16 @@
-import { api } from "../../services/api.js";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from '../../services/api.js'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-export function useLineaCargasDelete() {
-  const queryClient = useQueryClient();
+export function useLineaCargasDelete () {
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ["lineaCargaDelete"],
+    mutationKey: ['lineaCargaDelete'],
     mutationFn: async (idToDelete) => {
-      await api.delete("/lineaCarga/" + idToDelete, { withCredentials: true });
+      await api.delete('/lineaCarga/' + idToDelete, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["lineaCargasQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['lineaCargasQuery'])
+    }
+  })
 }

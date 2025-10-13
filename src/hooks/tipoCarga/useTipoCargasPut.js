@@ -1,17 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../services/api";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '../../services/api'
 
-export function useTipoCargaPut() {
-  const queryClient = useQueryClient();
+export function useTipoCargaPut () {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: ["tipoCargaPut"],
+    mutationKey: ['tipoCargaPut'],
     mutationFn: async (tipoCarga) => {
-      await api.put("/tipoCarga/" + tipoCarga.id, tipoCarga, {
-        withCredentials: true,
-      });
+      await api.put('/tipoCarga/'+tipoCarga.id, tipoCarga, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["tipoCargasQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['tipoCargasQuery'])
+    }
+  })
 }

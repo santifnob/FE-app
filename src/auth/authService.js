@@ -20,16 +20,16 @@ export const logoutService = () => {
 export const getToken = () => localStorage.getItem('token')
 */
 // src/utils/axiosInstance.js
-import axios from "axios";
+import axios from 'axios';
 
 // 🔐 Función para obtener el token desde localStorage
 export const getToken = () => {
-  return localStorage.getItem("token"); // o sessionStorage, según tu implementación
+  return localStorage.getItem('token'); // o sessionStorage, según tu implementación
 };
 
 // 🛠️ Instancia de Axios con configuración base
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api", // Cambia esto por tu URL base
+  baseURL: 'http://localhost:3000/api', // Cambia esto por tu URL base
 });
 
 // 🧠 Interceptor para agregar el token a cada request

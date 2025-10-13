@@ -1,21 +1,17 @@
-import { api } from "../services/api.js";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from '../services/api.js'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-export function useLoginMutation() {
-  const queryClient = useQueryClient();
+export function useLoginMutation () {
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ["login"],
+    mutationKey: ['login'],
     mutationFn: async ({ email, password }) => {
-      const res = await api.post(
-        "/auth/login",
-        { user: { email, password } },
-        { withCredentials: true }
-      );
-      return res.data.userData;
+      const res = await api.post('/auth/login', { user: { email, password } }, { withCredentials: true })
+      return res.data.userData
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["auth"]);
-    },
-  });
+      queryClient.invalidateQueries(['auth'])
+    }
+  })
 }

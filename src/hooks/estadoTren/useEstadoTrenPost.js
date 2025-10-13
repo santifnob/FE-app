@@ -1,15 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../services/api";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '../../services/api'
 
-export function useEstadoTrenPost() {
-  const queryClient = useQueryClient();
+export function useEstadoTrenPost () {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: ["estadoTrenPost"],
+    mutationKey: ['estadoTrenPost'],
     mutationFn: async (estadoTren) => {
-      await api.post("/estadoTren", estadoTren, { withCredentials: true });
+      await api.post('/estadoTren', estadoTren, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["estadoTrenesQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['estadoTrenesQuery'])
+    }
+  })
 }

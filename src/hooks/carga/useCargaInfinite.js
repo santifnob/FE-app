@@ -1,5 +1,5 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { api } from "../../services/api.js";
+import { useInfiniteQuery } from "@tanstack/react-query"
+import { api } from "../../services/api.js"
 
 export function useCargasInfinite() {
   return useInfiniteQuery({
@@ -8,11 +8,12 @@ export function useCargasInfinite() {
       const res = await api.get("/carga", {
         params: { limit: 10, cursor: pageParam },
         withCredentials: true,
-      });
-      return res.data;
+      })
+      return res.data
     },
     getNextPageParam: (lastPage) => {
-      return lastPage.hasNextPage ? lastPage.nextCursor : undefined;
-    },
-  });
+      return lastPage.hasNextPage ? lastPage.nextCursor : undefined
+    }
+  })
 }
+

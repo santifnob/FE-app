@@ -1,16 +1,16 @@
-import { api } from "../../services/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from '../../services/api'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-export function useTipoCargasDelete() {
-  const queryClient = useQueryClient();
+export function useTipoCargasDelete () {
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ["tipoCargaDelete"],
+    mutationKey: ['tipoCargaDelete'],
     mutationFn: async (idToDelete) => {
-      await api.delete("/tipoCarga/" + idToDelete, { withCredentials: true });
+      await api.delete('/tipoCarga/' + idToDelete, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["tipoCargasQuery"]);
-    },
-  });
+      queryClient.invalidateQueries(['tipoCargasQuery'])
+    }
+  })
 }
