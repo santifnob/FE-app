@@ -1,36 +1,35 @@
-import InfiniteScroll from "react-infinite-scroll-component"
-import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
-export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
-
+export function ViajeList ({ viajes, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
   const getEstadoTexto = (viaje) => {
-    const hoy = new Date();
-    const fechaIni = new Date(viaje.fechaIni);
-    const fechaFin = new Date(viaje.fechaFin);
+    const hoy = new Date()
+    const fechaIni = new Date(viaje.fechaIni)
+    const fechaFin = new Date(viaje.fechaFin)
 
     if (viaje.estado === 'Inactivo') {
-      return 'Cancelado/Suspendido';
+      return 'Cancelado/Suspendido'
     }
     if (viaje.estado === 'Rechazado') {
-      return 'Rechazado';
+      return 'Rechazado'
     }
     if (viaje.estado === 'Pendiente') {
-      return fechaIni > hoy ? 'Pendiente' : 'Viaje no aceptado';
+      return fechaIni > hoy ? 'Pendiente' : 'Viaje no aceptado'
     }
 
-    if (fechaFin < hoy) return 'Finalizado';
-    if (fechaIni > hoy) return 'Programado';
-    if (fechaIni <= hoy && fechaFin >= hoy) return 'En curso';
+    if (fechaFin < hoy) return 'Finalizado'
+    if (fechaIni > hoy) return 'Programado'
+    if (fechaIni <= hoy && fechaFin >= hoy) return 'En curso'
 
-    return 'Sin Estado';
-  };
+    return 'Sin Estado'
+  }
 
   const estadosContados = viajes.reduce((acc, viaje) => {
-    const estadoTexto = getEstadoTexto(viaje);
-    acc[estadoTexto] = (acc[estadoTexto] || 0) + 1;
-    return acc;
-  }, {});
+    const estadoTexto = getEstadoTexto(viaje)
+    acc[estadoTexto] = (acc[estadoTexto] || 0) + 1
+    return acc
+  }, {})
 
   const [filtros, setFiltros] = useState({
     id: '',
@@ -39,11 +38,11 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
     recorrido: '',
     fechaIni: '',
     fechaFin: '',
-    estado: '',
-  });
+    estado: ''
+  })
 
   const viajesFiltrados = viajes.filter((viaje) => {
-    const estadoTexto = getEstadoTexto(viaje);
+    const estadoTexto = getEstadoTexto(viaje)
     return (
       (!filtros.id || viaje.id.toString().includes(filtros.id)) &&
       (!filtros.conductor || `${viaje.conductor.nombre} ${viaje.conductor.apellido}`.toLowerCase().includes(filtros.conductor.toLowerCase())) &&
@@ -52,26 +51,26 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
       (!filtros.fechaIni || viaje.fechaIni?.startsWith(filtros.fechaIni)) &&
       (!filtros.fechaFin || viaje.fechaFin?.startsWith(filtros.fechaFin)) &&
       (!filtros.estado || estadoTexto === filtros.estado)
-    );
-  });
+    )
+  })
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const EstadoBadge = ({ viaje }) => {
-    const estadoTexto = getEstadoTexto(viaje);
+    const estadoTexto = getEstadoTexto(viaje)
 
     const map = {
-      'Finalizado': 'success',
+      Finalizado: 'success',
       'En curso': 'warning',
       'Cancelado/Suspendido': 'danger',
-      'Programado': 'info',
-      'Pendiente': 'dark',
+      Programado: 'info',
+      Pendiente: 'dark',
       'Viaje no aceptado': 'danger',
-      'Rechazado': 'danger',
-      'Sin Estado': 'secondary',
-    };
+      Rechazado: 'danger',
+      'Sin Estado': 'secondary'
+    }
 
-    const variant = map[estadoTexto] || 'secondary';
+    const variant = map[estadoTexto] || 'secondary'
 
     return (
       <span
@@ -82,13 +81,13 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
           minWidth: '180px',
           textAlign: 'center',
           fontWeight: '500',
-          lineHeight: '2.5',
+          lineHeight: '2.5'
         }}
       >
         {estadoTexto}
       </span>
-    );
-  };
+    )
+  }
 
   return (
     <InfiniteScroll
@@ -97,22 +96,22 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
       hasMore={hasNextPage}
       loader={<h4 className='text-center'>Cargando más viajes...</h4>}
       endMessage={<p className='text-center'>No hay más viajes</p>}
-      scrollThreshold={1}
+      scrollThreshold={0.8}
       scrollableTarget='scrollableDiv'
     >
-      
-      <div className="mb-3">
+
+      <div className='mb-3'>
         <h5>Filtrar viajes</h5>
-        <div className="row g-2">
-          <div className="col"><input className="form-control" placeholder="ID" onChange={(e) => setFiltros({ ...filtros, id: e.target.value })} /></div>
-          <div className="col"><input className="form-control" placeholder="Conductor" onChange={(e) => setFiltros({ ...filtros, conductor: e.target.value })} /></div>
-          <div className="col"><input className="form-control" placeholder="Tren" onChange={(e) => setFiltros({ ...filtros, tren: e.target.value })} /></div>
-          <div className="col"><input className="form-control" placeholder="Recorrido" onChange={(e) => setFiltros({ ...filtros, recorrido: e.target.value })} /></div>
-          <div className="col"><input type="date" className="form-control" onChange={(e) => setFiltros({ ...filtros, fechaIni: e.target.value })} /></div>
-          <div className="col"><input type="date" className="form-control" onChange={(e) => setFiltros({ ...filtros, fechaFin: e.target.value })} /></div>
-          <div className="col">
-            <select className="form-select" onChange={(e) => setFiltros({ ...filtros, estado: e.target.value })}>
-              <option value="">Estado ({viajes.length})</option>
+        <div className='row g-2'>
+          <div className='col'><input className='form-control' placeholder='ID' onChange={(e) => setFiltros({ ...filtros, id: e.target.value })} /></div>
+          <div className='col'><input className='form-control' placeholder='Conductor' onChange={(e) => setFiltros({ ...filtros, conductor: e.target.value })} /></div>
+          <div className='col'><input className='form-control' placeholder='Tren' onChange={(e) => setFiltros({ ...filtros, tren: e.target.value })} /></div>
+          <div className='col'><input className='form-control' placeholder='Recorrido' onChange={(e) => setFiltros({ ...filtros, recorrido: e.target.value })} /></div>
+          <div className='col'><input type='date' className='form-control' onChange={(e) => setFiltros({ ...filtros, fechaIni: e.target.value })} /></div>
+          <div className='col'><input type='date' className='form-control' onChange={(e) => setFiltros({ ...filtros, fechaFin: e.target.value })} /></div>
+          <div className='col'>
+            <select className='form-select' onChange={(e) => setFiltros({ ...filtros, estado: e.target.value })}>
+              <option value=''>Estado ({viajes.length})</option>
               {Object.entries(estadosContados).map(([estado, cantidad]) => (
                 <option key={estado} value={estado}>{estado} ({cantidad})</option>
               ))}
@@ -125,8 +124,8 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
         <table className='table'>
           <thead className='border-info fw-bold'>
             <tr>
-              <td style={{ borderRightWidth: 1 }} onClick={handleAscOrder} role="button">
-                ID <span className="text-info">{ascOrder ? "⋀" : "⋁"}</span>
+              <td style={{ borderRightWidth: 1 }} onClick={handleAscOrder} role='button'>
+                ID <span className='text-info'>{ascOrder ? '⋀' : '⋁'}</span>
               </td>
               <td className='text-center'>Conductor</td>
               <td className='text-center'>Tren</td>
@@ -158,7 +157,7 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
                 <td className='text-center'>
                   {viaje.fechaFin ? new Date(new Date(viaje.fechaFin).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}
                 </td>
-                <td className="text-center">
+                <td className='text-center'>
                   <EstadoBadge viaje={viaje} />
                 </td>
                 <td className='text-center'>
@@ -197,5 +196,5 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
         </table>
       </div>
     </InfiniteScroll>
-  );
+  )
 }

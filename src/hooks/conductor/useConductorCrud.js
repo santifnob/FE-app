@@ -3,12 +3,12 @@ import { useConductoresDelete } from './useConductorDelete.js'
 import { useConductoresInfinite } from './useConductorInfinite.js'
 import { ConductorGetOne } from './useConductorQuery.js'
 
-export function useConductorCrud () {
+export function useConductorCrud() {
   const [conductores, setConductores] = useState([])
   const [showModal, setShowModal] = useState(false)
   const conductorToEdit = useRef(null) // para manejar si es edición o creación
   const { mutateAsync: deleteMutation } = useConductoresDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useConductoresInfinite()
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, isFetchingNextPage } = useConductoresInfinite()
   const [ascOrder, setAscOrder] = useState(false)
   const { mutateAsync: findOneMutation } = ConductorGetOne() // find one conductor
 
@@ -43,7 +43,16 @@ export function useConductorCrud () {
     setShowModal,
     conductorToEdit,
     deleteMutation,
-    fetchNextPage,
+    // safe wrapper: prevents calling fetchNextPage when a fetch is already in progress
+    fetchNextPage: async () => {
+      try {
+        if (isFetchingNextPage) return
+        if (!hasNextPage) return
+        await fetchNextPage()
+      } catch (err) {
+        console.error('Error fetching next page', err)
+      }
+    },
     hasNextPage,
     isLoading,
     isError,
