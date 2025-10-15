@@ -1,8 +1,9 @@
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { Modal } from '../Modal.jsx'
+import { ViajeDetails } from './ViajeDetails.jsx'
 
-export function ViajeList ({ viajes, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
+export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
   const getEstadoTexto = (viaje) => {
     const hoy = new Date()
     const fechaIni = new Date(viaje.fechaIni)
@@ -54,7 +55,7 @@ export function ViajeList ({ viajes, fetchNextPage, hasNextPage, handleEdit, del
     )
   })
 
-  const navigate = useNavigate()
+  // elemine la navegacion a cargas/obseravaciones para simplificar el view
 
   const EstadoBadge = ({ viaje }) => {
     const estadoTexto = getEstadoTexto(viaje)
@@ -88,6 +89,9 @@ export function ViajeList ({ viajes, fetchNextPage, hasNextPage, handleEdit, del
       </span>
     )
   }
+
+  const [showDetails, setShowDetails] = useState(false)
+  const [selectedViaje, setSelectedViaje] = useState(null)
 
   return (
     <InfiniteScroll
@@ -127,12 +131,10 @@ export function ViajeList ({ viajes, fetchNextPage, hasNextPage, handleEdit, del
               <td style={{ borderRightWidth: 1 }} onClick={handleAscOrder} role='button'>
                 ID <span className='text-info'>{ascOrder ? '⋀' : '⋁'}</span>
               </td>
-              <td className='text-center'>Conductor</td>
               <td className='text-center'>Tren</td>
-              <td className='text-center'>Recorrido</td>
+              <td className='text-center'>Estado</td>
               <td className='text-center'>Inicio</td>
               <td className='text-center'>Fin</td>
-              <td className='text-center'>Estado</td>
               <td className='text-center' style={{ paddingRight: 75 }}>Acción</td>
             </tr>
           </thead>
@@ -142,14 +144,10 @@ export function ViajeList ({ viajes, fetchNextPage, hasNextPage, handleEdit, del
               <tr key={viaje.id}>
                 <td className='border-dark-center' style={{ borderRightWidth: 1 }}>{viaje.id}</td>
                 <td className='text-center'>
-                  {viaje.conductor.nombre ? viaje.conductor.nombre : 'Sin Conductor'} {viaje.conductor.apellido ? viaje.conductor.apellido : ''}
+                  {viaje.tren?.modelo ? viaje.tren.modelo : 'Sin modelo'} (color: {viaje.tren?.color ?? 'Sin color'})
                 </td>
                 <td className='text-center'>
-                  {viaje.tren.modelo ? viaje.tren.modelo : 'Sin modelo'} (color: {viaje.tren.color ? viaje.tren.color : 'Sin color'})
-                </td>
-                <td className='text-center'>
-                  {viaje.recorrido.ciudadSalida ? viaje.recorrido.ciudadSalida : 'Sin ciudad de salida'} -
-                  {viaje.recorrido.ciudadLlegada ? viaje.recorrido.ciudadLlegada : 'Sin ciudad de llegada'}
+                  <EstadoBadge viaje={viaje} />
                 </td>
                 <td className='text-center'>
                   {viaje.fechaIni ? new Date(new Date(viaje.fechaIni).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}
@@ -158,22 +156,12 @@ export function ViajeList ({ viajes, fetchNextPage, hasNextPage, handleEdit, del
                   {viaje.fechaFin ? new Date(new Date(viaje.fechaFin).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}
                 </td>
                 <td className='text-center'>
-                  <EstadoBadge viaje={viaje} />
-                </td>
-                <td className='text-center'>
                   <button
-                    className='btn btn-sm text-white me-2'
-                    style={{ backgroundColor: '#009e00ff', marginTop: '-10px' }}
-                    onClick={() => navigate(`/admin/lineaCargas?viajeId=${viaje.id}`)}
+                    className='btn btn-sm btn-outline-primary me-2'
+                    style={{ marginTop: '-10px' }}
+                    onClick={() => { setSelectedViaje(viaje); setShowDetails(true) }}
                   >
-                    Ver Cargas
-                  </button>
-                  <button
-                    className='btn btn-sm text-white me-2'
-                    style={{ backgroundColor: '#009e00ff', marginTop: '-10px' }}
-                    onClick={() => navigate(`/admin/observaciones?viajeId=${viaje.id}`)}
-                  >
-                    Ver Observaciones
+                    Ver detalles
                   </button>
                   <button
                     className='btn btn-sm bg-info text-white me-2'
@@ -195,6 +183,11 @@ export function ViajeList ({ viajes, fetchNextPage, hasNextPage, handleEdit, del
           </tbody>
         </table>
       </div>
+      {showDetails && selectedViaje && (
+        <Modal onClose={() => setShowDetails(false)} title={`Detalles Viaje #${selectedViaje.id}`}>
+          <ViajeDetails viaje={selectedViaje} />
+        </Modal>
+      )}
     </InfiniteScroll>
   )
 }
