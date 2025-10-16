@@ -19,6 +19,7 @@ import  DashboardTrenes  from './pages/DashboardTrenes.jsx'
 import { ViajeCrud } from './pages/CRUD/ViajeCrud.jsx'
 import { ObservacionCrud } from './pages/CRUD/ObservacionCrud.jsx'
 import { LineaCargaCrud } from './pages/CRUD/LineaCargaCrud.jsx'
+import { ControlPanel } from './pages/ControlPanel.jsx'
 
 function App () {
   return (
@@ -36,7 +37,8 @@ function App () {
             <Route path='/admin' element={<ProtectedRoute allowedRoles='admin' > </ProtectedRoute>}>
               <Route
                 path='dashboard'
-                element={<DashboardTrenes/>}
+                //element={<DashboardTrenes/>}
+                element={<ControlPanel />}
               />
 
               <Route
