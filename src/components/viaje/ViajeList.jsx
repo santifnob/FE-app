@@ -103,7 +103,7 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
       scrollThreshold={0.8}
       scrollableTarget='scrollableDiv'
     >
-
+{/*
       <div className='mb-3'>
         <h5>Filtrar viajes</h5>
         <div className='row g-2'>
@@ -123,7 +123,7 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
           </div>
         </div>
       </div>
-
+*/}
       <div className='table-responsive'>
         <table className='table'>
           <thead className='border-info fw-bold'>
@@ -132,6 +132,7 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
                 ID <span className='text-info'>{ascOrder ? '⋀' : '⋁'}</span>
               </td>
               <td className='text-center'>Tren</td>
+              <td className='text-center'>Conductor</td>
               <td className='text-center'>Estado</td>
               <td className='text-center'>Inicio</td>
               <td className='text-center'>Fin</td>
@@ -145,6 +146,9 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
                 <td className='border-dark-center' style={{ borderRightWidth: 1 }}>{viaje.id}</td>
                 <td className='text-center'>
                   {viaje.tren?.modelo ? viaje.tren.modelo : 'Sin modelo'} (color: {viaje.tren?.color ?? 'Sin color'})
+                </td>
+                <td className='text-center'>
+                  {viaje.conductor?.nombre ? viaje.conductor.nombre : 'NN'} {viaje.conductor?.apellido ?? 'NN'}
                 </td>
                 <td className='text-center'>
                   <EstadoBadge viaje={viaje} />
