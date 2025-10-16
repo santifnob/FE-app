@@ -9,7 +9,7 @@ export function useConductorPut () {
       await api.put('/conductor/' + conductor.id, conductor, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['conductoresQuery'])
+      queryClient.invalidateQueries(['conductoresInfinite'])
     }
   })
 }
