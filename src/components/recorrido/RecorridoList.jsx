@@ -1,7 +1,7 @@
 import InfiniteScroll from "react-infinite-scroll-component"
 
-export function RecorridoList({ recorridos, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) { 
-  
+export function RecorridoList({ recorridos, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
+
   const EstadoBadge = ({ estado }) => {
     let estadoTexto = 'Sin estado';
 
@@ -20,19 +20,20 @@ export function RecorridoList({ recorridos, fetchNextPage, hasNextPage, handleEd
     const variant = map[estadoTexto];
 
     return (
-      <span className={`btn btn-sm bg-${variant} text-white me-2`} style={{ pointerEvents: 'none', marginTop: '-10px',
+      <span className={`btn btn-sm bg-${variant} text-white me-2`} style={{
+        pointerEvents: 'none', marginTop: '-10px',
         minWidth: '180px',
         textAlign: 'center',
         fontWeight: '500',
         lineHeight: '2.5',
-        
- }}>
+
+      }}>
         {estadoTexto}
       </span>
     );
   };
 
-  return(
+  return (
 
     <InfiniteScroll
       dataLength={recorridos.length}
@@ -40,7 +41,7 @@ export function RecorridoList({ recorridos, fetchNextPage, hasNextPage, handleEd
       hasMore={hasNextPage}
       loader={<h4 className='text-center'>Cargando más recorridos...</h4>}
       endMessage={<p className='text-center'>No hay más recorridos</p>}
-      scrollThreshold={1}
+      scrollThreshold={0.8}
       scrollableTarget='scrollableDiv'
     >
       <div className='table-responsive'>
@@ -58,34 +59,33 @@ export function RecorridoList({ recorridos, fetchNextPage, hasNextPage, handleEd
           </thead>
 
           <tbody>
-              {recorridos.map((recorrido) => {
-                return (
-                  <tr key={recorrido.id}>
-                    <td className='border-dark' style={{ borderRightWidth: 1 }}>{recorrido.id}</td>
-                    <td className='text-center'>{recorrido.ciudadSalida?recorrido.ciudadSalida:'Sin ciudad de salida'}</td>
-                    <td className='text-center'>{recorrido.ciudadLlegada?recorrido.ciudadLlegada:'Sin ciudad de llegada'}</td>
-                    <td className='text-center'>{recorrido.totalKm?recorrido.totalKm:'Sin total de km'}</td>
-                    <td className='text-center'>{recorrido.createdAt? new Date(new Date(recorrido.createdAt).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR'): 'Sin fecha'}</td>
-                    <td className='text-center'>
-                      <EstadoBadge estado={recorrido.estado} />
-                    </td>
-                    <td className='text-end'>
-                      <button style={{ marginTop: '-10px'}}
-                        className='btn btn-sm bg-info text-white me-2'
-                        onClick={handleEdit.bind(this, recorrido)}
-                      >
+            {recorridos.map((recorrido) => {
+              return (
+                <tr key={recorrido.id}>
+                  <td className='border-dark' style={{ borderRightWidth: 1 }}>{recorrido.id}</td>
+                  <td className='text-center'>{recorrido.ciudadSalida ? recorrido.ciudadSalida : 'Sin ciudad de salida'}</td>
+                  <td className='text-center'>{recorrido.ciudadLlegada ? recorrido.ciudadLlegada : 'Sin ciudad de llegada'}</td>
+                  <td className='text-center'>{recorrido.totalKm ? recorrido.totalKm : 'Sin total de km'}</td>
+                  <td className='text-center'>{recorrido.createdAt ? new Date(new Date(recorrido.createdAt).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
+                  <td className='text-center'>
+                    <EstadoBadge estado={recorrido.estado} />
+                  </td>
+                  <td className='text-end'>
+                    <div className='d-flex justify-content-end align-items-center gap-2'>
+                      <button className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, recorrido)}>
                         Editar
                       </button>
-                      <button style={{ marginTop: '-10px'}} className='btn btn-sm bg-danger text-white' onClick={async () => deleteMutation(recorrido.id)}>
+                      <button className='btn btn-sm btn-danger' onClick={async () => deleteMutation(recorrido.id)}>
                         Eliminar
                       </button>
-                    </td>
-                  </tr>
-                )
-              })}
-            
+                    </div>
+                  </td>
+                </tr>
+              )
+            })}
+
           </tbody>
         </table>
       </div>
     </InfiniteScroll>)
-  }
+}

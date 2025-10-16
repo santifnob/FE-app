@@ -103,7 +103,7 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
       scrollThreshold={0.8}
       scrollableTarget='scrollableDiv'
     >
-{/*
+      {/*
       <div className='mb-3'>
         <h5>Filtrar viajes</h5>
         <div className='row g-2'>
@@ -159,28 +159,27 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
                 <td className='text-center'>
                   {viaje.fechaFin ? new Date(new Date(viaje.fechaFin).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}
                 </td>
-                <td className='text-center'>
-                  <button
-                    className='btn btn-sm btn-outline-primary me-2'
-                    style={{ marginTop: '-10px' }}
-                    onClick={() => { setSelectedViaje(viaje); setShowDetails(true) }}
-                  >
-                    Ver detalles
-                  </button>
-                  <button
-                    className='btn btn-sm bg-info text-white me-2'
-                    style={{ marginTop: '-10px' }}
-                    onClick={handleEdit.bind(this, viaje)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className='btn btn-sm bg-danger text-white'
-                    onClick={async () => deleteMutation(viaje.id)}
-                    style={{ marginTop: '-10px' }}
-                  >
-                    Eliminar
-                  </button>
+                <td className='text-end'>
+                  <div className='d-flex justify-content-end align-items-center gap-2'>
+                    <button
+                      className='btn btn-sm btn-outline-primary'
+                      onClick={() => { setSelectedViaje(viaje); setShowDetails(true) }}
+                    >
+                      Ver detalles
+                    </button>
+                    <button
+                      className='btn btn-sm btn-info text-white'
+                      onClick={handleEdit.bind(this, viaje)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className='btn btn-sm btn-danger'
+                      onClick={async () => deleteMutation(viaje.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

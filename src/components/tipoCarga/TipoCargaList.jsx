@@ -1,6 +1,6 @@
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-export function TipoCargaList ({ tipoCargas, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
+export function TipoCargaList({ tipoCargas, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
   const EstadoBadge = ({ estado }) => {
     let estadoTexto = 'Sin estado'
 
@@ -70,18 +70,15 @@ export function TipoCargaList ({ tipoCargas, fetchNextPage, hasNextPage, handleE
                   <td className='text-center'>
                     <EstadoBadge estado={tipoCarga.estado} />
                   </td>
-
                   <td className='text-end'>
-                    <button
-                      style={{ marginTop: '-10px' }}
-                      className='btn btn-sm bg-info text-white me-2'
-                      onClick={handleEdit.bind(this, tipoCarga)}
-                    >
-                      Editar
-                    </button>
-                    <button style={{ marginTop: '-10px' }} className='btn btn-sm bg-danger text-white' onClick={async () => deleteMutation(tipoCarga.id)}>
-                      Eliminar
-                    </button>
+                    <div className='d-flex justify-content-end align-items-center gap-2'>
+                      <button className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, tipoCarga)}>
+                        Editar
+                      </button>
+                      <button className='btn btn-sm btn-danger' onClick={async () => deleteMutation(tipoCarga.id)}>
+                        Eliminar
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )

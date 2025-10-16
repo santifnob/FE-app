@@ -1,6 +1,6 @@
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-export function LineaCargaList ({ lineaCargas, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
+export function LineaCargaList({ lineaCargas, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
   const EstadoBadge = ({ estado }) => {
     let estadoTexto = 'Sin estado';
 
@@ -19,13 +19,14 @@ export function LineaCargaList ({ lineaCargas, fetchNextPage, hasNextPage, handl
     const variant = map[estadoTexto];
 
     return (
-      <span className={`btn btn-sm bg-${variant} text-white me-2`} style={{ pointerEvents: 'none', marginTop: '-10px',
+      <span className={`btn btn-sm bg-${variant} text-white me-2`} style={{
+        pointerEvents: 'none', marginTop: '-10px',
         minWidth: '180px',
         textAlign: 'center',
         fontWeight: '500',
         lineHeight: '2.5',
-        
- }}>
+
+      }}>
         {estadoTexto}
       </span>
     );
@@ -38,7 +39,7 @@ export function LineaCargaList ({ lineaCargas, fetchNextPage, hasNextPage, handl
       hasMore={hasNextPage}
       loader={<h4 className='text-center'>Cargando más linea de cargas...</h4>}
       endMessage={<p className='text-center'>No hay más linea de cargas</p>}
-      scrollThreshold={1}
+      scrollThreshold={0.8}
       scrollableTarget='scrollableDiv'
     >
       <div className='table-responsive'>
@@ -55,34 +56,33 @@ export function LineaCargaList ({ lineaCargas, fetchNextPage, hasNextPage, handl
             </tr>
           </thead>
 
-          <tbody>            
+          <tbody>
             {Array.isArray(lineaCargas) && lineaCargas
               .filter(item => item !== undefined && item !== null)
               .map((lineaCarga, index) => {
                 return (
 
-                <tr key={index}>
-                  <td className='border-dark' style={{ borderRightWidth: 1 }}>{lineaCarga.id}</td>
-                  <td className='text-center'>{lineaCarga.viaje.id?lineaCarga.viaje.id:'Sin id'}-{lineaCarga.viaje.recorrido.ciudadSalida?lineaCarga.viaje.recorrido.ciudadSalida:'Sin ciudad de salida'}/{lineaCarga.viaje.recorrido.ciudadLlegada?lineaCarga.viaje.recorrido.ciudadLlegada:'Sin ciudad de llegada'} ({lineaCarga.viaje.fechaIni? new Date(new Date(lineaCarga.viaje.fechaIni).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR'): 'Sin fecha'})</td>
-                  <td className='text-center'>{lineaCarga.carga.name && lineaCarga.carga.estado=='Activo'?lineaCarga.carga.name:'Sin carga'}</td>
-                  <td className='text-center'>{lineaCarga.cantidadVagon?lineaCarga.cantidadVagon:'Sin cantidad de vagones'}</td>
+                  <tr key={index}>
+                    <td className='border-dark' style={{ borderRightWidth: 1 }}>{lineaCarga.id}</td>
+                    <td className='text-center'>{lineaCarga.viaje.id ? lineaCarga.viaje.id : 'Sin id'}-{lineaCarga.viaje.recorrido.ciudadSalida ? lineaCarga.viaje.recorrido.ciudadSalida : 'Sin ciudad de salida'}/{lineaCarga.viaje.recorrido.ciudadLlegada ? lineaCarga.viaje.recorrido.ciudadLlegada : 'Sin ciudad de llegada'} ({lineaCarga.viaje.fechaIni ? new Date(new Date(lineaCarga.viaje.fechaIni).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'})</td>
+                    <td className='text-center'>{lineaCarga.carga.name && lineaCarga.carga.estado == 'Activo' ? lineaCarga.carga.name : 'Sin carga'}</td>
+                    <td className='text-center'>{lineaCarga.cantidadVagon ? lineaCarga.cantidadVagon : 'Sin cantidad de vagones'}</td>
                     <td className='text-center'>
                       <EstadoBadge estado={lineaCarga.estado} />
                     </td>
-                  <td className='text-end'>
-                    <button style={{ marginTop: '-10px'}}
-                      className='btn btn-sm bg-info text-white me-2'
-                      onClick={handleEdit.bind(this, lineaCarga)}
-                    >
-                      Editar
-                    </button>
-                    <button style={{ marginTop: '-10px'}} className='btn btn-sm bg-danger text-white' onClick={async () => deleteMutation(lineaCarga.id)}>
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              )
-            })}
+                    <td className='text-end'>
+                      <div className='d-flex justify-content-end align-items-center gap-2'>
+                        <button className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, lineaCarga)}>
+                          Editar
+                        </button>
+                        <button className='btn btn-sm btn-danger' onClick={async () => deleteMutation(lineaCarga.id)}>
+                          Eliminar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })}
 
           </tbody>
         </table>
