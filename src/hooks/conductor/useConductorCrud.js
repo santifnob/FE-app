@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useConductoresDelete } from './useConductorDelete.js'
+import { useConductoresDelete } from './useConductoresDelete.js'
 import { useConductoresInfinite } from './useConductorInfinite.js'
 import { ConductorGetOne } from './useConductorQuery.js'
 
@@ -43,7 +43,7 @@ export function useConductorCrud() {
     setShowModal,
     conductorToEdit,
     deleteMutation,
-    // safe wrapper: prevents calling fetchNextPage when a fetch is already in progress
+    // evita llamar un fetchNextPage cuando un fetch ya esta siendo ejecutado
     fetchNextPage: async () => {
       try {
         if (isFetchingNextPage) return

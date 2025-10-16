@@ -25,12 +25,12 @@ export function ControlPanel() {
         <div className="card-body bg-secondary overflow-y-scroll" id="scrolleableDiv">
           <InfiniteScroll
             dataLength={conductores.length}
-            next={() => fetchNextPage}
+            next={fetchNextPage}
             hasMore={hasNextPage}
             loader={<h4 className='text-center'>Cargando más conductores...</h4>}
             endMessage={<p className='text-center'>No hay más conductores</p>}
-            scrollThreshold={1}
-            scrollableTarget='scrollableDiv'
+            scrollThreshold={0.8}
+            scrollableTarget='scrolleableDiv'
           >
             <ul className="list-group list-group-flush">
               {conductores.map((conductor) => {

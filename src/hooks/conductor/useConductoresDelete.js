@@ -10,7 +10,7 @@ export function useConductoresDelete () {
       await api.delete('/conductor/' + idToDelete, { withCredentials: true })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['conductoresQuery'])
+      queryClient.invalidateQueries(['conductoresInfinite'])
     }
   })
 }
