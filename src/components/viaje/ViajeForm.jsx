@@ -171,7 +171,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
         <label className='form-label' htmlFor='fechaIni'>Fecha de inicio:</label>
         <input
           id='fechaIni'
-          type='date'
+          type='datetime-local'
           {...register('fechaIni', { required: 'La "Fecha de inicio" es requerida' })}
           className='form-control'
           placeholder='Fecha de inicio del viaje'
@@ -184,7 +184,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
         <label className='form-label' htmlFor='fechaFin'>Fecha de llegada:</label>
         <input
           id='fechaFin'
-          type='date'
+          type='datetime-local'
           {...register('fechaFin', {
             required: 'La "Fecha de llegada" es requerida',
             validate: (value) => {

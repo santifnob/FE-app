@@ -1,8 +1,8 @@
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useState } from 'react'
+// import { useState } from 'react'
 
 export function ConductorList({ conductores, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
-  const [filtros, setFiltros] = useState({
+  {/*const [filtros, setFiltros] = useState({
     id: '',
     nombre: '',
     apellido: '',
@@ -17,8 +17,7 @@ export function ConductorList({ conductores, fetchNextPage, hasNextPage, handleE
     acc[estado] = (acc[estado] || 0) + 1
     return acc
   }, {})
-
-  const conductoresFiltrados = conductores.filter((c) => {
+  const conductoresFiltrados = conductores.filter((c) => {{
     return (
       (!filtros.id || c.id.toString().includes(filtros.id)) &&
       (!filtros.nombre || c.nombre?.toLowerCase().includes(filtros.nombre.toLowerCase())) &&
@@ -27,8 +26,8 @@ export function ConductorList({ conductores, fetchNextPage, hasNextPage, handleE
       (!filtros.fecha || c.createdAt?.startsWith(filtros.fecha)) &&
       (!filtros.estado || c.estado === filtros.estado)
     )
-  })
-
+  })*/}
+  const conductoresFiltrados = conductores // Sin filtros por ahora
   const EstadoBadgeConductor = ({ estado }) => {
     let estadoTexto = 'Sin estado'
 
@@ -84,7 +83,7 @@ export function ConductorList({ conductores, fetchNextPage, hasNextPage, handleE
       scrollThreshold={0.8}
       scrollableTarget='scrollableDiv'
     >
-
+{/*
       <div className='mb-3'>
         <h5>Filtrar conductores</h5>
         <div className='row g-2'>
@@ -103,7 +102,7 @@ export function ConductorList({ conductores, fetchNextPage, hasNextPage, handleE
           </div>
         </div>
       </div>
-
+*/}
       <div className='table-responsive'>
         <table className='table'>
           <thead className='border-info fw-bold'>
