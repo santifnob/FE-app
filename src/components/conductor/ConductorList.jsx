@@ -83,7 +83,7 @@ export function ConductorList({ conductores, fetchNextPage, hasNextPage, handleE
       scrollThreshold={0.8}
       scrollableTarget='scrollableDiv'
     >
-{/*
+      {/*
       <div className='mb-3'>
         <h5>Filtrar conductores</h5>
         <div className='row g-2'>
@@ -137,12 +137,14 @@ export function ConductorList({ conductores, fetchNextPage, hasNextPage, handleE
                   </td>
 
                   <td className='text-end'>
-                    <button style={{ marginTop: '-10px' }} className='btn btn-sm bg-info text-white me-2' onClick={() => handleEdit(conductor)}>
-                      Editar
-                    </button>
-                    <button style={{ marginTop: '-10px' }} className='btn btn-sm bg-danger text-white' onClick={async () => deleteMutation(conductor.id)}>
-                      Eliminar
-                    </button>
+                    <div className='d-flex justify-content-end align-items-center gap-2'>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-info text-white' onClick={() => handleEdit(conductor)}>
+                        Editar
+                      </button>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-danger' onClick={async () => deleteMutation(conductor.id)}>
+                        Eliminar
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

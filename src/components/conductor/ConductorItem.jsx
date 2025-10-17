@@ -1,16 +1,23 @@
+import { useEffect } from "react"
 import { useConductoresDelete } from "../../hooks/conductor/useConductoresDelete.js"
 import { useConductorPut } from "../../hooks/conductor/useConductorPut.js"
 
 export function ConductorItem({ conductorData }) {
-  const { mutateAsync: deleteConductor, isPending: isPendingDelete } = useConductoresDelete() 
-  const { mutateAsync: changeToApproved, isPending: isPendingUpdate } = useConductorPut()
+  const { mutateAsync: deleteConductor, isPending: isPendingDelete, isSuccess: isSuccessDelete } = useConductoresDelete() 
+  const { mutateAsync: changeToApproved, isPending: isPendingUpdate, isSuccess: isSuccessUpdate } = useConductorPut()
+
 
   const handleUpdate = () => {
     conductorData.estado = "Activo";
     changeToApproved(conductorData);
   }
 
-  return (
+  useEffect(() => {
+    if (isSuccessUpdate === true) alert('Conductor aprobado con exito')
+    if (isSuccessDelete === true) alert('Conductor rechazado con exito')
+  }, [isSuccessUpdate, isSuccessDelete])
+
+return (
     <li className="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
       <div className="fw-bold text-wrap">
         {conductorData.nombre} {conductorData.apellido} — {conductorData.email}

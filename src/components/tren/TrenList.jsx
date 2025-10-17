@@ -1,6 +1,6 @@
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-export function TrenList ({ trenes, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
+export function TrenList({ trenes, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
   const EstadoBadgeTren = ({ estado }) => {
     let estadoTexto = 'Sin estado'
 
@@ -76,16 +76,14 @@ export function TrenList ({ trenes, fetchNextPage, hasNextPage, handleEdit, dele
                   </td>
 
                   <td className='text-end'>
-                    <button
-                      style={{ marginTop: '-10px' }}
-                      className='btn btn-sm bg-info text-white me-2'
-                      onClick={handleEdit.bind(this, tren)}
-                    >
-                      Editar
-                    </button>
-                    <button style={{ marginTop: '-10px' }} className='btn btn-sm bg-danger text-white' onClick={async () => deleteMutation(tren.id)}>
-                      Eliminar
-                    </button>
+                    <div className='d-flex justify-content-end align-items-center gap-2'>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, tren)}>
+                        Editar
+                      </button>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-danger' onClick={async () => deleteMutation(tren.id)}>
+                        Eliminar
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )
