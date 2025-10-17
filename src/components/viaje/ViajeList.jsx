@@ -161,19 +161,19 @@ export function ViajeList({ viajes, fetchNextPage, hasNextPage, handleEdit, dele
                 </td>
                 <td className='text-end'>
                   <div className='d-flex justify-content-end align-items-center gap-2'>
-                    <button
+                    <button style={{ marginTop: '-10px' }}
                       className='btn btn-sm btn-outline-primary'
                       onClick={() => { setSelectedViaje(viaje); setShowDetails(true) }}
                     >
                       Ver detalles
                     </button>
-                    <button
+                    <button style={{ marginTop: '-10px' }}
                       className='btn btn-sm btn-info text-white'
                       onClick={handleEdit.bind(this, viaje)}
                     >
                       Editar
                     </button>
-                    <button
+                    <button style={{ marginTop: '-10px' }}
                       className='btn btn-sm btn-danger'
                       onClick={async () => deleteMutation(viaje.id)}
                     >

@@ -138,10 +138,10 @@ export function ConductorList({ conductores, fetchNextPage, hasNextPage, handleE
 
                   <td className='text-end'>
                     <div className='d-flex justify-content-end align-items-center gap-2'>
-                      <button className='btn btn-sm btn-info text-white' onClick={() => handleEdit(conductor)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-info text-white' onClick={() => handleEdit(conductor)}>
                         Editar
                       </button>
-                      <button className='btn btn-sm btn-danger' onClick={async () => deleteMutation(conductor.id)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-danger' onClick={async () => deleteMutation(conductor.id)}>
                         Eliminar
                       </button>
                     </div>

@@ -69,10 +69,10 @@ export function CategoriaDenunciaList({ categoriaDenuncias, fetchNextPage, hasNe
                   </td>
                   <td className='text-end'>
                     <div className='d-flex justify-content-end align-items-center gap-2'>
-                      <button className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, categoriaDenuncia)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, categoriaDenuncia)}>
                         Editar
                       </button>
-                      <button className='btn btn-sm btn-danger' onClick={async () => deleteMutation(categoriaDenuncia.id)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-danger' onClick={async () => deleteMutation(categoriaDenuncia.id)}>
                         Eliminar
                       </button>
                     </div>

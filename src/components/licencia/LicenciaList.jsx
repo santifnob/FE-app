@@ -116,10 +116,10 @@ export function LicenciaList({ licencias, fetchNextPage, hasNextPage, handleEdit
                     </td>
                     <td className='text-end'>
                       <div className='d-flex justify-content-end align-items-center gap-2'>
-                        <button className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, licencia)}>
+                        <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, licencia)}>
                           Editar
                         </button>
-                        <button className='btn btn-sm btn-danger' onClick={async () => deleteMutation(licencia.id)}>
+                        <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-danger' onClick={async () => deleteMutation(licencia.id)}>
                           Eliminar
                         </button>
                       </div>

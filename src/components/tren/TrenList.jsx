@@ -77,10 +77,10 @@ export function TrenList({ trenes, fetchNextPage, hasNextPage, handleEdit, delet
 
                   <td className='text-end'>
                     <div className='d-flex justify-content-end align-items-center gap-2'>
-                      <button className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, tren)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, tren)}>
                         Editar
                       </button>
-                      <button className='btn btn-sm btn-danger' onClick={async () => deleteMutation(tren.id)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-danger' onClick={async () => deleteMutation(tren.id)}>
                         Eliminar
                       </button>
                     </div>

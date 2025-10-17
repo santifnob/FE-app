@@ -70,10 +70,10 @@ export function CargaList({ cargas, fetchNextPage, hasNextPage, handleEdit, dele
                   </td>
                   <td className='text-end'>
                     <div className='d-flex justify-content-end align-items-center gap-2'>
-                      <button className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, carga)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, carga)}>
                         Editar
                       </button>
-                      <button className='btn btn-sm btn-danger' onClick={async () => deleteMutation(carga.id)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-danger' onClick={async () => deleteMutation(carga.id)}>
                         Eliminar
                       </button>
                     </div>

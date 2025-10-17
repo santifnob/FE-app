@@ -70,10 +70,10 @@ export function EstadoTrenList({ estadoTrenes, fetchNextPage, hasNextPage, handl
                   </td>
                   <td className='text-end'>
                     <div className='d-flex justify-content-end align-items-center gap-2'>
-                      <button className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, estadoTren)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, estadoTren)}>
                         Editar
                       </button>
-                      <button className='btn btn-sm btn-danger' onClick={async () => deleteMutation(estadoTren.id)}>
+                      <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-danger' onClick={async () => deleteMutation(estadoTren.id)}>
                         Eliminar
                       </button>
                     </div>
