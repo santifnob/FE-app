@@ -21,3 +21,13 @@ export function LineaCargaGetOne () {
     }
   })
 }
+
+export function LineaCargaActivos () {
+  return (useQuery({
+    queryKey: ['lineaCargaActivos'],
+    queryFn: async () => {
+      const res = await api.get('/lineaCarga', { withCredentials: true })
+      return res.data.items.filter(linea => linea.estado === 'Activo')
+    }
+  }))
+}

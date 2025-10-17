@@ -11,16 +11,19 @@ export function ViajeDetails({ viaje }) {
   const { data: allLineas, isLoading: lineasLoading } = LineaCargaFindAll()
   const { data: allCargas } = CargaFindAll()
   const { data: allCategorias } = CategoriaDenunciaFindAll()
-
-  // Prefer embedded relations on the viaje; otherwise filter the fetched lists by viaje id
+  
   const observaciones = (viaje.observaciones && viaje.observaciones.length)
-    ? viaje.observaciones
-    : (allObservaciones || []).filter(o => String(o.viaje?.id ?? o.viaje ?? o.viajeId) === String(viaje.id))
+    ? viaje.observaciones.filter(o => o.estado === 'Activo')
+    : (allObservaciones || [])
+        .filter(o => String(o.viaje?.id ?? o.viaje ?? o.viajeId) === String(viaje.id))
+        .filter(o => o.estado === 'Activo')
 
   const lineas = (viaje.lineasCarga && viaje.lineasCarga.length)
-    ? viaje.lineasCarga
-    : (allLineas || []).filter(l => String(l.viaje?.id ?? l.viaje ?? l.viajeId) === String(viaje.id))
-
+    ? viaje.lineasCarga.filter(l => l.estado === 'Activo')
+    : (allLineas || [])
+        .filter(l => String(l.viaje?.id ?? l.viaje ?? l.viajeId) === String(viaje.id))
+        .filter(l => l.estado === 'Activo')
+        
   const formatDate = (d) => d ? new Date(new Date(d).getTime() + 3 * 60 * 60 * 1000).toLocaleString('es-AR') : 'Sin fecha'
 
   const resolveCategoria = (o) => {
@@ -28,7 +31,6 @@ export function ViajeDetails({ viaje }) {
     if (!maybe) return 'Sin categoría'
     if (typeof maybe === 'string' && maybe.trim()) return maybe
     if (typeof maybe === 'object') return maybe.titulo ?? maybe.nombre ?? 'Sin categoría'
-    // numeric id: try to find in allCategorias
     const found = (allCategorias || []).find(c => String(c.id ?? c._id ?? c.categoriaId) === String(maybe))
     return found ? (found.titulo ?? found.nombre ?? `#${maybe}`) : `#${maybe}`
   }
