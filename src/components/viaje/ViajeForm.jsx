@@ -2,12 +2,19 @@ import { useForm } from 'react-hook-form'
 import { useState, useEffect } from 'react'
 import { useViajePost } from '../../hooks/viaje/useViajePost'
 import { useViajePut } from '../../hooks/viaje/useViajesPut'
+import { useRecorridosInfinite } from '../../hooks/recorrido/useRecorridoInfinite.js'
+import { useConductoresInfinite } from '../../hooks/conductor/useConductorInfinite.js'
+import { useTrenesInfinite } from '../../hooks/tren/useTrenInfinite.js'
 import { RecorridoActivos } from '../../hooks/recorrido/useRecorridoQuery.js'
 import { TrenActivos } from '../../hooks/tren/useTrenQuery.js'
 import { ConductorFindAll } from '../../hooks/conductor/useConductorQuery.js'
 
+
 export function ViajeForm({ onSuccess, viajeToEdit }) {
-  
+  const [recorridos, setRecorridos] =useState([])
+  const [conductores, setConductores] = useState([])
+  const [trenes, setTrenes] = useState([])
+
   const {
     register,
     formState: { errors },
@@ -29,15 +36,29 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
 
   const { mutateAsync: handlePost, isError: isErrorPost, isPending: isPendingPost } = useViajePost()
   const { mutateAsync: handlePut, isError: isErrorPut, isPending: isPendingPut } = useViajePut()
-  const { data: recorridos = [] } = RecorridoActivos()
-  const { data: conductores = [] } = ConductorFindAll()
-  const { data: trenes = [] } = TrenActivos()
+  //const { data: recorridos = [] } = RecorridoActivos()
+  //const { data: conductores = [] } = ConductorFindAll()
+  //const { data: trenes = [] } = TrenActivos()
+  const { data: dataRecorridos } = useRecorridosInfinite( { filterColumn: 'estado', filterValue: 'Activo' } )
+  const { data: dataConductores } = useConductoresInfinite( { filterColumn: 'estado', filterValue: 'Activo' } )
+  const { data: dataTrenes } = useTrenesInfinite( { filterColumn: 'estado', filterValue: 'Activo' } )
+
 
   const [mensajeError, setMensajeError] = useState('')
   const idConductor = watch('idConductor')
   const idTren = watch('idTren')
   const fechaIni = watch('fechaIni')
   const fechaFin = watch('fechaFin')
+
+  useEffect(() => {
+    const recorridos = dataRecorridos?.pages.flatMap(page => page.items) ?? []
+    setRecorridos(recorridos)
+    const conductores = dataConductores?.pages.flatMap(page => page.items) ?? []
+    setConductores(conductores)
+    const trenes = dataTrenes?.pages.flatMap(page => page.items) ?? []
+    setTrenes(trenes)
+
+  }, [dataRecorridos, dataConductores, dataTrenes])
 
   useEffect(() => {
     setMensajeError('')
@@ -120,7 +141,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
         <label className='form-label'>Conductor:</label>
         <select
           {...register('idConductor', { required: 'El "Conductor" es requerido' })}
-          className='form-control'
+          className='form-control overflow-y-scroll'
           defaultValue={viajeToEdit?.conductor?.id ?? ''}
         >
           <option value=''>Selecciona un conductor</option>
