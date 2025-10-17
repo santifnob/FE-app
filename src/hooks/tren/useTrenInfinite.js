@@ -6,10 +6,13 @@ export function useTrenesInfinite( { filterColumn, filterValue } ) {
     queryKey: ["trenesInfinite", filterColumn, filterValue],
     queryFn: async ({ pageParam = null }) => {
       const res = await api.get("/tren", {
-        params: { limit: 10, cursor: pageParam },
+        params: { 
+          limit: 10,
+          cursor: pageParam,
+          ...( filterValue? {filterValue} : {}),
+          ...( filterColumn? {filterColumn} : {})},
         withCredentials: true,
-        ...( filterValue? {filterValue} : {}),
-        ...( filterColumn? {filterColumn} : {})
+        
       })
       return res.data
     },

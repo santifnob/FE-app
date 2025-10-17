@@ -8,22 +8,22 @@ import { useTrenesInfinite } from '../../hooks/tren/useTrenInfinite.js'
 import { EntitySelector } from './EntitySelector.jsx'
 
 export function ViajeForm({ onSuccess, viajeToEdit }) {
-  // --- Hooks de datos ---
+  // Hooks de datos de react query para los infinite scrolls 
   const { data: dataRecorridos, fetchNextPage: nextRecorridos, hasNextPage: hasNextRecorridos } = useRecorridosInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
   const { data: dataConductores, fetchNextPage: nextConductor, hasNextPage: hasNextConductor } = useConductoresInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
-  const { data: dataTrenes, fetchNextPage: nextTrenes, hasNextPage: hasNextTrenes } = useTrenesInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
+  const { data: dataTrenes, fetchNextPage: nextTrenes, hasNextPage: hasNextTrenes } = useTrenesInfinite({ filterColumn: 'estado', filterValue: 'Disponible' })
 
   const [recorridos, setRecorridos] = useState([])
   const [conductores, setConductores] = useState([])
   const [trenes, setTrenes] = useState([])
-  // const [mensajeError, setMensajeError] = useState('')
+  const [mensajeError, setMensajeError] = useState('')
 
-  // --- Mutaciones (crear / editar viaje) ---
+  // Mutaciones de react query (crear / editar viaje) 
   const { mutateAsync: handlePost, isError: isErrorPost, isPending: isPendingPost } = useViajePost()
   const { mutateAsync: handlePut, isError: isErrorPut, isPending: isPendingPut } = useViajePut()
   const isPendingForm = isPendingPost || isPendingPut
 
-  // --- Form setup ---
+  // Setup del formulario 
   const {
     control,
     register,
@@ -44,68 +44,68 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
       : {}
   })
 
-  // const idConductor = watch('idConductor')
-  // const idTren = watch('idTren')
-  // const fechaIni = watch('fechaIni')
-  // const fechaFin = watch('fechaFin')
+  const idConductor = watch('idConductor')
+  const idTren = watch('idTren')
+  const fechaIni = watch('fechaIni')
+  const fechaFin = watch('fechaFin')
 
-  // --- Cargar datos de los hooks infinitos ---
+  // Cargar datos de los hooks infinitos 
   useEffect(() => {
     setRecorridos(dataRecorridos?.pages.flatMap(p => p.items) ?? [])
     setConductores(dataConductores?.pages.flatMap(p => p.items) ?? [])
     setTrenes(dataTrenes?.pages.flatMap(p => p.items) ?? [])
   }, [dataRecorridos, dataConductores, dataTrenes])
 
-  // --- Validaciones de solapamientos y licencias ---
-  // useEffect(() => {
-  //   setMensajeError('')
-  //   if (!idConductor || !fechaIni || !fechaFin || !idTren) return
+  // Validaciones de solapamientos y licencias 
+  useEffect(() => {
+    setMensajeError('')
+    if (!idConductor || !fechaIni || !fechaFin || !idTren) return
 
-  //   const conductor = conductores.find(c => c.id === Number(idConductor))
-  //   const tren = trenes.find(t => t.id === Number(idTren))
-  //   if (!conductor || !tren) return
+    const conductor = conductores.find(c => c.id === Number(idConductor))
+    const tren = trenes.find(t => t.id === Number(idTren))
+    if (!conductor || !tren) return
 
-  //   const inicio = new Date(fechaIni)
-  //   const fin = new Date(fechaFin)
+    const inicio = new Date(fechaIni)
+    const fin = new Date(fechaFin)
 
-  //   const conductorOcupado = conductor.viajes
-  //     .filter(v => v.estado === 'Activo' && (!viajeToEdit || v.id !== viajeToEdit.id))
-  //     .some(v => {
-  //       const vi = new Date(v.fechaIni)
-  //       const vf = new Date(v.fechaFin)
-  //       return (vi <= fin && vf >= inicio) || (vi <= inicio && vf >= fin)
-  //     })
+    const conductorOcupado = conductor.viajes
+      .filter(v => v.estado === 'Activo' && (!viajeToEdit || v.id !== viajeToEdit.id))
+      .some(v => {
+        const vi = new Date(v.fechaIni)
+        const vf = new Date(v.fechaFin)
+        return (vi <= fin && vf >= inicio) || (vi <= inicio && vf >= fin)
+      })
 
-  //   if (conductorOcupado) {
-  //     setMensajeError('El conductor ya tiene un viaje en ese rango de fechas')
-  //     return
-  //   }
+    if (conductorOcupado) {
+      setMensajeError('El conductor ya tiene un viaje en ese rango de fechas')
+      return
+    }
 
-  //   const licenciaValida = conductor.licencias.some(l => {
-  //     const li = new Date(l.fechaHecho)
-  //     const lf = new Date(l.fechaVencimiento)
-  //     return li <= inicio && lf >= fin
-  //   })
+    const licenciaValida = conductor.licencias.some(l => {
+      const li = new Date(l.fechaHecho)
+      const lf = new Date(l.fechaVencimiento)
+      return li <= inicio && lf >= fin
+    })
 
-  //   if (!licenciaValida) {
-  //     setMensajeError('El conductor no tiene una licencia que cubra el rango de fechas')
-  //     return
-  //   }
+    if (!licenciaValida) {
+      setMensajeError('El conductor no tiene una licencia que cubra el rango de fechas')
+      return
+    }
 
-  //   const trenOcupado = tren.viajes
-  //     .filter(v => v.estado === 'Activo' && (!viajeToEdit || v.id !== viajeToEdit.id))
-  //     .some(v => {
-  //       const vi = new Date(v.fechaIni)
-  //       const vf = new Date(v.fechaFin)
-  //       return (vi <= fin && vf >= inicio) || (vi <= inicio && vf >= fin)
-  //     })
+    const trenOcupado = tren.viajes
+      .filter(v => v.estado === 'Activo' && (!viajeToEdit || v.id !== viajeToEdit.id))
+      .some(v => {
+        const vi = new Date(v.fechaIni)
+        const vf = new Date(v.fechaFin)
+        return (vi <= fin && vf >= inicio) || (vi <= inicio && vf >= fin)
+      })
 
-  //   if (trenOcupado) {
-  //     setMensajeError('El tren ya tiene un viaje en ese rango de fechas')
-  //   }
-  // }, [idConductor, idTren, fechaIni, fechaFin, conductores, trenes, viajeToEdit])
+    if (trenOcupado) {
+      setMensajeError('El tren ya tiene un viaje en ese rango de fechas')
+    }
+  }, [idConductor, idTren, fechaIni, fechaFin, conductores, trenes, viajeToEdit])
 
-  // --- Envío del formulario ---
+  // Envío del formulario 
   const onSubmit = async (formData) => {
     const viaje = {
       fechaIni: formData.fechaIni,
@@ -126,7 +126,6 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
     }
   }
 
-  // --- Render ---
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* Conductor con scroll infinito */}
@@ -208,13 +207,13 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
       </div>
 
       {/* Mensajes */}
-      {/* {mensajeError && <p className='text-danger mt-2'>{mensajeError}</p>} */}
+      {mensajeError && <p className='text-danger mt-2'>{mensajeError}</p>}
 
       <div className='d-flex justify-content-between mt-3'>
         <button type='button' className='btn btn-secondary' onClick={onSuccess}>
           Volver
         </button>
-        <button type='submit' className='btn btn-success' disabled={isPendingForm /*|| mensajeError*/}>
+        <button type='submit' className='btn btn-success' disabled={isPendingForm || mensajeError}>
           {isPendingForm ? 'Enviando...' : 'Enviar'}
         </button>
       </div>

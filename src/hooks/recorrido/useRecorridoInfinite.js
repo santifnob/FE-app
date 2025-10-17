@@ -6,10 +6,13 @@ export function useRecorridosInfinite( { filterColumn, filterValue } ) {
     queryKey: ["recorridosInfinite", filterColumn, filterValue],
     queryFn: async ({ pageParam = null }) => {
       const res = await api.get("/recorrido", {
-        params: { limit: 10, cursor: pageParam },
-        withCredentials: true,
-        ...(filterColumn ? {filterColumn} : {}),
-        ...(filterValue ? {filterValue} : {}),
+        params: { 
+          limit: 10,
+          cursor: pageParam,
+          ...(filterColumn ? {filterColumn} : {}),
+          ...(filterValue ? {filterValue} : {}) 
+        },
+        withCredentials: true
       })
       return res.data
     },
@@ -18,4 +21,3 @@ export function useRecorridosInfinite( { filterColumn, filterValue } ) {
     }
   })
 }
-
