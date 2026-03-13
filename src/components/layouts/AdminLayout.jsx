@@ -21,7 +21,23 @@ export default function AdminLayout () {
       <aside className={`sidebar ${showSidebar ? 'open' : 'closed'}`}>
         <div className='sidebar-top'>
           <h1 className='mb-4 text-center text-white'>Mi ferrocarril</h1>
-
+          
+          <div className='d-flex justify-content-center mt-1 mb-4'>
+            <div
+              className='d-inline-flex align-items-center gap-2 px-2 py-1 rounded-pill'
+              style={{
+                backgroundColor: 'rgba(212, 0, 255, 0.51)',
+                border: '1px solid rgba(156, 17, 221, 0.35)',
+                color: '#d1ffe2',
+                fontSize: '0.82rem',
+                fontWeight: 600
+              }}
+            >
+              <span>🧭</span>
+              <span>Modo administrador</span>
+            </div>
+          </div>
+          
           <div className='sidebar-scroll'>
             <ul className='nav flex-column'>
               <li className='nav-item mb-4 h4'>
