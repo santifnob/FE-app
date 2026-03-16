@@ -1,13 +1,14 @@
 import { useState, useContext } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import './AdminLayout.css'
 
 export default function AdminLayout () {
-  const [isGestionOpen, setIsGestionOpen] = useState(false)
   const [showSidebar, setShowSidebar] = useState(true)
   const { logout, setUser } = useContext(AuthContext)
+  const location = useLocation();
   const navigate = useNavigate()
+  const [isGestionOpen, setIsGestionOpen] = useState(false)
 
   const handleLogout = async () => {
     await logout()
@@ -41,35 +42,41 @@ export default function AdminLayout () {
           <div className='sidebar-scroll'>
             <ul className='nav flex-column'>
               <li className='nav-item mb-4 h4'>
-                <Link className='nav-link text-white' to='/admin/dashboard'>📊 Panel de control</Link>
+                <Link className={`nav-link text-white ${location.pathname === '/admin/dashboard' ? 'active' : ''}`} to='/admin/dashboard'>
+                  📊 Panel de control
+                </Link>
               </li>
 
               <li className='nav-item text-start h4'>
                 <a
-                  className='nav-link text-white'
-                  onClick={() => setIsGestionOpen(!isGestionOpen)}
+                  className={`nav-link text-white ${location.pathname.includes('gestion') ? 'active' : ''}`}
                   role='button'
+                  onClick={() => setIsGestionOpen(!isGestionOpen)}
                 >
                   📁 Gestión {isGestionOpen ? '▲' : '▼'}
                 </a>
 
                 {isGestionOpen && (
                   <ul className='list-unstyled ms-3 w-100 h5'>
-                    <li><Link className='nav-link text-white mt-2 text-center' to='/admin/trenes'>🚂Trenes</Link></li>
-                    <li><Link className="nav-link text-white mt-2 text-center" to="/admin/estadoTrenes">🛤️Estado Trenes</Link></li>
-                    <li><Link className='nav-link text-white mt-2 text-center' to='/admin/conductores'>👨‍✈️Conductores</Link></li>
-                    <li><Link className='nav-link text-white mt-2 text-center' to='/admin/licencias'>📃Licencias</Link></li>
-                    <li><Link className="nav-link text-white mt-2 text-center" to="/admin/observaciones">🕵Observaciones</Link></li>
-                    <li><Link className="nav-link text-white mt-2 text-center" to="/admin/categoriaDenuncias">⚖Categoria de Denuncias</Link></li>                    
-                    <li><Link className='nav-link text-white mt-2 text-center' to='/admin/cargas'>🔋Cargas</Link></li>
-                    <li><Link className='nav-link text-white mt-2 text-center' to='/admin/tipoCargas'>💙Tipo Cargas</Link></li>
-                    <li><Link className='nav-link text-white mt-2 text-center' to='/admin/recorridos'>🗺️Recorridos</Link></li>
-                    <li><Link className='nav-link text-white mt-2 text-center' to='/admin/lineaCargas'>📍Líneas de cargas</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/trenes' ? 'active' : ''}`} to='/admin/gestion/trenes' >
+                      🚂Trenes
+                    </Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/estadoTrenes' ? 'active' : ''}`} to='/admin/gestion/estadoTrenes'>
+                      🛤️Estado Trenes</Link>
+                    </li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/conductores' ? 'active' : ''}`} to='/admin/gestion/conductores'>👨‍✈️Conductores</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/licencias' ? 'active' : ''}`} to='/admin/gestion/licencias'>📃Licencias</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/observaciones' ? 'active' : ''}`} to='/admin/gestion/observaciones'>🕵Observaciones</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/categoriaDenuncias' ? 'active' : ''}`} to='/admin/gestion/categoriaDenuncias'>⚖Categoria de Denuncias</Link></li>                    
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/cargas' ? 'active' : ''}`} to='/admin/gestion/cargas'>🔋Cargas</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/tipoCargas' ? 'active' : ''}`} to='/admin/gestion/tipoCargas'>💙Tipo Cargas</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/recorridos' ? 'active' : ''}`} to='/admin/gestion/recorridos'>🗺️Recorridos</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/lineaCargas' ? 'active' : ''}`} to='/admin/gestion/lineaCargas'>📍Líneas de cargas</Link></li>
                   </ul>
                 )}
               </li>
               <li className='nav-item my-4 h4'>
-                <Link className='nav-link text-white' to='/admin/viajes'>🚆 Viajes</Link>
+                <Link className={`nav-link text-white ${location.pathname === '/admin/viajes' ? 'active' : ''}`} to='/admin/viajes'>🚆 Viajes</Link>
               </li>
             </ul>
           </div>

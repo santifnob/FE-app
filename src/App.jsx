@@ -42,12 +42,12 @@ function App () {
               />
 
               <Route
-                path='tipoCargas'
+                path='gestion/tipoCargas'
                 element={<TipoCargaCrud />}
               />
 
               <Route
-                path='lineaCargas'
+                path='gestion/lineaCargas'
                 element={<LineaCargaCrud />}
               />
 
@@ -57,32 +57,32 @@ function App () {
               />
 
               <Route
-                path='categoriaDenuncias'
+                path='gestion/categoriaDenuncias'
                 element={<CategoriaDenunciaCrud />}
               />
 
               <Route
-                path='recorridos'
+                path='gestion/recorridos'
                 element={<RecorridoCrud />}
               />
 
               <Route
-                path='estadoTrenes'
+                path='gestion/estadoTrenes'
                 element={<EstadoTrenCrud />}
               />
 
               <Route
-                path='cargas'
+                path='gestion/cargas'
                 element={<CargaCrud />}
               />
 
               <Route
-                path='conductores'
+                path='gestion/conductores'
                 element={<ConductorCrud />}
               />
 
               <Route
-                path='observaciones'
+                path='gestion/observaciones'
                 element={<ObservacionCrud/>}
               />
 
@@ -92,12 +92,12 @@ function App () {
               />
 
               <Route
-                path='licencias'
+                path='gestion/licencias'
                 element={<LicenciaCrud />}
               />
 
               <Route
-                path='trenes'
+                path='gestion/trenes'
                 element={<TrenCrud />}
               />
 
@@ -123,12 +123,12 @@ function App () {
               />
 
               <Route
-                path='pendientes'
+                path='misViajes/pendientes'
                 element={<EnConstruccionCopy/>}
               />
 
               <Route
-                path='enCursos'
+                path='misViajes/enCursos'
                 element={<EnConstruccionCopy/>}
               />
 

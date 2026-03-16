@@ -56,7 +56,7 @@ export default function ConductoresPage () {
         style={{ background: '#2eccce', color: '#fff' }}
       >
         <h5 className='mb-0'>CONDUCTORES</h5>
-        <Link to='/admin/conductores/new' className='btn btn-primary'>
+        <Link to='/admin/gestion/conductores/new' className='btn btn-primary'>
           + Nuevo Conductor
         </Link>
       </div>
@@ -139,13 +139,13 @@ export default function ConductoresPage () {
                           <td className='text-end'>
                             <div className='btn-group'>
                               <Link
-                                to={`/admin/conductores/${c.id}`}
+                                to={`/admin/gestion/conductores/${c.id}`}
                                 className='btn btn-sm btn-outline-success'
                               >
                                 Ver
                               </Link>
                               <Link
-                                to={`/admin/conductores/${c.id}/edit`}
+                                to={`/admin/gestion/conductores/${c.id}/edit`}
                                 className='btn btn-sm btn-outline-primary'
                               >
                                 Editar

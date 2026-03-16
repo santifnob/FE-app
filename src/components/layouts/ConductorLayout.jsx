@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import './AdminLayout.css'
 
@@ -8,6 +8,7 @@ export default function AdminLayout () {
   const [showSidebar, setShowSidebar] = useState(true)
   const { logout, setUser } = useContext(AuthContext)
   const navigate = useNavigate()
+  const location = useLocation();
 
   const handleLogout = async () => {
     await logout()
@@ -44,12 +45,14 @@ export default function AdminLayout () {
           <div className='sidebar-scroll'>
             <ul className='nav flex-column'>
               <li className='nav-item mb-4 h4'>
-                <Link className='nav-link text-white' to='/conductor/dashboard'>📊 Panel de control</Link>
+                <Link className={`nav-link text-white ${location.pathname === '/conductor/dashboard' ? 'active' : ''}`} to='/conductor/dashboard'>
+                  📊 Panel de control
+                </Link>
               </li>
 
               <li className='nav-item text-start h4'>
                 <a
-                  className='nav-link text-white'
+                  className={`nav-link text-white ${location.pathname.includes("/conductor/misViajes") ? 'active' : ''}`}
                   onClick={() => setisMisViajesOpen(!isMisViajesOpen)}
                   role='button'
                 >
@@ -58,14 +61,14 @@ export default function AdminLayout () {
 
                 {isMisViajesOpen && (
                   <ul className='list-unstyled ms-3 w-100 h5'>
-                    <li><Link className='nav-link text-white mt-2 text-center' to='/conductor/pendientes'>⚠️ Pendientes</Link></li>
-                    <li><Link className="nav-link text-white mt-2 text-center" to="/conductor/enCursos">🧳 En curso</Link></li>
-                    <li><Link className='nav-link text-white mt-2 text-center' to='/conductor/finalizados'>✔️ Finalizados</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/pendientes' ? 'active' : ''}`} to='/conductor/misViajes/pendientes'>⚠️ Pendientes</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/enCursos' ? 'active' : ''}`} to="/conductor/misViajes/enCursos">🧳 En curso</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/finalizados' ? 'active' : ''}`} to='/conductor/misViajes/finalizados'>✔️ Finalizados</Link></li>
                   </ul>
                 )}
               </li>
               <li className='nav-item my-4 h4'>
-                <Link className='nav-link text-white' to='/conductor/perfil'>👤 Perfil</Link>
+                <Link className={`nav-link text-white ${location.pathname === '/conductor/perfil' ? 'active' : ''}`} to='/conductor/perfil'>👤 Perfil</Link>
               </li>
             </ul>
           </div>

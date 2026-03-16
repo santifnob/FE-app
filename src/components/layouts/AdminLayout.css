@@ -121,3 +121,8 @@ body,
   background-color: #3a3a3a;
   transform: translateX(6px);
 }
+
+
+.active {
+  border-left: 4px solid #0dcaf0;
+}
