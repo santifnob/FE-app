@@ -15,13 +15,16 @@ import { LicenciaCrud } from './pages/CRUD/LicenciaCrud.jsx'
 import { CategoriaDenunciaCrud } from './pages/CRUD/CategoriaDenunciaCrud.jsx'
 import { EnConstruccionCopy } from './pages/EnConstruccion copy.jsx'
 import { EstadoTrenCrud } from './pages/CRUD/EstadoTrenCrud.jsx'
-import  DashboardTrenes  from './pages/DashboardTrenes.jsx'
+import DashboardTrenes from './pages/DashboardTrenes.jsx'
 import { ViajeCrud } from './pages/CRUD/ViajeCrud.jsx'
 import { ObservacionCrud } from './pages/CRUD/ObservacionCrud.jsx'
 import { LineaCargaCrud } from './pages/CRUD/LineaCargaCrud.jsx'
 import { ControlPanel } from './pages/ControlPanel.jsx'
+import PendientesViajes from './pages/CONDUCTOR/Viajes/PendientesViajes'
+import EnCursoViajes from './pages/CONDUCTOR/Viajes/EnCursoViajes'
+import FinalizadosViajes from './pages/CONDUCTOR/Viajes/FinalizadosViajes'
 
-function App () {
+function App() {
   return (
     <>
       <BrowserRouter>
@@ -29,15 +32,17 @@ function App () {
 
           <Routes>
             {/* Pagina en construccion */}
-            <Route path='/pagina-en-construccion' 
-            element={<EnConstruccion />}> 
-            </Route>
+            <Route
+              path='/pagina-en-construccion'
+              element={<EnConstruccion />}
+            />
 
             {/* Administrador */}
-            <Route path='/admin' element={<ProtectedRoute allowedRoles='admin' > </ProtectedRoute>}>
+            <Route path='/admin' element={<ProtectedRoute allowedRoles='admin'> </ProtectedRoute>}>
+
               <Route
                 path='dashboard'
-                //element={<DashboardTrenes/>}
+                // element={<DashboardTrenes/>}
                 element={<ControlPanel />}
               />
 
@@ -83,12 +88,12 @@ function App () {
 
               <Route
                 path='gestion/observaciones'
-                element={<ObservacionCrud/>}
+                element={<ObservacionCrud />}
               />
 
               <Route
                 path='perfil'
-                element={<EnConstruccionCopy/>}
+                element={<EnConstruccionCopy />}
               />
 
               <Route
@@ -114,32 +119,32 @@ function App () {
               path='/conductor'
               element={<ProtectedRoute
                 allowedRoles='conductor'
-                       />}
+              />}
             >
 
               <Route
                 path='dashboard'
-                element={<EnConstruccionCopy/>}
+                element={<EnConstruccionCopy />}
               />
 
               <Route
                 path='misViajes/pendientes'
-                element={<EnConstruccionCopy/>}
+                element={<PendientesViajes />}
               />
 
               <Route
                 path='misViajes/enCursos'
-                element={<EnConstruccionCopy/>}
+                element={<EnCursoViajes />}
               />
 
               <Route
-                path='finalizados'
-                element={<EnConstruccionCopy/>}
+                path='misViajes/finalizados'
+                element={<FinalizadosViajes />}
               />
 
               <Route
                 path='perfil'
-                element={<EnConstruccionCopy/>}
+                element={<EnConstruccionCopy />}
               />
 
               {/* 404 protegido para /conductor/... */}
