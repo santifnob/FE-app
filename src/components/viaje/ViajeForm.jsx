@@ -1,6 +1,6 @@
 import { useForm, Controller } from 'react-hook-form'
 import { useState, useEffect } from 'react'
-import { useViajePost } from '../../hooks/viaje/useViajePost'
+import { useViajePost, useValidationCheck } from '../../hooks/viaje/useViajePost'
 import { useViajePut } from '../../hooks/viaje/useViajesPut'
 import { useRecorridosInfinite } from '../../hooks/recorrido/useRecorridoInfinite.js'
 import { useConductoresInfinite } from '../../hooks/conductor/useConductorInfinite.js'
@@ -16,12 +16,14 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
   const [recorridos, setRecorridos] = useState([])
   const [conductores, setConductores] = useState([])
   const [trenes, setTrenes] = useState([])
-  const [mensajeError, setMensajeError] = useState('')
+  // const [mensajeError, setMensajeError] = useState('')
 
   // Mutaciones de react query (crear / editar viaje) 
-  const { mutateAsync: handlePost, isError: isErrorPost, isPending: isPendingPost } = useViajePost()
-  const { mutateAsync: handlePut, isError: isErrorPut, isPending: isPendingPut } = useViajePut()
+  const { mutateAsync: handlePost, isError: isErrorPost, isPending: isPendingPost, error: errorPost } = useViajePost()
+  const { mutateAsync: handlePut, isError: isErrorPut, isPending: isPendingPut, error: errorPut } = useViajePut()
   const isPendingForm = isPendingPost || isPendingPut
+
+  const isSubmitDisabled = isPendingForm || isValidando || !!validacion?.error;
 
   // Setup del formulario 
   const {
@@ -44,10 +46,12 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
       : {}
   })
 
-  const idConductor = watch('idConductor')
-  const idTren = watch('idTren')
-  const fechaIni = watch('fechaIni')
-  const fechaFin = watch('fechaFin')
+  const watchIdConductor = watch('idConductor')
+  const watchIdTren = watch('idTren')
+  const watchFechaIni = watch('fechaIni')
+  const watchFechaFin = watch('fechaFin')
+
+  const {data: validacion, isPending: isValidando} = useValidationCheck(watchIdTren, watchIdConductor, watchFechaFin, watchFechaIni, viajeToEdit?.id)
 
   // Cargar datos de los hooks infinitos 
   useEffect(() => {
@@ -55,55 +59,6 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
     setConductores(dataConductores?.pages.flatMap(p => p.items) ?? [])
     setTrenes(dataTrenes?.pages.flatMap(p => p.items) ?? [])
   }, [dataRecorridos, dataConductores, dataTrenes])
-
-  // Validaciones de solapamientos y licencias 
-  useEffect(() => {
-    setMensajeError('')
-    if (!idConductor || !fechaIni || !fechaFin || !idTren) return
-
-    const conductor = conductores.find(c => c.id === Number(idConductor))
-    const tren = trenes.find(t => t.id === Number(idTren))
-    if (!conductor || !tren) return
-
-    const inicio = new Date(fechaIni)
-    const fin = new Date(fechaFin)
-
-    const conductorOcupado = conductor.viajes
-      .filter(v => v.estado === 'Activo' && (!viajeToEdit || v.id !== viajeToEdit.id))
-      .some(v => {
-        const vi = new Date(v.fechaIni)
-        const vf = new Date(v.fechaFin)
-        return (vi <= fin && vf >= inicio) || (vi <= inicio && vf >= fin)
-      })
-
-    if (conductorOcupado) {
-      setMensajeError('El conductor ya tiene un viaje en ese rango de fechas')
-      return
-    }
-
-    const licenciaValida = conductor.licencias.some(l => {
-      const li = new Date(l.fechaHecho)
-      const lf = new Date(l.fechaVencimiento)
-      return li <= inicio && lf >= fin
-    })
-
-    if (!licenciaValida) {
-      setMensajeError('El conductor no tiene una licencia que cubra el rango de fechas')
-      return
-    }
-
-    const trenOcupado = tren.viajes
-      .filter(v => v.estado === 'Activo' && (!viajeToEdit || v.id !== viajeToEdit.id))
-      .some(v => {
-        const vi = new Date(v.fechaIni)
-        const vf = new Date(v.fechaFin)
-        return (vi <= fin && vf >= inicio) || (vi <= inicio && vf >= fin)
-      })
-
-    if (trenOcupado) {
-      setMensajeError('El tren ya tiene un viaje en ese rango de fechas')
-    }
-  }, [idConductor, idTren, fechaIni, fechaFin, conductores, trenes, viajeToEdit])
 
   // Envío del formulario 
   const onSubmit = async (formData) => {
@@ -206,20 +161,33 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
         </select>
       </div>
 
-      {/* Mensajes */}
-      {mensajeError && <p className='text-danger mt-2'>{mensajeError}</p>}
+ 
+      {/* {mensajeError && <p className='text-danger mt-2'>{mensajeError}</p>} */}
+
+      {isErrorPost && <p className='text-danger mt-2'>{errorPost.response?.data?.message || errorPost.message}</p>}
+      {isErrorPut && <p className='text-danger mt-2'>{errorPut.response?.data?.message || errorPut.message}</p>}
+      
+      {validacion?.error && (
+        <div className="alert alert-warning">
+          <i className="bi bi-exclamation-triangle"></i> {validacion.message}
+        </div>
+      )}
+
+      {isValidando && (
+        <div className="text-info">
+          Validando..
+        </div>
+      )}
 
       <div className='d-flex justify-content-between mt-3'>
         <button type='button' className='btn btn-secondary' onClick={onSuccess}>
           Volver
         </button>
-        <button type='submit' className='btn btn-success' disabled={isPendingForm || mensajeError}>
+        <button type='submit' className='btn btn-success' disabled={isSubmitDisabled}>
           {isPendingForm ? 'Enviando...' : 'Enviar'}
         </button>
       </div>
 
-      {isErrorPost && <span className='text-danger'>Error al crear el viaje</span>}
-      {isErrorPut && <span className='text-danger'>Error al actualizar el viaje</span>}
     </form>
   )
 }

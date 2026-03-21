@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { api } from '../../services/api'
 
 export function useViajePost () {
@@ -12,4 +12,22 @@ export function useViajePost () {
       queryClient.invalidateQueries(['viajesQuery'])
     }
   })
+}
+
+
+export function useValidationCheck(watchIdTren, watchIdConductor, watchFechaFin, watchFechaIni){
+  return useQuery({
+  queryKey: ['validarViaje', watchIdTren, watchIdConductor, watchFechaIni, watchFechaFin],
+  queryFn: () => api.get('/viaje/validation', { 
+    params: { 
+      trenId: watchIdTren, 
+      conductorId: watchIdConductor, 
+      inicio: watchFechaIni, 
+      fin: watchFechaFin 
+    } 
+  }),
+  enabled: !!watchFechaIni && !!watchFechaFin && (!!watchIdTren || !!watchIdConductor),
+  retry: false,
+  staleTime: 5000 // Para no saturar el server si el usuario cambia rápido
+});
 }
