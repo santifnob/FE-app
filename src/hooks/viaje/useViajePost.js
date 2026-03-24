@@ -15,15 +15,16 @@ export function useViajePost () {
 }
 
 
-export function useValidationCheck(watchIdTren, watchIdConductor, watchFechaFin, watchFechaIni){
+export function useValidationCheck(watchIdTren, watchIdConductor, watchFechaFin, watchFechaIni, idViajeToEdit){
   return useQuery({
-  queryKey: ['validarViaje', watchIdTren, watchIdConductor, watchFechaIni, watchFechaFin],
+  queryKey: ['validarViaje', watchIdTren, watchIdConductor, watchFechaIni, watchFechaFin, idViajeToEdit],
   queryFn: () => api.get('/viaje/validation', { 
     params: { 
       trenId: watchIdTren, 
       conductorId: watchIdConductor, 
       inicio: watchFechaIni, 
-      fin: watchFechaFin 
+      fin: watchFechaFin,
+      idViajeToEdit: idViajeToEdit
     } 
   }),
   enabled: !!watchFechaIni && !!watchFechaFin && (!!watchIdTren || !!watchIdConductor),

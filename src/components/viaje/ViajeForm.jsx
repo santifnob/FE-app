@@ -11,19 +11,18 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
   // Hooks de datos de react query para los infinite scrolls 
   const { data: dataRecorridos, fetchNextPage: nextRecorridos, hasNextPage: hasNextRecorridos } = useRecorridosInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
   const { data: dataConductores, fetchNextPage: nextConductor, hasNextPage: hasNextConductor } = useConductoresInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
-  const { data: dataTrenes, fetchNextPage: nextTrenes, hasNextPage: hasNextTrenes } = useTrenesInfinite({ filterColumn: 'estado', filterValue: 'Disponible' })
+  const { data: dataTrenes, fetchNextPage: nextTrenes, hasNextPage: hasNextTrenes } = useTrenesInfinite({})
 
   const [recorridos, setRecorridos] = useState([])
   const [conductores, setConductores] = useState([])
   const [trenes, setTrenes] = useState([])
-  // const [mensajeError, setMensajeError] = useState('')
 
   // Mutaciones de react query (crear / editar viaje) 
   const { mutateAsync: handlePost, isError: isErrorPost, isPending: isPendingPost, error: errorPost } = useViajePost()
   const { mutateAsync: handlePut, isError: isErrorPut, isPending: isPendingPut, error: errorPut } = useViajePut()
   const isPendingForm = isPendingPost || isPendingPut
 
-  const isSubmitDisabled = isPendingForm || isValidando || !!validacion?.error;
+ 
 
   // Setup del formulario 
   const {
@@ -51,7 +50,9 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
   const watchFechaIni = watch('fechaIni')
   const watchFechaFin = watch('fechaFin')
 
-  const {data: validacion, isPending: isValidando} = useValidationCheck(watchIdTren, watchIdConductor, watchFechaFin, watchFechaIni, viajeToEdit?.id)
+  const {isPending: isValidando, isError: isValidateError, error: validateError} = useValidationCheck(watchIdTren, watchIdConductor, watchFechaFin, watchFechaIni, viajeToEdit?.id)
+
+  const isSubmitDisabled = isPendingForm || isValidando || !!isValidateError;
 
   // Cargar datos de los hooks infinitos 
   useEffect(() => {
@@ -167,15 +168,9 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
       {isErrorPost && <p className='text-danger mt-2'>{errorPost.response?.data?.message || errorPost.message}</p>}
       {isErrorPut && <p className='text-danger mt-2'>{errorPut.response?.data?.message || errorPut.message}</p>}
       
-      {validacion?.error && (
-        <div className="alert alert-warning">
-          <i className="bi bi-exclamation-triangle"></i> {validacion.message}
-        </div>
-      )}
-
-      {isValidando && (
-        <div className="text-info">
-          Validando..
+      {isValidateError && (
+        <div className="alert alert-warning mt-3">
+         ⚠️ {validateError.response?.data?.message || validateError.message}
         </div>
       )}
 

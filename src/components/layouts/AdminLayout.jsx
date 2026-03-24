@@ -84,7 +84,7 @@ export default function AdminLayout () {
         </div>
 
         <div className='sidebar-bottom'>
-          <button className='btn btn-outline-info w-100 mb-2' onClick={() => setShowSidebar(false)}>Cerrar Sidebar</button>
+          <button className='btn btn-outline-info w-100 mb-2' onClick={() => setShowSidebar(false)}>Cerrar Menú</button>
           <button className='btn btn-outline-danger w-100' onClick={handleLogout}>Cerrar sesión</button>
         </div>
       </aside>
