@@ -20,6 +20,7 @@ import { ViajeCrud } from './pages/CRUD/ViajeCrud.jsx'
 import { ObservacionCrud } from './pages/CRUD/ObservacionCrud.jsx'
 import { LineaCargaCrud } from './pages/CRUD/LineaCargaCrud.jsx'
 import  PerfilConductor  from './pages/CONDUCTOR/Perfil.jsx'
+import LandingConductor from './pages/CONDUCTOR/Landing.jsx'
 import { ControlPanel } from './pages/ControlPanel.jsx'
 import PendientesViajes from './pages/CONDUCTOR/Viajes/PendientesViajes'
 import EnCursoViajes from './pages/CONDUCTOR/Viajes/EnCursoViajes'
@@ -125,7 +126,7 @@ function App() {
 
               <Route
                 path='dashboard'
-                element={<EnConstruccionCopy />}
+                element={<LandingConductor/>}
               />
 
               <Route
