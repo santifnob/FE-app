@@ -78,7 +78,7 @@ export function EstadoTrenForm({ onSuccess, estadoTrenToEdit }) {
 
             <input
                 id='fechaVigencia'
-                type='date'
+                type='datetime-local'
                 className='form-control'
                 {...register('fechaVigencia', { required: 'La fecha de vigencia es requerida' })}
                 defaultValue={estadoTrenToEdit?.fechaVigencia ? estadoTrenToEdit.fechaVigencia.slice(0, 10): ''}

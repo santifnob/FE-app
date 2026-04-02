@@ -19,17 +19,6 @@ export function RegisterPage () {
         estado: 'Pendiente' // Le falta la validacion por parte del admin
       }
 
-      // const res = await fetch('http://localhost:3000/api/conductor', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(conductorData)
-      // })
-
-      // if (!res.ok) {
-      //   const data = await res.json()
-      //   throw new Error(data.error || 'Error en el registro')
-      // }
-
       await registerMutation(conductorData)
       console.log(isError)
       if (isError) {

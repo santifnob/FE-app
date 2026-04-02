@@ -95,6 +95,7 @@ export function ConductorForm ({ onSuccess, conductorToEdit }) {
         >
           <option value=''>Seleccione un estado</option>
           <option value='Activo'>Activo</option>
+          <option value='Pendiente'>Pendiente</option>
           <option value='Inactivo'>Inactivo</option>
         </select>
         {errors.estado && <span className='text-danger'>{errors.estado.message}</span>}

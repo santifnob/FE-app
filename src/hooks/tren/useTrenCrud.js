@@ -8,7 +8,7 @@ export function useTrenCrud() {
   const [showModal, setShowModal] = useState(false)
   const trenToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useTrenesDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useTrenesInfinite()
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useTrenesInfinite( { filterColumn: undefined, filterValue: undefined} )
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = TrenGetOne() // find one 
   

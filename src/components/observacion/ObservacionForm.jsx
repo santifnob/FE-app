@@ -46,7 +46,6 @@ export function ObservacionForm ({ onSuccess, observacionToEdit }) {
   }
 
   return (
-    console.log(viajes),
     <form onSubmit={handleSubmit(onSubmit)}>
 
       <div className='mb-3'>

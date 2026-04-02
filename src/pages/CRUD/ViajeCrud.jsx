@@ -1,7 +1,8 @@
 import { Modal } from '../../components/Modal.jsx'
 import { ViajeForm } from '../../components/viaje/ViajeForm.jsx'
-import { ViajeList } from '../../components/viaje/ViajeList.jsx'
+import { ViajeTableExpandable } from '../../components/viaje/ViajeTableExpandable.jsx'
 import { useViajeCrud } from '../../hooks/viaje/useViajeCrud.js'
+import { ViajeCards } from '../../components/viaje/ViajeCards.jsx'
 
 export function ViajeCrud() {
   const {
@@ -37,9 +38,18 @@ export function ViajeCrud() {
           Crear un viaje
         </button>
       </div>
-      {/* Logica pensada para ordenar los viajes segun el atributo que apreta el usuario, todavian no hecha */ }
-      <ViajeList viajes={viajes} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation}/>
-      
+      <>
+      {/* TABLA DESKTOP */}
+      <div className="d-none d-md-block">
+        <ViajeTableExpandable viajes={viajes} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation} />
+      </div>
+
+      {/* CARDS MOBILE */}
+      <div className="d-md-none">
+        <ViajeCards viajes={viajes} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation} />
+      </div>
+      </>
+
       {
         showModal &&
         <Modal onClose={() => setShowModal(false)} title={(viajeToEdit.current ? 'Editar' : 'Crear') + ' Viaje'}>

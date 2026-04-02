@@ -91,3 +91,46 @@ body,
 
   /* no empujamos en mobile */
 }
+
+* Links del sidebar */ .sidebar .nav-link {
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+
+.sidebar .nav-link:hover {
+  background-color: #3a3a3a;
+  transform: translateX(6px);
+  box-shadow: inset 3px 0 0 #0dcaf0;
+  border-radius: 0 6px 6px 0;
+  /* barra izquierda */
+}
+
+/* Opciones del submenú */
+.sidebar .list-unstyled .nav-link {
+  font-size: 0.95em;
+}
+
+/* Hover también para el botón de Gestión */
+.sidebar a.nav-link[role="button"] {
+  transition: all 0.2s ease;
+}
+
+.sidebar a.nav-link[role="button"]:hover {
+  background-color: #3a3a3a;
+  transform: translateX(6px);
+}
+
+
+.active {
+  border-left: 4px solid #0dcaf0;
+}
+
+.funnel-display-h1 {
+  font-family: "Funnel Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: x-large;
+}

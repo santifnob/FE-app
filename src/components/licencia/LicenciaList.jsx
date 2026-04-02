@@ -1,14 +1,14 @@
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useState } from 'react'
 
-export function LicenciaList ({ licencias, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
+export function LicenciaList({ licencias, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
   const [filtros, setFiltros] = useState({
-  id: '',
-  conductor: '',
-  fechaHecho: '',
-  fechaVencimiento: '',
-  estado: '',
-})  
+    id: '',
+    conductor: '',
+    fechaHecho: '',
+    fechaVencimiento: '',
+    estado: ''
+  })
 
   // Contar estados fuera del componente EstadoBadgeConductor
   const estadosContados = licencias.reduce((acc, conductor) => {
@@ -28,34 +28,38 @@ export function LicenciaList ({ licencias, fetchNextPage, hasNextPage, handleEdi
   })
 
   const EstadoBadge = ({ estado }) => {
-    let estadoTexto = 'Sin estado';
+    let estadoTexto = 'Sin estado'
 
     if (estado === 'Activo') {
-      estadoTexto = 'Activo';
+      estadoTexto = 'Activo'
     } else if (estado === 'Inactivo') {
-      estadoTexto = 'Inactivo';
+      estadoTexto = 'Inactivo'
     }
 
     const map = {
-      'Activo': 'success',
-      'Inactivo': 'danger',
-      'Sin estado': 'secondary',
-    };
+      Activo: 'success',
+      Inactivo: 'danger',
+      'Sin estado': 'secondary'
+    }
 
-    const variant = map[estadoTexto];
+    const variant = map[estadoTexto]
 
     return (
-      <span className={`btn btn-sm bg-${variant} text-white me-2`} style={{ pointerEvents: 'none', marginTop: '-10px',
-        minWidth: '180px',
-        textAlign: 'center',
-        fontWeight: '500',
-        lineHeight: '2.5',
-        
- }}>
+      <span
+        className={`btn btn-sm bg-${variant} text-white me-2`} style={{
+          pointerEvents: 'none',
+          marginTop: '-10px',
+          minWidth: '180px',
+          textAlign: 'center',
+          fontWeight: '500',
+          lineHeight: '2.5'
+
+        }}
+      >
         {estadoTexto}
       </span>
-    );
-  };
+    )
+  }
   return (
     <InfiniteScroll
       dataLength={licencias.length}
@@ -63,26 +67,26 @@ export function LicenciaList ({ licencias, fetchNextPage, hasNextPage, handleEdi
       hasMore={hasNextPage}
       loader={<h4 className='text-center'>Cargando más licencias...</h4>}
       endMessage={<p className='text-center'>No hay más licencias</p>}
-      scrollThreshold={1}
+      scrollThreshold={0.8}
       scrollableTarget='scrollableDiv'
     >
-  <div className="mb-3">
-          <h5>Filtrar licencias</h5>
-          <div className="row g-2">
-            <div className="col"><input className="form-control" placeholder="ID" onChange={(e) => setFiltros({ ...filtros, id: e.target.value })} /></div>
-            <div className="col"><input className="form-control" placeholder="Conductor" onChange={(e) => setFiltros({ ...filtros, conductor: e.target.value })} /></div>
-            <div className="col"><input type="date" className="form-control" onChange={(e) => setFiltros({ ...filtros, fechaHecho: e.target.value })} /></div>
-            <div className="col"><input type="date" className="form-control" onChange={(e) => setFiltros({ ...filtros, fechaVencimiento: e.target.value })} /></div>
-            <div className="col">
-              <select className="form-select" onChange={(e) => setFiltros({ ...filtros, estado: e.target.value })}>
-                <option value="">Estado ({licencias.length})</option>
-                {Object.entries(estadosContados).map(([estado, cantidad]) => (
-                  <option key={estado} value={estado}>{estado} ({cantidad})</option>
-                ))}
-              </select>
-            </div>
+      <div className='mb-3'>
+        <h5>Filtrar licencias</h5>
+        <div className='row g-2'>
+          <div className='col'><input className='form-control' placeholder='ID' onChange={(e) => setFiltros({ ...filtros, id: e.target.value })} /></div>
+          <div className='col'><input className='form-control' placeholder='Conductor' onChange={(e) => setFiltros({ ...filtros, conductor: e.target.value })} /></div>
+          <div className='col'><input type='date' className='form-control' onChange={(e) => setFiltros({ ...filtros, fechaHecho: e.target.value })} /></div>
+          <div className='col'><input type='date' className='form-control' onChange={(e) => setFiltros({ ...filtros, fechaVencimiento: e.target.value })} /></div>
+          <div className='col'>
+            <select className='form-select' onChange={(e) => setFiltros({ ...filtros, estado: e.target.value })}>
+              <option value=''>Estado ({licencias.length})</option>
+              {Object.entries(estadosContados).map(([estado, cantidad]) => (
+                <option key={estado} value={estado}>{estado} ({cantidad})</option>
+              ))}
+            </select>
           </div>
-    </div>
+        </div>
+      </div>
       <div className='table-responsive'>
         <table className='table'>
           <thead className='border-info fw-bold'>
@@ -99,31 +103,30 @@ export function LicenciaList ({ licencias, fetchNextPage, hasNextPage, handleEdi
 
           <tbody>
             {licenciasFiltrados
-            .filter(licencia => licencia) // <-- elimina undefined
-            .map((licencia) => {
-              return (
-                <tr key={licencia.id}>
-                  <td className='border-dark' style={{ borderRightWidth: 1 }}>{licencia.id}</td>
-                  <td className='text-center'>{licencia.conductor.nombre ? licencia.conductor.nombre : 'Sin nombre'} {licencia.conductor.apellido?licencia.conductor.apellido:'Sin apellido'}</td>
-                  <td className='text-center'>{licencia.fechaHecho? new Date(new Date(licencia.fechaHecho).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR'): 'Sin fecha'}</td>
-                  <td className='text-center'>{licencia.fechaVencimiento? new Date(new Date(licencia.fechaVencimiento).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR'): 'Sin fecha'}</td>
-                  <td className='text-center'>
-                    <EstadoBadge estado={licencia.estado} />
-                  </td>
-                  <td className='text-end'>
-                    <button style={{ marginTop: '-10px'}}
-                      className='btn btn-sm bg-info text-white me-2'
-                      onClick={handleEdit.bind(this, licencia)}
-                    >
-                      Editar
-                    </button>
-                    <button style={{ marginTop: '-10px'}} className='btn btn-sm bg-danger text-white' onClick={async () => deleteMutation(licencia.id)}>
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              )
-            })}
+              .filter(licencia => licencia) // <-- elimina undefined
+              .map((licencia) => {
+                return (
+                  <tr key={licencia.id}>
+                    <td className='border-dark' style={{ borderRightWidth: 1 }}>{licencia.id}</td>
+                    <td className='text-center'>{licencia.conductor.nombre ? licencia.conductor.nombre : 'Sin nombre'} {licencia.conductor.apellido ? licencia.conductor.apellido : 'Sin apellido'}</td>
+                    <td className='text-center'>{licencia.fechaHecho ? new Date(new Date(licencia.fechaHecho).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
+                    <td className='text-center'>{licencia.fechaVencimiento ? new Date(new Date(licencia.fechaVencimiento).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
+                    <td className='text-center'>
+                      <EstadoBadge estado={licencia.estado} />
+                    </td>
+                    <td className='text-end'>
+                      <div className='d-flex justify-content-end align-items-center gap-2'>
+                        <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-info text-white' onClick={handleEdit.bind(this, licencia)}>
+                          Editar
+                        </button>
+                        <button style={{ marginTop: '-10px' }} className='btn btn-sm btn-danger' onClick={async () => deleteMutation(licencia.id)}>
+                          Eliminar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })}
 
           </tbody>
         </table>
