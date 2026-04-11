@@ -20,7 +20,7 @@ export default function AdminLayout () {
     <div className='app-root d-flex'>
       {/* SIDEBAR */}
       <aside className={`sidebar ${showSidebar ? 'open' : 'closed'}`}>
-        <div className='sidebar-top '>
+        <div className='sidebar-top'>
         <h1 className='mb-4 text-center text-white funnel-display-h1'>Mi ferrocarril</h1>
           
 
