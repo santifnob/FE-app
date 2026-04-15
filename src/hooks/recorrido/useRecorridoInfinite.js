@@ -1,17 +1,17 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { api } from "../../services/api.js"
 
-export function useRecorridosInfinite( { filterColumn, filterValue } ) {
+export function useRecorridosInfinite( { filters = {} } ) {
   return useInfiniteQuery({
-    queryKey: ["recorridosInfinite", filterColumn, filterValue],
+    queryKey: ["recorridosInfinite", filters],
     queryFn: async ({ pageParam = null }) => {
+      const params = {
+        limit: 10,
+        cursor: pageParam,
+        ...filters
+      }
       const res = await api.get("/recorrido", {
-        params: { 
-          limit: 10,
-          cursor: pageParam,
-          ...(filterColumn ? {filterColumn} : {}),
-          ...(filterValue ? {filterValue} : {}) 
-        },
+        params,
         withCredentials: true
       })
       return res.data

@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { Modal } from '../../components/Modal.jsx'
 import { RecorridoForm } from '../../components/recorrido/RecorridoForm.jsx'
 import { RecorridoList } from '../../components/recorrido/RecorridoList.jsx'
+import { RecorridoFilters } from '../../components/recorrido/RecorridoFilters.jsx'
 import { useRecorridoCrud } from '../../hooks/recorrido/useRecorridoCrud.js'
 
 export function RecorridoCrud() {
@@ -18,8 +20,17 @@ export function RecorridoCrud() {
     ascOrder,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   } = useRecorridoCrud()
+
+  // Limpiar sessionStorage de filtros al salir de la página
+  useEffect(() => {
+    return () => {
+      sessionStorage.removeItem('recorridoFilters_selected')
+      sessionStorage.removeItem('recorridoFilters_values')
+    }
+  }, [])
 
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
@@ -30,7 +41,9 @@ export function RecorridoCrud() {
     <div>
       <h1 className='h1 mt-2 text-center'>Lista de Recorridos</h1>
 
-      <div className='d-flex justify-content-between mb-4'>
+      <div className='d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3'>
+        <RecorridoFilters onApplyFilters={handleApplyFilters} />
+        
         <button
           className='btn btn-info'
           onClick={handleCreate}
