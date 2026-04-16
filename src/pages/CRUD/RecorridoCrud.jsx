@@ -29,6 +29,7 @@ export function RecorridoCrud() {
     return () => {
       sessionStorage.removeItem('recorridoFilters_selected')
       sessionStorage.removeItem('recorridoFilters_values')
+      sessionStorage.removeItem('recorridoFilters_applied')
     }
   }, [])
 

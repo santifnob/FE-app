@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import '../filters.css'
 
 export function RecorridoFilters({ onApplyFilters }) {
   const [selectedAttributes, setSelectedAttributes] = useState(() => {
@@ -16,16 +17,10 @@ export function RecorridoFilters({ onApplyFilters }) {
     }
   })
   const [errors, setErrors] = useState({})
-  const [appliedFilters, setAppliedFilters] = useState({})
-
-  // Guardar estado en sessionStorage
-  useEffect(() => {
-    sessionStorage.setItem('recorridoFilters_selected', JSON.stringify(selectedAttributes))
-  }, [selectedAttributes])
-
-  useEffect(() => {
-    sessionStorage.setItem('recorridoFilters_values', JSON.stringify(filters))
-  }, [filters])
+  const [appliedFilters, setAppliedFilters] = useState(() => {
+    const saved = sessionStorage.getItem('recorridoFilters_applied')
+    return saved ? JSON.parse(saved) : {}
+  })
 
   const availableAttributes = [
     { key: 'ciudadSalida', label: 'Ciudad Salida', type: 'partial' },
@@ -42,19 +37,28 @@ export function RecorridoFilters({ onApplyFilters }) {
         ? prev.filter(attr => attr !== attributeKey)
         : [...prev, attributeKey]
     )
+    sessionStorage.setItem('recorridoFilters_selected', JSON.stringify(
+      isCurrentlySelected
+        ? selectedAttributes.filter(attr => attr !== attributeKey)
+        : [...selectedAttributes, attributeKey]
+    ))
 
     // Limpiar el valor si se deselecciona
     if (isCurrentlySelected) {
       if (attributeKey === 'totalKm') {
         setFilters(prev => ({ ...prev, minKm: '', maxKm: '' }))
+        sessionStorage.setItem('recorridoFilters_values', JSON.stringify({ ...filters, minKm: '', maxKm: '' }))
       } else {
         setFilters(prev => ({ ...prev, [attributeKey]: '' }))
+        sessionStorage.setItem('recorridoFilters_values', JSON.stringify({ ...filters, [attributeKey]: '' }))
       }
     }
   }
 
   const handleFilterChange = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }))
+    const newFilters = { ...filters, [key]: value }
+    setFilters(newFilters)
+    sessionStorage.setItem('recorridoFilters_values', JSON.stringify(newFilters))
     // Limpiar errores al cambiar
     if (errors[key]) {
       setErrors(prev => ({ ...prev, [key]: '' }))
@@ -120,14 +124,18 @@ export function RecorridoFilters({ onApplyFilters }) {
       if (filters.maxKm) appliedFilters.maxKm = filters.maxKm
     }
 
-    setAppliedFilters(Object.keys(appliedFilters).length > 0 ? appliedFilters : { _empty: true })
+    setAppliedFilters(appliedFilters)
+    sessionStorage.setItem('recorridoFilters_applied', JSON.stringify(appliedFilters))
     onApplyFilters(appliedFilters)
   }
 
   const handleClearFilters = () => {
     setSelectedAttributes([])
+    sessionStorage.setItem('recorridoFilters_selected', JSON.stringify([]))
     setFilters({ ciudadSalida: '', ciudadLlegada: '', estado: '', minKm: '', maxKm: '' })
+    sessionStorage.setItem('recorridoFilters_values', JSON.stringify({ ciudadSalida: '', ciudadLlegada: '', estado: '', minKm: '', maxKm: '' }))
     setAppliedFilters({})
+    sessionStorage.setItem('recorridoFilters_applied', JSON.stringify({}))
     onApplyFilters({})
   }
 
@@ -209,10 +217,9 @@ export function RecorridoFilters({ onApplyFilters }) {
       {hasAppliedFilters && (
         <button
           type="button"
-          className="btn btn-outline-danger d-flex align-items-center justify-content-center"
+          className="clear-filters-btn"
           onClick={handleClearFilters}
           title="Limpiar filtros"
-          style={{ width: '38px', height: '38px' }}
         >
           ×
         </button>
@@ -229,6 +236,7 @@ export function RecorridoFilters({ onApplyFilters }) {
         >
           Filtrar por {selectedAttributes.length > 0 ? `(${selectedAttributes.length})` : ''}
         </button>
+
         <ul className="dropdown-menu" aria-labelledby="filterDropdown">
           {availableAttributes.map(attr => (
             <li key={attr.key}>
