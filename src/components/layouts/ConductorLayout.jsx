@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import './AdminLayout.css'
@@ -15,6 +15,12 @@ export default function AdminLayout () {
     setUser(null)
     navigate('/')
   }
+
+  useEffect(() => {
+  if (location.pathname.includes('misViajes')) {
+    setisMisViajesOpen(true)
+  }
+}, [location.pathname])
 
   return (
     <div className='app-root d-flex'>
@@ -56,16 +62,16 @@ export default function AdminLayout () {
                   onClick={() => setisMisViajesOpen(!isMisViajesOpen)}
                   role='button'
                 >
-                  🚆Mis Viajes {isMisViajesOpen ? '▲' : '▼'}
+                  🚆Mis Viajes <span className={`arrow ${isMisViajesOpen ? 'rotate' : ''}`}>▼</span>
                 </a>
 
-                {isMisViajesOpen && (
-                  <ul className='list-unstyled ms-3 w-100 h5'>
+                <ul className={`submenu list-unstyled ms-3 w-100 h5 ${isMisViajesOpen ? 'open' : ''}`}>
+                  
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/pendientes' ? 'active' : ''}`} to='/conductor/misViajes/pendientes'>⚠️ Pendientes</Link></li>
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/enCursos' ? 'active' : ''}`} to="/conductor/misViajes/enCursos">🧳 En curso</Link></li>
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/finalizados' ? 'active' : ''}`} to='/conductor/misViajes/finalizados'>✔️ Finalizados</Link></li>
-                  </ul>
-                )}
+                </ul>
+
               </li>
               <li className='nav-item my-4 h4'>
                 <Link className={`nav-link text-white ${location.pathname === '/conductor/perfil' ? 'active' : ''}`} to='/conductor/perfil'>👤 Perfil</Link>

@@ -142,3 +142,38 @@ body,
   font-style: normal;
   font-size: x-large;
 }
+
+/* Para la animación de los submenús */
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.35s ease;
+}
+
+.submenu.open {
+  max-height: 500px;
+  /* ajustable */
+  opacity: 1;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.arrow.rotate {
+  transform: rotate(180deg);
+}
+
+.submenu li {
+  transform: translateY(-5px);
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.submenu.open li {
+  transform: translateY(0);
+  opacity: 1;
+}

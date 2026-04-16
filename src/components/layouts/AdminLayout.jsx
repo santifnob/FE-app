@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import './AdminLayout.css'
@@ -15,6 +15,12 @@ export default function AdminLayout () {
     setUser(null)
     navigate('/')
   }
+
+  useEffect(() => {
+  if (location.pathname.includes('gestion')) {
+    setIsGestionOpen(true)
+  }
+}, [location.pathname])
 
   return (
     <div className='app-root d-flex'>
@@ -54,12 +60,11 @@ export default function AdminLayout () {
                   role='button'
                   onClick={() => setIsGestionOpen(!isGestionOpen)}
                 >
-                  📁 Gestión {isGestionOpen ? '▲' : '▼'}
+                  📁 Gestión <span className={`arrow ${isGestionOpen ? 'rotate' : ''}`}>▼</span>
                 </a>
 
-                {isGestionOpen && (
-                  <ul className='list-unstyled ms-3 w-100 h5'>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/trenes' ? 'active' : ''}`} to='/admin/gestion/trenes' >
+                <ul className={`submenu list-unstyled ms-3 w-100 h5 ${isGestionOpen ? 'open' : ''}`}>
+                  <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/trenes' ? 'active' : ''}`} to='/admin/gestion/trenes' >
                       🚂Trenes
                     </Link></li>
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/estadoTrenes' ? 'active' : ''}`} to='/admin/gestion/estadoTrenes'>
@@ -73,8 +78,8 @@ export default function AdminLayout () {
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/tipoCargas' ? 'active' : ''}`} to='/admin/gestion/tipoCargas'>💙Tipo Cargas</Link></li>
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/recorridos' ? 'active' : ''}`} to='/admin/gestion/recorridos'>🗺️Recorridos</Link></li>
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/lineaCargas' ? 'active' : ''}`} to='/admin/gestion/lineaCargas'>📍Líneas de cargas</Link></li>
-                  </ul>
-                )}
+                </ul>
+                
               </li>
               <li className='nav-item my-4 h4'>
                 <Link className={`nav-link text-white ${location.pathname === '/admin/viajes' ? 'active' : ''}`} to='/admin/viajes'>🚆 Viajes</Link>
