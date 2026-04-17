@@ -1,12 +1,13 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { api } from "../../services/api.js"
 
-export function useCategoriaDenunciasInfinite() {
+export function useCategoriaDenunciasInfinite({ filters = {} } = {}) {
   return useInfiniteQuery({
-    queryKey: ["categoriaDenunciasInfinite"],
+    queryKey: ["categoriaDenunciasInfinite", filters],
     queryFn: async ({ pageParam = null }) => {
+      const params = { limit: 10, cursor: pageParam, ...filters }
       const res = await api.get("/categoriaDenuncia", {
-        params: { limit: 10, cursor: pageParam },
+        params,
         withCredentials: true,
       })
       return res.data

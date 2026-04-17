@@ -2,8 +2,18 @@ import { useEffect } from 'react'
 import { Modal } from '../../components/Modal.jsx'
 import { RecorridoForm } from '../../components/recorrido/RecorridoForm.jsx'
 import { RecorridoList } from '../../components/recorrido/RecorridoList.jsx'
-import { RecorridoFilters } from '../../components/recorrido/RecorridoFilters.jsx'
+import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { useRecorridoCrud } from '../../hooks/recorrido/useRecorridoCrud.js'
+
+const recorridoFilterAttributes = [
+  { key: 'ciudadSalida', label: 'Ciudad Salida', type: 'partial' },
+  { key: 'ciudadLlegada', label: 'Ciudad Llegada', type: 'partial' },
+  { key: 'estado', label: 'Estado', type: 'exact', options: [
+    { value: 'Activo', label: 'Activo' },
+    { value: 'Inactivo', label: 'Inactivo' }
+  ] },
+  { key: 'totalKm', label: 'Total Km', type: 'range', minKey: 'minKm', maxKey: 'maxKm' }
+]
 
 export function RecorridoCrud() {
   const {
@@ -43,7 +53,11 @@ export function RecorridoCrud() {
       <h1 className='h1 mt-2 text-center'>Lista de Recorridos</h1>
 
       <div className='d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3'>
-        <RecorridoFilters onApplyFilters={handleApplyFilters} />
+        <EntityFilters
+          entityName='recorrido'
+          availableAttributes={recorridoFilterAttributes}
+          onApplyFilters={handleApplyFilters}
+        />
         
         <button
           className='btn btn-info'

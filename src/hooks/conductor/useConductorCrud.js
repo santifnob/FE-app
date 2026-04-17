@@ -8,7 +8,8 @@ export function useConductorCrud() {
   const [showModal, setShowModal] = useState(false)
   const conductorToEdit = useRef(null) // para manejar si es edición o creación
   const { mutateAsync: deleteMutation } = useConductoresDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, isFetchingNextPage } = useConductoresInfinite({filterColumn: undefined, filterValue: undefined})
+  const [filters, setFilters] = useState({})
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, isFetchingNextPage, refetch } = useConductoresInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false)
   const { mutateAsync: findOneMutation } = ConductorGetOne() // find one conductor
 
@@ -37,6 +38,11 @@ export function useConductorCrud() {
     setAscOrder(!ascOrder)
   }
 
+  const handleApplyFilters = async (newFilters) => {
+    setFilters(newFilters)
+    await refetch()
+  }
+
   return {
     conductores,
     showModal,
@@ -61,6 +67,7 @@ export function useConductorCrud() {
     handleFilter,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   }
 }

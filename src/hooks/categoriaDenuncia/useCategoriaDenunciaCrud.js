@@ -8,7 +8,8 @@ export function useCategoriaDenunciaCrud() {
   const [showModal, setShowModal] = useState(false)
   const categoriaDenunciaToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useCategoriaDenunciasDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useCategoriaDenunciasInfinite()
+  const [filters, setFilters] = useState({})
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useCategoriaDenunciasInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = CategoriaDenunciaGetOne() // find one 
   
@@ -39,6 +40,11 @@ export function useCategoriaDenunciaCrud() {
     setAscOrder(!ascOrder)
   }
 
+  const handleApplyFilters = async (newFilters) => {
+    setFilters(newFilters)
+    await refetch()
+  }
+
   return {
     categoriaDenuncias,
     showModal,
@@ -54,6 +60,7 @@ export function useCategoriaDenunciaCrud() {
     handleFilter,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   }
 }

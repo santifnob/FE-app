@@ -10,6 +10,7 @@ export function useRecorridosInfinite( { filters = {} } ) {
         cursor: pageParam,
         ...filters
       }
+      console.log(filters)
       const res = await api.get("/recorrido", {
         params,
         withCredentials: true

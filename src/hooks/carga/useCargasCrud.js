@@ -8,7 +8,8 @@ export function useCargaCrud() {
   const [showModal, setShowModal] = useState(false)
   const cargaToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useCargasDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useCargasInfinite()
+  const [filters, setFilters] = useState({})
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useCargasInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = CargaGetOne() // find one 
   
@@ -39,6 +40,11 @@ export function useCargaCrud() {
     setAscOrder(!ascOrder)
   }
 
+  const handleApplyFilters = async (newFilters) => {
+    setFilters(newFilters)
+    await refetch()
+  }
+
   return {
     cargas,
     showModal,
@@ -54,6 +60,7 @@ export function useCargaCrud() {
     handleFilter,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   }
 }

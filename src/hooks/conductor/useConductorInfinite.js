@@ -1,16 +1,16 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { api } from '../../services/api.js'
 
-export function useConductoresInfinite ( { filterColumn, filterValue } ) {
+export function useConductoresInfinite ( {filters = {}} ) {
   return useInfiniteQuery({
-    queryKey: ['conductoresInfinite', filterColumn, filterValue], // dependencias para que se vuelva a ejecutar la query
+    queryKey: ['conductoresInfinite', filters],
     queryFn: async ({ pageParam = null }) => {
       const res = await api.get('/conductor', {
-        params: { 
+        params: {
           limit: 10,
           cursor: pageParam,
-          ...(filterColumn ? { filterColumn } : {}), 
-          ...(filterValue ? {filterValue}: {})},  // Validacion para evitar valores nulos 
+          ...filters,
+        },
         withCredentials: true
       })
       return res.data

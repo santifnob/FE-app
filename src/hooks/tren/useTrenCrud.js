@@ -8,7 +8,8 @@ export function useTrenCrud() {
   const [showModal, setShowModal] = useState(false)
   const trenToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useTrenesDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useTrenesInfinite( { filterColumn: undefined, filterValue: undefined} )
+  const [filters, setFilters] = useState({})
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useTrenesInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = TrenGetOne() // find one 
   
@@ -39,6 +40,11 @@ export function useTrenCrud() {
     setAscOrder(!ascOrder)
   }
 
+  const handleApplyFilters = async (newFilters) => {
+    setFilters(newFilters)
+    await refetch()
+  }
+
   return {
     trenes,
     showModal,
@@ -54,6 +60,7 @@ export function useTrenCrud() {
     handleFilter,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   }
 }

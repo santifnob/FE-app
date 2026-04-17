@@ -1,12 +1,13 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { api } from "../../services/api.js"
 
-export function useViajesInfinite() {
+export function useViajesInfinite({ filters = {} } = {}) {
   return useInfiniteQuery({
-    queryKey: ["viajesInfinite"],
+    queryKey: ["viajesInfinite", filters],
     queryFn: async ({ pageParam = null }) => {
+      const params = { limit: 10, cursor: pageParam, ...filters }
       const res = await api.get("/viaje", {
-        params: { limit: 10, cursor: pageParam },
+        params,
         withCredentials: true,
       })
       return res.data

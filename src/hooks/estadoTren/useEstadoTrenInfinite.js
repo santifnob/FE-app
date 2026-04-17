@@ -1,12 +1,13 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { api } from "../../services/api.js"
 
-export function useEstadoTrenesInfinite() {
+export function useEstadoTrenesInfinite({ filters = {} } = {}) {
   return useInfiniteQuery({
-    queryKey: ["estadoTrenesInfinite"],
+    queryKey: ["estadoTrenesInfinite", filters],
     queryFn: async ({ pageParam = null }) => {
+      const params = { limit: 10, cursor: pageParam, ...filters }
       const res = await api.get("/estadoTren", {
-        params: { limit: 10, cursor: pageParam },
+        params,
         withCredentials: true,
       })
       return res.data

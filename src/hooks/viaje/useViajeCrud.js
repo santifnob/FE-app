@@ -8,7 +8,8 @@ export function useViajeCrud() {
   const [showModal, setShowModal] = useState(false)
   const viajeToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useViajesDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useViajesInfinite()
+  const [filters, setFilters] = useState({})
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useViajesInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = ViajeFindAll() // find one 
   
@@ -39,6 +40,11 @@ export function useViajeCrud() {
     setAscOrder(!ascOrder)
   }
 
+  const handleApplyFilters = async (newFilters) => {
+    setFilters(newFilters)
+    await refetch()
+  }
+
   return {
     viajes,
     showModal,
@@ -54,6 +60,7 @@ export function useViajeCrud() {
     handleFilter,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   }
 }

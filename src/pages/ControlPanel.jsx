@@ -4,7 +4,7 @@ import { useConductoresInfinite } from "../hooks/conductor/useConductorInfinite.
 import InfiniteScroll from "react-infinite-scroll-component"
 
 export function ControlPanel() {
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useConductoresInfinite({filterColumn: 'estado', filterValue: 'Pendiente'})
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useConductoresInfinite({ filters: {estado: "Inactivo"} })
   const [conductores , setConductores] = useState([])
 
   useEffect(() => {
