@@ -2,6 +2,7 @@ import { Modal } from '../../components/Modal.jsx'
 import { CargaForm } from '../../components/carga/CargaForm.jsx'
 import { CargaList } from '../../components/carga/CargaList.jsx'
 import { useCargaCrud } from '../../hooks/carga/useCargasCrud.js'
+import { EntityFilters } from '../../components/EntityFilters.jsx'
 
 export function CargaCrud() {
   const {
@@ -18,8 +19,20 @@ export function CargaCrud() {
     ascOrder,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   } = useCargaCrud()
+
+  const cargaFilterAttributes = [
+    { key: 'id', label: 'ID', type: 'id' },
+    { key: 'name', label: 'Nombre', type: 'partial' },
+    { key: 'precio', label: 'Precio', type: 'range' },
+    { key: 'estado', label: 'Estado', type: 'exact', options: [
+      { label: 'Activo', value: 'Activo' },
+      { label: 'Inactivo', value: 'Inactivo' }
+    ]},
+    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
+  ]
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
 
@@ -29,9 +42,14 @@ export function CargaCrud() {
     <div>
       <h1 className='h1 mt-2 text-center'>Lista de Cargas</h1>
 
-      <div className='d-flex justify-content-between mb-4'>
+      <div className='d-flex justify-content-start align-items-start gap-3 mb-4'>
+        <EntityFilters
+          entityName='carga'
+          availableAttributes={cargaFilterAttributes}
+          onApplyFilters={handleApplyFilters}
+        />
         <button
-          className='btn btn-info'
+          className='btn btn-info flex-shrink-0'
           onClick={handleCreate}
         >
           Crear una carga

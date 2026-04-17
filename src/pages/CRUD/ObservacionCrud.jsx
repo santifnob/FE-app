@@ -2,6 +2,7 @@ import { Modal } from '../../components/Modal.jsx'
 import { ObservacionForm } from '../../components/observacion/ObservacionForm.jsx'
 import { ObservacionList } from '../../components/observacion/ObservacionList.jsx'
 import { useObservacionCrud } from '../../hooks/observacion/useObservacionCrud.js'
+import { EntityFilters } from '../../components/EntityFilters.jsx'
 
 export function ObservacionCrud() {
   const {
@@ -18,8 +19,21 @@ export function ObservacionCrud() {
     ascOrder,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   } = useObservacionCrud()
+
+  const observacionFilterAttributes = [
+    { key: 'id', label: 'ID', type: 'id' },
+    { key: 'observaciones', label: 'Observaciones', type: 'partial' },
+    { key: 'estado', label: 'Estado', type: 'exact', options: [
+      { label: 'Activo', value: 'Activo' },
+      { label: 'Inactivo', value: 'Inactivo' }
+    ]},
+    { key: 'categoriaDenunciaId', label: 'ID Categoría Denuncia', type: 'id' },
+    { key: 'viajeId', label: 'ID Viaje', type: 'id' },
+    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
+  ]
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
 
@@ -29,9 +43,14 @@ export function ObservacionCrud() {
     <div>
       <h1 className='h1 mt-2 text-center'>Lista de Observaciones</h1>
 
-      <div className='d-flex justify-content-between mb-4'>
+      <div className='d-flex justify-content-start align-items-start gap-3 mb-4'>
+        <EntityFilters
+          entityName='observacion'
+          availableAttributes={observacionFilterAttributes}
+          onApplyFilters={handleApplyFilters}
+        />
         <button
-          className='btn btn-info'
+          className='btn btn-info flex-shrink-0'
           onClick={handleCreate}
         >
           Crear una Observacion

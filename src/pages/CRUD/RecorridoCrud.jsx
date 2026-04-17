@@ -52,7 +52,7 @@ export function RecorridoCrud() {
     <div>
       <h1 className='h1 mt-2 text-center'>Lista de Recorridos</h1>
 
-      <div className='d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3'>
+      <div className='d-flex justify-content-start align-items-start gap-3 mb-4'>
         <EntityFilters
           entityName='recorrido'
           availableAttributes={recorridoFilterAttributes}
@@ -60,7 +60,7 @@ export function RecorridoCrud() {
         />
         
         <button
-          className='btn btn-info'
+          className='btn btn-info flex-shrink-0'
           onClick={handleCreate}
         >
           Crear un recorrido

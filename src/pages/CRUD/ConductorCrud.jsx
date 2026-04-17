@@ -2,6 +2,7 @@ import { Modal } from '../../components/Modal.jsx'
 import { ConductorForm } from '../../components/conductor/ConductorForm.jsx'
 import { ConductorList } from '../../components/conductor/ConductorList.jsx'
 import { useConductorCrud } from '../../hooks/conductor/useConductorCrud.js'
+import { EntityFilters } from '../../components/EntityFilters.jsx'
 
 export function ConductorCrud () {
 
@@ -19,8 +20,21 @@ export function ConductorCrud () {
     ascOrder,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   } = useConductorCrud()
+
+  const conductorFilterAttributes = [
+    { key: 'id', label: 'ID', type: 'id' },
+    { key: 'nombre', label: 'Nombre', type: 'partial' },
+    { key: 'apellido', label: 'Apellido', type: 'partial' },
+    { key: 'email', label: 'Email', type: 'partial' },
+    { key: 'estado', label: 'Estado', type: 'exact', options: [
+      { label: 'Activo', value: 'Activo' },
+      { label: 'Inactivo', value: 'Inactivo' }
+    ]},
+    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
+  ]
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
 
@@ -30,9 +44,14 @@ export function ConductorCrud () {
     <div>
       <h1 className='h1 mt-2 text-center'>Lista de Conductores</h1>
 
-      <div className='d-flex justify-content-between mb-4'>
+      <div className='d-flex justify-content-start align-items-start gap-3 mb-4'>
+        <EntityFilters
+          entityName='conductor'
+          availableAttributes={conductorFilterAttributes}
+          onApplyFilters={handleApplyFilters}
+        />
         <button
-          className='btn btn-info'
+          className='btn btn-info flex-shrink-0'
           onClick={handleCreate}
         >
           Crear un Conductor

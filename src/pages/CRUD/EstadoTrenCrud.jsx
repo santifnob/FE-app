@@ -2,6 +2,7 @@ import { Modal } from '../../components/Modal.jsx'
 import { EstadoTrenForm } from '../../components/estadoTren/EstadoTrenForm.jsx'
 import { EstadoTrenList } from '../../components/estadoTren/EstadoTrenList.jsx'
 import { useEstadoTrenCrud } from '../../hooks/estadoTren/useEstadoTrenCrud.js'
+import { EntityFilters } from '../../components/EntityFilters.jsx'
 
 export function EstadoTrenCrud() {
   
@@ -19,9 +20,21 @@ export function EstadoTrenCrud() {
     ascOrder,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   } = useEstadoTrenCrud()
 
+  const estadoTrenFilterAttributes = [
+    { key: 'id', label: 'ID', type: 'id' },
+    { key: 'nombre', label: 'Nombre', type: 'partial' },
+    { key: 'fechaVigencia', label: 'Fecha de vigencia', type: 'dateRange', startKey: 'fechaVigenciaIni', endKey: 'fechaVigenciaFin' },
+    { key: 'estado', label: 'Estado', type: 'exact', options: [
+      { label: 'Activo', value: 'Activo' },
+      { label: 'Inactivo', value: 'Inactivo' }
+    ]},
+    { key: 'trenId', label: 'ID Tren', type: 'id' },
+    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
+  ]
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
 
@@ -31,9 +44,14 @@ export function EstadoTrenCrud() {
     <div>
       <h1 className='h1 mt-2 text-center'>Lista de Estados de trenes</h1>
 
-      <div className='d-flex justify-content-between mb-4'>
+      <div className='d-flex justify-content-start align-items-start gap-3 mb-4'>
+        <EntityFilters
+          entityName='estadoTren'
+          availableAttributes={estadoTrenFilterAttributes}
+          onApplyFilters={handleApplyFilters}
+        />
         <button
-          className='btn btn-info'
+          className='btn btn-info flex-shrink-0'
           onClick={handleCreate}
         >
           Crear un estado de Tren

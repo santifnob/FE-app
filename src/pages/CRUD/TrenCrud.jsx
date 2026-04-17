@@ -2,6 +2,7 @@ import { Modal } from '../../components/Modal.jsx'
 import { TrenForm } from '../../components/tren/TrenForm.jsx'
 import { TrenList } from '../../components/tren/TrenList.jsx'
 import { useTrenCrud } from '../../hooks/tren/useTrenCrud.js'
+import { EntityFilters } from '../../components/EntityFilters.jsx'
 
 export function TrenCrud() {
   const {
@@ -18,9 +19,16 @@ export function TrenCrud() {
     ascOrder,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   } = useTrenCrud()
 
+  const trenFilterAttributes = [
+  { key: 'modelo', label: 'Modelo', type: 'partial' },
+  { key: 'id', label: 'Tren ID', type: 'id' },
+  { key: 'Estado Tren', label: 'Estado Tren Id', type: 'partial' },
+  { key: 'fechaCreacion', label: 'Fecha de creacion', type: 'dateRange', startKey: 'fechaIni', endKey: 'fechaFin' }
+]
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
 
@@ -30,9 +38,14 @@ export function TrenCrud() {
     <div>
       <h1 className='h1 mt-2 text-center'>Lista de Trenes</h1>
 
-      <div className='d-flex justify-content-between mb-4'>
+      <div className='d-flex justify-content-start align-items-start gap-3 mb-4'>
+        <EntityFilters
+          entityName='tren'
+          availableAttributes={trenFilterAttributes}
+          onApplyFilters={handleApplyFilters}
+        />
         <button
-          className='btn btn-info'
+          className='btn btn-info flex-shrink-0'
           onClick={handleCreate}
         >
           Crear un tren

@@ -12,7 +12,7 @@ export function useRecorridoCrud() {
   const [filters, setFilters] = useState({})
   const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useRecorridosInfinite({filters})
   const [ascOrder, setAscOrder] = useState(false);
-  // const { mutateAsync: findOneMutation} = RecorridoGetOne() // find one 
+  const { mutateAsync: findOneMutation} = RecorridoGetOne() // find one
   
   useEffect(() => {
     const recorridos = data?.pages.flatMap(page => page.items) ?? []
@@ -21,11 +21,10 @@ export function useRecorridoCrud() {
     // logica que va a ser necesaria para hacer filtrados locales
   }, [data, ascOrder])
 
-  // const handleFilter = async (recorridoId) => {
-  //   const recorrido = await findOneMutation(recorridoId)
-  //   setRecorridos([recorrido])
-
-  // }
+  const handleFilter = async (recorridoId) => {
+    const recorrido = await findOneMutation(recorridoId)
+    setRecorridos([recorrido])
+  }
 
   const handleApplyFilters = (newFilters) => {
     setFilters(newFilters)
@@ -58,6 +57,7 @@ export function useRecorridoCrud() {
     isError,
     error,
     ascOrder,
+    handleFilter,
     handleEdit,
     handleCreate,
     handleAscOrder,

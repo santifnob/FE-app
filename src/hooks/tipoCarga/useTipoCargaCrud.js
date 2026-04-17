@@ -8,7 +8,8 @@ export function useTipoCargaCrud() {
   const [showModal, setShowModal] = useState(false)
   const tipoCargaToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useTipoCargasDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useTipoCargasInfinite()
+  const [filters, setFilters] = useState({});
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useTipoCargasInfinite({filters})
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = TipoCargaGetOne() // find one 
   
@@ -23,6 +24,11 @@ export function useTipoCargaCrud() {
     const tipoCarga = await findOneMutation(tipoCargaId)
     setTipoCargas([tipoCarga])
 
+  }
+
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters)
+    refetch() // Refetch con los nuevos filtros
   }
 
   const handleEdit = (tipoCarga) => {
@@ -54,6 +60,7 @@ export function useTipoCargaCrud() {
     handleFilter,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   }
 }

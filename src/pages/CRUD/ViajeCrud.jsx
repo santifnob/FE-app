@@ -54,14 +54,14 @@ export function ViajeCrud() {
     <div>
       <h1 className='h1 mt-2 text-center'>Lista de Viajes</h1>
 
-      <div className='d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-4'>
+      <div className='d-flex justify-content-start align-items-start gap-3 mb-4'>
         <EntityFilters
           entityName='viaje'
           availableAttributes={viajeFilterAttributes}
           onApplyFilters={handleApplyFilters}
         />
         <button
-          className='btn btn-info'
+          className='btn btn-info flex-shrink-0'
           onClick={handleCreate}
         >
           Crear un viaje

@@ -8,7 +8,8 @@ export function useLineaCargaCrud () {
   const [showModal, setShowModal] = useState(false)
   const lineaCargaToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useLineaCargasDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useLineaCargasInfinite()
+  const [filters, setFilters] = useState({});
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useLineaCargasInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false)
   const { mutateAsync: findOneMutation } = LineaCargaGetOne() // find one
 
@@ -38,6 +39,11 @@ export function useLineaCargaCrud () {
     setAscOrder(!ascOrder)
   }
 
+  const handleApplyFilters = async (newFilters) => {
+    setFilters(newFilters)
+    await refetch()
+  }
+
   return {
     lineaCargas,
     showModal,
@@ -53,6 +59,7 @@ export function useLineaCargaCrud () {
     handleFilter,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   }
 }

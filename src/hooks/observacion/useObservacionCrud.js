@@ -8,7 +8,8 @@ export function useObservacionCrud () {
   const [showModal, setShowModal] = useState(false)
   const observacionToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useObservacionesDelete()
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, error } = useObservacionesInfinite()
+  const [filters, setFilters] = useState({});
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useObservacionesInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false)
   const { mutateAsync: findOneMutation } = ObservacionGetOne() // find one
 
@@ -38,6 +39,11 @@ export function useObservacionCrud () {
     setAscOrder(!ascOrder)
   }
 
+  const handleApplyFilters = async (newFilters) => {
+    setFilters(newFilters)
+    await refetch()
+  }
+
   return {
     observaciones,
     showModal,
@@ -53,6 +59,7 @@ export function useObservacionCrud () {
     handleFilter,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   }
 }

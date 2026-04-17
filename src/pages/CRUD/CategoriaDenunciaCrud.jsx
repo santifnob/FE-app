@@ -2,6 +2,7 @@ import { Modal } from '../../components/Modal.jsx'
 import { CategoriaDenunciaForm } from '../../components/categoriaDenuncia/CategoriaDenunciaForm.jsx'
 import { CategoriaDenunciaList } from '../../components/categoriaDenuncia/CategoriaDenunciaList.jsx'
 import { useCategoriaDenunciaCrud } from '../../hooks/categoriaDenuncia/useCategoriaDenunciaCrud.js'
+import { EntityFilters } from '../../components/EntityFilters.jsx'
 
 export function CategoriaDenunciaCrud() {
 
@@ -19,9 +20,20 @@ export function CategoriaDenunciaCrud() {
     ascOrder,
     handleEdit,
     handleCreate,
-    handleAscOrder
+    handleAscOrder,
+    handleApplyFilters
   } = useCategoriaDenunciaCrud()
 
+  const categoriaDenunciaFilterAttributes = [
+    { key: 'id', label: 'ID', type: 'id' },
+    { key: 'titulo', label: 'Título', type: 'partial' },
+    { key: 'descripcion', label: 'Descripción', type: 'partial' },
+    { key: 'estado', label: 'Estado', type: 'exact', options: [
+      { label: 'Activo', value: 'Activo' },
+      { label: 'Inactivo', value: 'Inactivo' }
+    ]},
+    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
+  ]
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
 
@@ -31,9 +43,14 @@ export function CategoriaDenunciaCrud() {
     <div>
       <h1 className='h1 mt-2 text-center'>Lista de Categorias de Denuncias</h1>
 
-      <div className='d-flex justify-content-between mb-4'>
+      <div className='d-flex justify-content-start align-items-start gap-3 mb-4'>
+        <EntityFilters
+          entityName='categoriaDenuncia'
+          availableAttributes={categoriaDenunciaFilterAttributes}
+          onApplyFilters={handleApplyFilters}
+        />
         <button
-          className='btn btn-info'
+          className='btn btn-info flex-shrink-0'
           onClick={handleCreate}
         >
           Crear una Categoria de Denuncia
