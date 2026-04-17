@@ -8,7 +8,10 @@ export function useCategoriaDenunciaCrud() {
   const [showModal, setShowModal] = useState(false)
   const categoriaDenunciaToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useCategoriaDenunciasDelete()
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState(() => {
+    const saved = sessionStorage.getItem('categoriaDenunciaFilters_applied')
+    return saved ? JSON.parse(saved) : {}
+  })
   const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useCategoriaDenunciasInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = CategoriaDenunciaGetOne() // find one 

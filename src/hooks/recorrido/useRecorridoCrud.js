@@ -9,7 +9,10 @@ export function useRecorridoCrud() {
   const [showModal, setShowModal] = useState(false)
   const recorridoToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useRecorridosDelete()
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState(() => {
+    const saved = sessionStorage.getItem('recorridoFilters_applied')
+    return saved ? JSON.parse(saved) : {}
+  })
   const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useRecorridosInfinite({filters})
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = RecorridoGetOne() // find one

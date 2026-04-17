@@ -1,31 +1,5 @@
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useState } from 'react'
-
 export function LicenciaList({ licencias, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
-  const [filtros, setFiltros] = useState({
-    id: '',
-    conductor: '',
-    fechaHecho: '',
-    fechaVencimiento: '',
-    estado: ''
-  })
-
-  // Contar estados fuera del componente EstadoBadgeConductor
-  const estadosContados = licencias.reduce((acc, conductor) => {
-    const estado = conductor.estado ?? 'Sin estado'
-    acc[estado] = (acc[estado] || 0) + 1
-    return acc
-  }, {})
-
-  const licenciasFiltrados = licencias.filter((c) => {
-    return (
-      (!filtros.id || c.id.toString().includes(filtros.id)) &&
-      (!filtros.conductor || `${c.conductor?.nombre ?? ''} ${c.conductor?.apellido ?? ''}`.toLowerCase().includes(filtros.conductor.toLowerCase())) &&
-      (!filtros.fechaHecho || c.fechaHecho?.startsWith(filtros.fechaHecho)) &&
-      (!filtros.fechaVencimiento || c.fechaVencimiento?.startsWith(filtros.fechaVencimiento)) &&
-      (!filtros.estado || c.estado === filtros.estado)
-    )
-  })
 
   const EstadoBadge = ({ estado }) => {
     let estadoTexto = 'Sin estado'
@@ -86,7 +60,7 @@ export function LicenciaList({ licencias, fetchNextPage, hasNextPage, handleEdit
           </thead>
 
           <tbody>
-            {licenciasFiltrados
+            {licencias
               .filter(licencia => licencia) // <-- elimina undefined
               .map((licencia) => {
                 return (

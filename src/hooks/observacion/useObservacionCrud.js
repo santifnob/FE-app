@@ -8,7 +8,10 @@ export function useObservacionCrud () {
   const [showModal, setShowModal] = useState(false)
   const observacionToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useObservacionesDelete()
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(() => {
+    const saved = sessionStorage.getItem('observacionFilters_applied')
+    return saved ? JSON.parse(saved) : {}
+  });
   const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useObservacionesInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false)
   const { mutateAsync: findOneMutation } = ObservacionGetOne() // find one

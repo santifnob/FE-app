@@ -332,7 +332,7 @@ export function EntityFilters({ entityName, availableAttributes, onApplyFilters 
         return null
     }
   }
-
+  
   return (
     <div className="d-flex flex-column flex-sm-row align-items-start gap-2 w-100">
       {hasAppliedFilters && (

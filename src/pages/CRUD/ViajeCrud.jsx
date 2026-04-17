@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Modal } from '../../components/Modal.jsx'
 import { ViajeForm } from '../../components/viaje/ViajeForm.jsx'
 import { ViajeTableExpandable } from '../../components/viaje/ViajeTableExpandable.jsx'
@@ -37,14 +36,6 @@ export function ViajeCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useViajeCrud()
-
-  useEffect(() => {
-    return () => {
-      sessionStorage.removeItem('viajeFilters_selected')
-      sessionStorage.removeItem('viajeFilters_values')
-      sessionStorage.removeItem('viajeFilters_applied')
-    }
-  }, [])
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
 

@@ -8,7 +8,10 @@ export function useLicenciaCrud () {
   const [showModal, setShowModal] = useState(false)
   const licenciaToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useLicenciasDelete()
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(() => {
+    const saved = sessionStorage.getItem('licenciaFilters_applied')
+    return saved ? JSON.parse(saved) : {}
+  });
   const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useLicenciasInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false)
   const { mutateAsync: findOneMutation } = LicenciaGetOne() // find one

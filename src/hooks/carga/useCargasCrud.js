@@ -8,7 +8,10 @@ export function useCargaCrud() {
   const [showModal, setShowModal] = useState(false)
   const cargaToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useCargasDelete()
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState(() => {
+    const saved = sessionStorage.getItem('cargaFilters_applied')
+    return saved ? JSON.parse(saved) : {}
+  })
   const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useCargasInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = CargaGetOne() // find one 

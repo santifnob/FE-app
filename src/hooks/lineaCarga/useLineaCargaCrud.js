@@ -8,7 +8,10 @@ export function useLineaCargaCrud () {
   const [showModal, setShowModal] = useState(false)
   const lineaCargaToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useLineaCargasDelete()
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(() => {
+    const saved = sessionStorage.getItem('lineaCargaFilters_applied')
+    return saved ? JSON.parse(saved) : {}
+  });
   const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useLineaCargasInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false)
   const { mutateAsync: findOneMutation } = LineaCargaGetOne() // find one

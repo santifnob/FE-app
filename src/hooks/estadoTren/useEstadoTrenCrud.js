@@ -8,7 +8,10 @@ export function useEstadoTrenCrud() {
   const [showModal, setShowModal] = useState(false)
   const estadoTrenToEdit = useRef(null) // variable para menejar si es edicion o creacion
   const { mutateAsync: deleteMutation } = useEstadoTrenesDelete()
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(() => {
+    const saved = sessionStorage.getItem('estadoTrenFilters_applied')
+    return saved ? JSON.parse(saved) : {}
+  });
   const { data, fetchNextPage, hasNextPage, isLoading, isError, error, refetch } = useEstadoTrenesInfinite({ filters })
   const [ascOrder, setAscOrder] = useState(false);
   const { mutateAsync: findOneMutation} = EstadoTrenGetOne() // find one 

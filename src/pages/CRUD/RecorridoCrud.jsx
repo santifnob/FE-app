@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Modal } from '../../components/Modal.jsx'
 import { RecorridoForm } from '../../components/recorrido/RecorridoForm.jsx'
 import { RecorridoList } from '../../components/recorrido/RecorridoList.jsx'
@@ -33,15 +32,6 @@ export function RecorridoCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useRecorridoCrud()
-
-  // Limpiar sessionStorage de filtros al salir de la página
-  useEffect(() => {
-    return () => {
-      sessionStorage.removeItem('recorridoFilters_selected')
-      sessionStorage.removeItem('recorridoFilters_values')
-      sessionStorage.removeItem('recorridoFilters_applied')
-    }
-  }, [])
 
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
