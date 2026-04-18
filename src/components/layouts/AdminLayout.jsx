@@ -27,8 +27,7 @@ export default function AdminLayout () {
       {/* SIDEBAR */}
       <aside className={`sidebar ${showSidebar ? 'open' : 'closed'}`}>
         <div className='sidebar-top'>
-        <h1 className='mb-4 text-center text-white funnel-display-h1'>Mi ferrocarril</h1>
-          
+          <h1 className='mb-4 text-center text-white funnel-display-h1'>Mi ferrocarril</h1>
 
           <div className='d-flex justify-content-center mt-1 mb-4'>
             <div
