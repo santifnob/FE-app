@@ -7,10 +7,12 @@ import { ViajeCards } from '../../components/viaje/ViajeCards.jsx'
 
 const viajeFilterAttributes = [
   { key: 'estado', label: 'Estado', type: 'exact', options: [
-    { value: 'Pendiente', label: 'Pendiente' },
-    { value: 'En curso', label: 'En curso' },
+    { value: 'Cancelado/Suspendido', label: 'Cancelado/Suspendido' },
+    { value: 'Rechazado', label: 'Rechazado' },
+    { value: 'Viaje no aceptado', label: 'Viaje no aceptado' },
     { value: 'Finalizado', label: 'Finalizado' },
-    { value: 'Inactivo', label: 'Inactivo' }
+    { value: 'Programado', label: 'Programado' },
+    { value: 'En curso', label: 'En curso' }
   ] },
   { key: 'trenId', label: 'Tren ID', type: 'id' },
   { key: 'conductorId', label: 'Conductor ID', type: 'id' },

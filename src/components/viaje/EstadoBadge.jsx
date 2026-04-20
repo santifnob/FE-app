@@ -1,4 +1,5 @@
 export function EstadoBadge({ viaje, variant = 'table' }) {
+  // Use the computed status from backend if available, otherwise compute it
   const getEstadoTexto = (viaje) => {
     const hoy = new Date()
     const fechaIni = new Date(viaje.fechaIni)
@@ -11,7 +12,7 @@ export function EstadoBadge({ viaje, variant = 'table' }) {
       return 'Rechazado'
     }
     if (viaje.estado === 'Pendiente') {
-      fechaIni > hoy ? 'Pendiente' : 'Viaje no aceptado'
+      return fechaIni > hoy ? 'Pendiente' : 'Viaje no aceptado'
     }
 
     if (fechaFin < hoy) return 'Finalizado'
@@ -21,7 +22,7 @@ export function EstadoBadge({ viaje, variant = 'table' }) {
     return 'Sin Estado'
   }
 
-  const estadoTexto = getEstadoTexto(viaje)
+  const estadoTexto = viaje.estadoInferido || getEstadoTexto(viaje)
 
   const map = {
     Finalizado: 'success',
