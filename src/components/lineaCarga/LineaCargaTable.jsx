@@ -16,8 +16,9 @@ export function LineaCargaTable({ lineaCargas, fetchNextPage, hasNextPage, handl
           <thead className='border-info fw-bold'>
             <tr>
               <td style={{ borderRightWidth: 1 }} onClick={handleAscOrder} role="button">ID <span className="text-info">{ascOrder ? "⋀" : "⋁"}</span></td>
-              <td className='text-center'>Cantidad</td>
+              <td className='text-center'>Cantidad vagón</td>
               <td className='text-center'>Carga</td>
+              <td className='text-center'>Viaje</td>
               <td className='text-center'>Fecha de creación</td>
               <td className='text-center'>Estado</td>
               <td className='text-end' style={{ paddingRight: 75 }}>Acción</td>
@@ -29,8 +30,9 @@ export function LineaCargaTable({ lineaCargas, fetchNextPage, hasNextPage, handl
               return (
                 <tr key={lineaCarga.id}>
                   <td className='border-dark' style={{ borderRightWidth: 1 }}>{lineaCarga.id}</td>
-                  <td className='text-center'>{lineaCarga.cantidad ? lineaCarga.cantidad : 'Sin cantidad'}</td>
-                  <td className='text-center'>{lineaCarga.carga ? lineaCarga.carga.name : 'Sin carga'}</td>
+                  <td className='text-center'>{lineaCarga.cantidadVagon ? lineaCarga.cantidadVagon : 'Sin cantidad'}</td>
+                  <td className='text-center'>{lineaCarga.carga ? `${lineaCarga.carga.name} #${lineaCarga.carga.id}` : 'Sin carga'}</td>
+                  <td className='text-center'>{lineaCarga.viaje ? `Viaje #${lineaCarga.viaje.id}` : 'Sin viaje'}</td>
                   <td className='text-center'>{lineaCarga.createdAt ? new Date(new Date(lineaCarga.createdAt).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>
                     <EstadoBadge estadoTexto={lineaCarga.estado ?? 'Sin estado'} />

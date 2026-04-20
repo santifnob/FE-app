@@ -15,7 +15,12 @@ const viajeFilterAttributes = [
   { key: 'trenId', label: 'Tren ID', type: 'id' },
   { key: 'conductorId', label: 'Conductor ID', type: 'id' },
   { key: 'recorridoId', label: 'Recorrido ID', type: 'id' },
-  { key: 'fechaIni', label: 'Fecha de inicio', type: 'dateRange', startKey: 'fechaIni', endKey: 'fechaFin' }
+  { key: 'fechaIni', label: 'Fecha de inicio', type: 'dateRange', startKey: 'fechaIni', endKey: 'fechaFin' },
+  { key: 'trenModelo', label: 'Modelo del tren', type: 'partial' },
+  { key: 'trenColor', label: 'Color del tren', type: 'partial' },
+  { key: 'recorridoCiudadSalida', label: 'Ciudad salida', type: 'partial' },
+  { key: 'recorridoCiudadLlegada', label: 'Ciudad llegada', type: 'partial' },
+  { key: 'conductorNombreYApellido', label: 'Nombre y apellido conductor', type: 'partial' }
 ]
 
 export function ViajeCrud() {

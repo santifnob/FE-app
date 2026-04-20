@@ -11,6 +11,7 @@ function EstadoTrenCard({ estadoTren, handleEdit, deleteMutation }) {
           <EstadoBadge estadoTexto={estadoTren.estado ?? 'Sin estado'} variant='card' />
         </div>
 
+        <p className='mb-1'><b>Tren: </b> {estadoTren.tren.modelo ?? 'Sin Modelo'} #{estadoTren.tren.id ?? "Sin ID"}</p>
         <p className='mb-1'><b>Nombre:</b> {estadoTren.nombre ?? 'Sin nombre'}</p>
         <p className='mb-1'><b>Descripción:</b> {estadoTren.descripcion ?? 'Sin descripción'}</p>
 

@@ -16,7 +16,7 @@ export function LicenciaTable({ licencias, fetchNextPage, hasNextPage, handleEdi
           <thead className='border-info fw-bold'>
             <tr>
               <td style={{ borderRightWidth: 1 }} onClick={handleAscOrder} role="button">ID <span className="text-info">{ascOrder ? "⋀" : "⋁"}</span></td>
-              <td className='text-center'>Número de Licencia</td>
+              
               <td className='text-center'>Fecha de Emisión</td>
               <td className='text-center'>Fecha de Vencimiento</td>
               <td className='text-center'>Conductor</td>
@@ -31,10 +31,9 @@ export function LicenciaTable({ licencias, fetchNextPage, hasNextPage, handleEdi
               return (
                 <tr key={licencia.id}>
                   <td className='border-dark' style={{ borderRightWidth: 1 }}>{licencia.id}</td>
-                  <td className='text-center'>{licencia.numeroLicencia ? licencia.numeroLicencia : 'Sin número'}</td>
-                  <td className='text-center'>{licencia.fechaEmision ? new Date(new Date(licencia.fechaEmision).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
+                  <td className='text-center'>{licencia.fechaHecho ? new Date(new Date(licencia.fechaHecho).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>{licencia.fechaVencimiento ? new Date(new Date(licencia.fechaVencimiento).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
-                  <td className='text-center'>{licencia.conductor ? licencia.conductor.name : 'Sin conductor'}</td>
+                  <td className='text-center'>{licencia.conductor ? `${licencia.conductor.nombre} ${licencia.conductor.apellido} #${licencia.conductor.id}` : 'Sin conductor'}</td>
                   <td className='text-center'>{licencia.createdAt ? new Date(new Date(licencia.createdAt).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>
                     <EstadoBadge estadoTexto={licencia.estado ?? 'Sin estado'} />

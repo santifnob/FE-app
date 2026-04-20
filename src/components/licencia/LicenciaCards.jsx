@@ -11,10 +11,9 @@ function LicenciaCard({ licencia, handleEdit, deleteMutation }) {
           <EstadoBadge estadoTexto={licencia.estado ?? 'Sin estado'} variant='card' />
         </div>
 
-        <p className='mb-1'><b>Número de Licencia:</b> {licencia.numeroLicencia ?? 'Sin número'}</p>
-        <p className='mb-1'><b>Fecha de Emisión:</b> {licencia.fechaEmision ? new Date(new Date(licencia.fechaEmision).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</p>
+        <p className='mb-1'><b>Fecha de Emisión:</b> {licencia.fechaHecho ? new Date(new Date(licencia.fechaHecho).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</p>
         <p className='mb-1'><b>Fecha de Vencimiento:</b> {licencia.fechaVencimiento ? new Date(new Date(licencia.fechaVencimiento).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</p>
-        <p className='mb-1'><b>Conductor:</b> {licencia.conductor ? licencia.conductor.name : 'Sin conductor'}</p>
+        <p className='mb-1'><b>Conductor:</b> {licencia.conductor ? `${licencia.conductor.nombre} ${licencia.conductor.apellido} #${licencia.conductor.id}` : 'Sin conductor'}</p>
 
         <p className='mb-0'>
           <b>Creado:</b>{' '}

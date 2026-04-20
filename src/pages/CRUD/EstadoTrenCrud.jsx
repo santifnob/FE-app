@@ -33,7 +33,8 @@ export function EstadoTrenCrud() {
       { label: 'Inactivo', value: 'Inactivo' }
     ]},
     { key: 'trenId', label: 'ID Tren', type: 'id' },
-    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
+    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' },
+    { key: 'modeloTren', label: 'Modelo de tren', type: 'partial' }
   ]
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>

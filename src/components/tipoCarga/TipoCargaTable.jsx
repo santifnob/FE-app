@@ -30,7 +30,7 @@ export function TipoCargaTable({ tipoCargas, fetchNextPage, hasNextPage, handleE
                 <tr key={tipoCarga.id}>
                   <td className='border-dark' style={{ borderRightWidth: 1 }}>{tipoCarga.id}</td>
                   <td className='text-center'>{tipoCarga.name ? tipoCarga.name : 'Sin nombre'}</td>
-                  <td className='text-center'>{tipoCarga.descripcion ? tipoCarga.descripcion : 'Sin descripción'}</td>
+                  <td className='text-center'>{tipoCarga.desc ? tipoCarga.desc : 'Sin descripción'}</td>
                   <td className='text-center'>{tipoCarga.createdAt ? new Date(new Date(tipoCarga.createdAt).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>
                     <EstadoBadge estadoTexto={tipoCarga.estado ?? 'Sin estado'} />

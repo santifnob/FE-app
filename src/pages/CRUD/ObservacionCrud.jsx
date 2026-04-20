@@ -32,7 +32,8 @@ export function ObservacionCrud() {
     ]},
     { key: 'categoriaDenunciaId', label: 'ID Categoría Denuncia', type: 'id' },
     { key: 'viajeId', label: 'ID Viaje', type: 'id' },
-    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
+    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' },
+    { key: 'tituloCategoria', label: 'Título categoría denuncia', type: 'partial' }
   ]
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>

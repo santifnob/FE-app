@@ -11,8 +11,9 @@ function LineaCargaCard({ lineaCarga, handleEdit, deleteMutation }) {
           <EstadoBadge estadoTexto={lineaCarga.estado ?? 'Sin estado'} variant='card' />
         </div>
 
-        <p className='mb-1'><b>Cantidad:</b> {lineaCarga.cantidad ?? 'Sin cantidad'}</p>
-        <p className='mb-1'><b>Carga:</b> {lineaCarga.carga ? lineaCarga.carga.name : 'Sin carga'}</p>
+        <p className='mb-1'><b>Cantidad:</b> {lineaCarga.cantidadVagon ?? 'Sin cantidad'}</p>
+        <p className='mb-1'><b>Carga:</b> {lineaCarga.carga ? `${lineaCarga.carga.name} #${lineaCarga.carga.id}` : 'Sin carga'}</p>
+        <p className='mb-1'><b>Viaje:</b> {lineaCarga.viaje ? `Viaje #${lineaCarga.viaje.id}` : 'Sin viaje'}</p>
 
         <p className='mb-0'>
           <b>Creado:</b>{' '}

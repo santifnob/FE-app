@@ -12,7 +12,7 @@ function TipoCargaCard({ tipoCarga, handleEdit, deleteMutation }) {
         </div>
 
         <p className='mb-1'><b>Nombre:</b> {tipoCarga.name ?? 'Sin nombre'}</p>
-        <p className='mb-1'><b>Descripción:</b> {tipoCarga.descripcion ?? 'Sin descripción'}</p>
+        <p className='mb-1'><b>Descripción:</b> {tipoCarga.desc ?? 'Sin descripción'}</p>
 
         <p className='mb-0'>
           <b>Creado:</b>{' '}

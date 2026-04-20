@@ -11,9 +11,8 @@ function ObservacionCard({ observacion, handleEdit, deleteMutation }) {
           <EstadoBadge estadoTexto={observacion.estado ?? 'Sin estado'} variant='card' />
         </div>
 
-        <p className='mb-1'><b>Título:</b> {observacion.titulo ?? 'Sin título'}</p>
-        <p className='mb-1'><b>Descripción:</b> {observacion.descripcion ?? 'Sin descripción'}</p>
-        <p className='mb-1'><b>Categoría Denuncia:</b> {observacion.categoriaDenuncia ? observacion.categoriaDenuncia.titulo : 'Sin categoría'}</p>
+        <p className='mb-1'><b>Observaciones:</b> {observacion.observaciones ?? 'Sin Observaciones'}</p>
+        <p className='mb-1'><b>Categoría Denuncia:</b> {observacion.categoriaDenuncia ? `${observacion.categoriaDenuncia.titulo} #${observacion.categoriaDenuncia.id}` : 'Sin categoría'}</p>
 
         <p className='mb-0'>
           <b>Creado:</b>{' '}

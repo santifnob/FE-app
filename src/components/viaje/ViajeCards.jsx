@@ -17,15 +17,15 @@ export function ViajeCard({ viaje, handleEdit, deleteMutation, setShowDetails, s
         </h5>
         
         <p className="mb-1">
-          {viaje.recorrido?.ciudadSalida} → {viaje.recorrido?.ciudadLlegada}
+          {viaje.recorrido?.ciudadSalida} → {viaje.recorrido?.ciudadLlegada} #{viaje.recorrido?.id}
         </p>
 
         <p className="mb-1">
-          🚆 <b>Tren</b> {viaje.tren?.modelo}
+          🚆 <b>Tren</b> {viaje.tren?.modelo} #{viaje.tren?.id}
         </p>
 
         <p className="mb-3">
-          👤 {viaje.conductor?.nombre} {viaje.conductor?.apellido}
+          👤 {viaje.conductor?.nombre} {viaje.conductor?.apellido} #{viaje.conductor?.id}
         </p>
 
         <p className="mb-1">

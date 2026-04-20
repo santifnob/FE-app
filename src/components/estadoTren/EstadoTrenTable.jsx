@@ -16,6 +16,7 @@ export function EstadoTrenTable({ estadoTrenes, fetchNextPage, hasNextPage, hand
           <thead className='border-info fw-bold'>
             <tr>
               <td style={{ borderRightWidth: 1 }} onClick={handleAscOrder} role="button">ID <span className="text-info">{ascOrder ? "⋀" : "⋁"}</span></td>
+              <td className='text-center'>Tren</td>
               <td className='text-center'>Nombre</td>
               <td className='text-center'>Descripción</td>
               <td className='text-center'>Fecha de creación</td>
@@ -29,6 +30,7 @@ export function EstadoTrenTable({ estadoTrenes, fetchNextPage, hasNextPage, hand
               return (
                 <tr key={estadoTren.id}>
                   <td className='border-dark' style={{ borderRightWidth: 1 }}>{estadoTren.id}</td>
+                  <td className='text-center'>{estadoTren.tren.modelo ?? 'Sin Modelo'} #{estadoTren.tren.id ?? "Sin ID"}</td>
                   <td className='text-center'>{estadoTren.nombre ? estadoTren.nombre : 'Sin nombre'}</td>
                   <td className='text-center'>{estadoTren.descripcion ? estadoTren.descripcion : 'Sin descripción'}</td>
                   <td className='text-center'>{estadoTren.createdAt ? new Date(new Date(estadoTren.createdAt).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>

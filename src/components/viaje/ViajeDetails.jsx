@@ -30,26 +30,26 @@ export function ViajeDetails({ viaje }) {
     const maybe = o.categoriaDenuncia ?? o.categoria ?? o.categoriaId ?? o.categoriaDenunciaId
     if (!maybe) return 'Sin categoría'
     if (typeof maybe === 'string' && maybe.trim()) return maybe
-    if (typeof maybe === 'object') return maybe.titulo ?? maybe.nombre ?? 'Sin categoría'
+    if (typeof maybe === 'object') return `${maybe.titulo ?? maybe.nombre ?? 'Sin categoría'} #${maybe.id ?? 'sin id'}`
     const found = (allCategorias || []).find(c => String(c.id ?? c._id ?? c.categoriaId) === String(maybe))
-    return found ? (found.titulo ?? found.nombre ?? `#${maybe}`) : `#${maybe}`
+    return found ? `${found.titulo ?? found.nombre ?? 'Sin categoría'} #${found.id}` : `#${maybe}`
   }
 
   const resolveCargaNombre = (l) => {
     const cargaField = l.carga
     if (!cargaField) return `Carga #${l.id ?? 'sin id'}`
-    if (typeof cargaField === 'object') return cargaField.nombre ?? cargaField.name ?? cargaField.descripcion ?? `Carga #${cargaField.id ?? 'sin id'}`
+    if (typeof cargaField === 'object') return `${cargaField.nombre ?? cargaField.name ?? cargaField.descripcion ?? 'Sin nombre'} #${cargaField.id ?? 'sin id'}`
     const found = (allCargas || []).find(c => String(c.id) === String(cargaField))
-    return found ? (found.nombre ?? found.name ?? found.descripcion ?? `Carga #${found.id}`) : `Carga #${cargaField}`
+    return found ? `${found.nombre ?? found.name ?? found.descripcion ?? 'Sin nombre'} #${found.id}` : `Carga #${cargaField}`
   }
 
   return (
     <div>
       <h6>Información general</h6>
       <div className='mb-2'><strong>ID:</strong> {viaje.id}</div>
-      <div className='mb-2'><strong>Tren:</strong> {viaje.tren?.modelo ?? 'Sin modelo'} (color: {viaje.tren?.color ?? 'Sin color'})</div>
-      <div className='mb-2'><strong>Conductor:</strong> {viaje.conductor ? `${viaje.conductor.nombre ?? ''} ${viaje.conductor.apellido ?? ''}` : 'Sin conductor'}</div>
-      <div className='mb-2'><strong>Recorrido:</strong> {viaje.recorrido ? `${viaje.recorrido.ciudadSalida ?? ''} - ${viaje.recorrido.ciudadLlegada ?? ''}` : 'Sin recorrido'}</div>
+      <div className='mb-2'><strong>Tren:</strong> {viaje.tren?.modelo ?? 'Sin modelo'} #{viaje.tren?.id} (color: {viaje.tren?.color ?? 'Sin color'})</div>
+      <div className='mb-2'><strong>Conductor:</strong> {viaje.conductor ? `${viaje.conductor.nombre ?? ''} ${viaje.conductor.apellido ?? ''} #${viaje.conductor.id}` : 'Sin conductor'}</div>
+      <div className='mb-2'><strong>Recorrido:</strong> {viaje.recorrido ? `${viaje.recorrido.ciudadSalida ?? ''} - ${viaje.recorrido.ciudadLlegada ?? ''} #${viaje.recorrido.id}` : 'Sin recorrido'}</div>
       <div className='mb-2'><strong>Inicio:</strong> {formatDate(viaje.fechaIni)}</div>
       <div className='mb-2'><strong>Fin:</strong> {formatDate(viaje.fechaFin)}</div>
       <div className='mb-2'><strong>Estado:</strong> {viaje.estado ?? 'Sin estado'}</div>

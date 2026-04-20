@@ -33,7 +33,8 @@ export function LicenciaCrud() {
     { key: 'fechaHecho', label: 'Fecha de hecho', type: 'dateRange', startKey: 'fechaHechoIni', endKey: 'fechaHechoFin' },
     { key: 'fechaVencimiento', label: 'Fecha de vencimiento', type: 'dateRange', startKey: 'fechaVencimientoIni', endKey: 'fechaVencimientoFin' },
     { key: 'conductorId', label: 'ID Conductor', type: 'id' },
-    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
+    { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' },
+    { key: 'conductorNombreYApellido', label: 'Nombre y apellido conductor', type: 'partial' }
   ]
 
   if (isLoading) return <h1 className='text-center'>Cargando..</h1>
