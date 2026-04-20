@@ -26,7 +26,11 @@ export function TrenCrud() {
   const trenFilterAttributes = [
   { key: 'modelo', label: 'Modelo', type: 'partial' },
   { key: 'id', label: 'Tren ID', type: 'id' },
-  { key: 'Estado Tren', label: 'Estado Tren Id', type: 'partial' },
+  { key: 'estadoTren', label: 'Estado', type: 'exact', options: [
+      { label: 'Disponible', value: 'Disponible' },
+      { label: 'En Reparacion', value: 'En Reparacion' },
+      { label: 'Obsoleto', value: 'Obsoleto' }
+    ]},
   { key: 'fechaCreacion', label: 'Fecha de creacion', type: 'dateRange', startKey: 'fechaIni', endKey: 'fechaFin' }
 ]
 
@@ -51,7 +55,6 @@ export function TrenCrud() {
           Crear un tren
         </button>
       </div>
-      {/* Logica pensada para ordenar los trenes segun el atributo que apreta el usuario, todavian no hecha */ }
       <TrenList trenes={trenes} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation}/>
       
       {
