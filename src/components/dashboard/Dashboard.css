@@ -1,0 +1,82 @@
+.dashboard-page {
+  min-height: 100%;
+}
+
+.dashboard-intro {
+  max-width: 980px;
+}
+
+.dashboard-title {
+  font-size: clamp(2rem, 2.5vw, 2.8rem);
+  font-weight: 700;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.dashboard-card {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 22px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(18px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 32px 90px rgba(15, 23, 42, 0.14);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.widget-badge {
+  background: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.widget-chart {
+  min-height: 260px;
+}
+
+.legend-item {
+  padding: 0.85rem 0.9rem;
+  border-radius: 16px;
+  background: rgba(248, 249, 250, 0.72);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.license-feed {
+  max-height: 420px;
+  overflow: auto;
+}
+
+.license-item {
+  border-radius: 18px;
+  background: rgba(248, 249, 250, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.license-item:last-child {
+  margin-bottom: 0;
+}

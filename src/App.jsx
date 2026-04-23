@@ -15,7 +15,7 @@ import { LicenciaCrud } from './pages/CRUD/LicenciaCrud.jsx'
 import { CategoriaDenunciaCrud } from './pages/CRUD/CategoriaDenunciaCrud.jsx'
 import { EnConstruccionCopy } from './pages/EnConstruccion copy.jsx'
 import { EstadoTrenCrud } from './pages/CRUD/EstadoTrenCrud.jsx'
-import  DashboardTrenes  from './pages/DashboardTrenes.jsx'
+import DashboardContainer from './components/dashboard/DashboardContainer.jsx'
 import { ViajeCrud } from './pages/CRUD/ViajeCrud.jsx'
 import { ObservacionCrud } from './pages/CRUD/ObservacionCrud.jsx'
 import { LineaCargaCrud } from './pages/CRUD/LineaCargaCrud.jsx'
@@ -37,8 +37,7 @@ function App () {
             <Route path='/admin' element={<ProtectedRoute allowedRoles='admin' > </ProtectedRoute>}>
               <Route
                 path='dashboard'
-                //element={<DashboardTrenes/>}
-                element={<ControlPanel />}
+                element={<DashboardContainer />}
               />
 
               <Route
