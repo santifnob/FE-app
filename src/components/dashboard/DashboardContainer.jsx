@@ -1,15 +1,10 @@
 import { Container } from 'react-bootstrap'
+import { useFleetStats } from '../../hooks/analytics/useFleetStats.js'
 import FleetStatusWidget from './FleetStatusWidget.jsx'
 import TripPerformanceWidget from './TripPerformanceWidget.jsx'
 import LicenseAlertsWidget from './LicenseAlertsWidget.jsx'
 import './Dashboard.css'
 
-const fleetStatusData = [
-  { name: 'Disponible', value: 18, fill: '#198754' },
-  { name: 'En viaje', value: 12, fill: '#0d6efd' },
-  { name: 'En reparación', value: 5, fill: '#dc3545' },
-  { name: 'Obsoleto', value: 3, fill: '#6c757d' },
-]
 
 const tripPerformanceData = [
   { name: 'Viajes Exitosos', value: 84, fill: '#198754' },
@@ -24,6 +19,13 @@ const licenseAlerts = [
 ]
 
 export default function DashboardContainer() {
+  const {
+    data: fleetStatusData = [],
+    isLoading,
+    isError,
+    error,
+  } = useFleetStats()
+
   return (
     <Container fluid className="dashboard-page py-4">
       <div className="dashboard-intro mb-4">
@@ -35,7 +37,12 @@ export default function DashboardContainer() {
       </div>
 
       <div className="dashboard-grid">
-        <FleetStatusWidget data={fleetStatusData} />
+        <FleetStatusWidget
+          data={fleetStatusData}
+          isLoading={isLoading}
+          isError={isError}
+          error={error}
+        />
         <TripPerformanceWidget data={tripPerformanceData} />
         <LicenseAlertsWidget alerts={licenseAlerts} />
       </div>
