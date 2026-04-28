@@ -1,23 +1,46 @@
 import { Card, Row, Col } from 'react-bootstrap'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
+import { useTripPerformanceStats } from '../../hooks/analytics/useTripPerformanceStats.js'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import DashboardCardShell from './DashboardCardShell.jsx'
 
-export default function TripPerformanceWidget({ data }) {
+export default function TripPerformanceWidget() {
+
+  const [formatedData, setFormatedData] = useState([])
+  const {
+      data = [],
+      isLoading,
+      isError,
+      error,
+    } = useTripPerformanceStats()
+  console.log('TripPerformanceWidget data:', data)
+  useEffect(() => {
+    if(data.length !== 0 && !isLoading && !isError) {
+      const total = data[0].withoutObs + data[0].withObs
+      setFormatedData([
+        { name: 'Viajes Exitosos', value: (data[0].withoutObs / total) * 100, fill: '#198754' },
+        { name: 'Con Incidencias', value: (data[0].withObs / total) * 100, fill: '#ffc107' },
+      ])
+    }
+  }, [data, isError, isLoading])
+
   return (
-    <Card className="dashboard-card">
-      <Card.Body>
-        <div className="widget-header">
-          <div>
-            <Card.Title className="mb-1">Rendimiento de viajes</Card.Title>
-            <Card.Subtitle className="text-muted">Comparación de viajes exitosos vs con incidencias</Card.Subtitle>
-          </div>
-          <div className="widget-badge">Último ciclo</div>
-        </div>
 
+    <DashboardCardShell
+      title="Rendimiento de viajes"
+      subtitle="Comparación de viajes exitosos vs con incidencias"
+      badge="Último ciclo"
+      loading={isLoading}
+      error={isError ? error : null}
+      fallback={formatedData.length === 0 && !isLoading && !isError ? (
+        <div className="text-center text-muted py-5">No hay datos de rendimiento de viajes disponibles.</div>
+      ) : null}>
         <div className="widget-chart">
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
-                data={data}
+                data={formatedData}
                 dataKey="value"
                 nameKey="name"
                 cx="50%"
@@ -26,7 +49,7 @@ export default function TripPerformanceWidget({ data }) {
                 fill="#8884d8"
                 label
               >
-                {data.map((entry) => (
+                {formatedData.map((entry) => (
                   <Cell key={entry.name} fill={entry.fill} />
                 ))}
               </Pie>
@@ -36,7 +59,7 @@ export default function TripPerformanceWidget({ data }) {
         </div>
 
         <Row className="mt-3 gx-2 gy-2">
-          {data.map((item) => (
+          {formatedData.map((item) => (
             <Col xs={6} key={item.name}>
               <div className="legend-item d-flex align-items-center gap-2">
                 <span className="legend-dot" style={{ backgroundColor: item.fill }} />
@@ -48,7 +71,7 @@ export default function TripPerformanceWidget({ data }) {
             </Col>
           ))}
         </Row>
-      </Card.Body>
-    </Card>
+
+    </DashboardCardShell>
   )
 }

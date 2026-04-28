@@ -19,12 +19,6 @@ const licenseAlerts = [
 ]
 
 export default function DashboardContainer() {
-  const {
-    data: fleetStatusData = [],
-    isLoading,
-    isError,
-    error,
-  } = useFleetStats()
 
   return (
     <Container fluid className="dashboard-page py-4">
@@ -37,12 +31,7 @@ export default function DashboardContainer() {
       </div>
 
       <div className="dashboard-grid">
-        <FleetStatusWidget
-          data={fleetStatusData}
-          isLoading={isLoading}
-          isError={isError}
-          error={error}
-        />
+        <FleetStatusWidget/>
         <TripPerformanceWidget data={tripPerformanceData} />
         <LicenseAlertsWidget alerts={licenseAlerts} />
       </div>
