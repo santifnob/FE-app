@@ -39,7 +39,7 @@ export function EstadoTrenForm({ onSuccess, estadoTrenToEdit }) {
                 <select
                 {...register('idTren', { required: 'El tren es requerido' })}
                 className='form-control'
-                defaultValue={estadoTrenToEdit?.tren || ''}
+                defaultValue={estadoTrenToEdit?.tren?.id || ''}
                 >
                 
                 <option value="">Selecciona un tren</option>
@@ -81,7 +81,7 @@ export function EstadoTrenForm({ onSuccess, estadoTrenToEdit }) {
                 type='datetime-local'
                 className='form-control'
                 {...register('fechaVigencia', { required: 'La fecha de vigencia es requerida' })}
-                defaultValue={estadoTrenToEdit?.fechaVigencia ? estadoTrenToEdit.fechaVigencia.slice(0, 10): ''}
+                defaultValue={estadoTrenToEdit?.fechaVigencia ? new Date(estadoTrenToEdit.fechaVigencia).toISOString().slice(0, 16) : ''}
                 placeholder='Selecciona una fecha'
             />
 

@@ -18,7 +18,7 @@ export function EstadoTrenTable({ estadoTrenes, fetchNextPage, hasNextPage, hand
               <td style={{ borderRightWidth: 1 }} onClick={handleAscOrder} role="button">ID <span className="text-info">{ascOrder ? "⋀" : "⋁"}</span></td>
               <td className='text-center'>Tren</td>
               <td className='text-center'>Nombre</td>
-              <td className='text-center'>Descripción</td>
+              <td className='text-center'>Fecha de vigencia</td>
               <td className='text-center'>Fecha de creación</td>
               <td className='text-center'>Estado</td>
               <td className='text-end' style={{ paddingRight: 75 }}>Acción</td>
@@ -32,7 +32,7 @@ export function EstadoTrenTable({ estadoTrenes, fetchNextPage, hasNextPage, hand
                   <td className='border-dark' style={{ borderRightWidth: 1 }}>{estadoTren.id}</td>
                   <td className='text-center'>{estadoTren.tren.modelo ?? 'Sin Modelo'} #{estadoTren.tren.id ?? "Sin ID"}</td>
                   <td className='text-center'>{estadoTren.nombre ? estadoTren.nombre : 'Sin nombre'}</td>
-                  <td className='text-center'>{estadoTren.descripcion ? estadoTren.descripcion : 'Sin descripción'}</td>
+                  <td className='text-center'>{estadoTren.fechaVigencia ? new Date(estadoTren.fechaVigencia).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>{estadoTren.createdAt ? new Date(new Date(estadoTren.createdAt).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>
                     <EstadoBadge estadoTexto={estadoTren.estado ?? 'Sin estado'} />

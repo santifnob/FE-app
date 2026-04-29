@@ -14,7 +14,6 @@ export default function TripPerformanceWidget() {
       isError,
       error,
     } = useTripPerformanceStats()
-  console.log('TripPerformanceWidget data:', data)
   useEffect(() => {
     if(data.length !== 0 && !isLoading && !isError) {
       const total = data[0].withoutObs + data[0].withObs
@@ -30,7 +29,7 @@ export default function TripPerformanceWidget() {
     <DashboardCardShell
       title="Rendimiento de viajes"
       subtitle="Comparación de viajes exitosos vs con incidencias"
-      badge="Último ciclo"
+      badge={formatedData.length ? `Total: ${data[0].withoutObs + data[0].withObs}` : 'Total: 0 viajes'}
       loading={isLoading}
       error={isError ? error : null}
       fallback={formatedData.length === 0 && !isLoading && !isError ? (
