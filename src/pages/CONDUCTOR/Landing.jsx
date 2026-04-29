@@ -1,24 +1,16 @@
-import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useMemo, useState } from "react";
+import {
+  ViajeActivos,
+  ViajePendientes,
+  ViajeInactivos,
+  ViajeRechazados, 
+} from "../../hooks/viaje/useViajeQuery";
+import { ConductorGetOne } from "../../hooks/conductor/useConductorQuery";
+import { LicenciaActivos } from "../../hooks/licencia/useLicenciaQuery";
 
 /* =========================================================
    HELPERS
    ========================================================= */
-
-function normalizeDate(dateValue) {
-  const date = new Date(dateValue);
-  date.setHours(0, 0, 0, 0);
-  return date;
-}
-
-function isLicenseActive(license) {
-  if (!license?.fechaVencimiento) return false;
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  return normalizeDate(license.fechaVencimiento) >= today;
-}
 
 function formatDate(dateValue) {
   if (!dateValue) return "-";
@@ -26,16 +18,16 @@ function formatDate(dateValue) {
 }
 
 /* =========================================================
-   MODAL GENÉRICO PARA VIAJES
+   MODAL VIAJE
    ========================================================= */
 
 function ViajeModal({ show, onClose, viaje, title }) {
-  if (!show) return null;
+  if (!show || !viaje) return null;
 
   return (
     <>
       <div className="modal fade show d-block" tabIndex="-1">
-        <div className="modal-dialog modal-dialog-centered modal-lg">
+        <div className="modal-dialog modal-lg modal-dialog-centered">
           <div className="modal-content border-0 shadow">
             <div className="modal-header">
               <h5 className="modal-title">{title}</h5>
@@ -43,34 +35,26 @@ function ViajeModal({ show, onClose, viaje, title }) {
             </div>
 
             <div className="modal-body">
-              {!viaje ? (
-                <div className="alert alert-secondary mb-0">
-                  No hay información del viaje.
+              <div className="row g-3">
+                <div className="col-md-6">
+                  <strong>ID:</strong> {viaje.id}
                 </div>
-              ) : (
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <strong>ID:</strong> {viaje.id}
-                  </div>
-                  <div className="col-md-6">
-                    <strong>Estado:</strong> {viaje.estado}
-                  </div>
-                  <div className="col-md-6">
-                    <strong>Origen:</strong> {viaje.origen}
-                  </div>
-                  <div className="col-md-6">
-                    <strong>Destino:</strong> {viaje.destino}
-                  </div>
-                  <div className="col-md-6">
-                    <strong>Fecha inicio:</strong>{" "}
-                    {formatDate(viaje.fechaInicio)}
-                  </div>
-                  <div className="col-md-6">
-                    <strong>Fecha fin:</strong>{" "}
-                    {formatDate(viaje.fechaFin)}
-                  </div>
+                <div className="col-md-6">
+                  <strong>Estado:</strong> {viaje.estado}
                 </div>
-              )}
+                <div className="col-md-6">
+                  <strong>Origen:</strong> {viaje.origen}
+                </div>
+                <div className="col-md-6">
+                  <strong>Destino:</strong> {viaje.destino}
+                </div>
+                <div className="col-md-6">
+                  <strong>Inicio:</strong> {formatDate(viaje.fechaInicio)}
+                </div>
+                <div className="col-md-6">
+                  <strong>Fin:</strong> {formatDate(viaje.fechaFin)}
+                </div>
+              </div>
             </div>
 
             <div className="modal-footer">
@@ -88,68 +72,71 @@ function ViajeModal({ show, onClose, viaje, title }) {
 }
 
 /* =========================================================
-   LANDING PAGE CONDUCTOR
+   LANDING CONDUCTOR
    ========================================================= */
 
 export default function LandingConductor() {
-  const [viajeEnCursoModal, setViajeEnCursoModal] = useState(false);
-  const [proximoViajeModal, setProximoViajeModal] = useState(false);
+  const conductorId = 1; 
+  // TODO AUTH: obtener desde AuthProvider
 
-  /* =========================================================
-     REACT QUERY - DATA PRINCIPAL
-     =========================================================
-     👉 CONECTAR BACKEND ACÁ
-     Idealmente este endpoint devuelve todo lo necesario
-     para la landing.
-  */
-  const { data, isLoading } = useQuery({
-    queryKey: ["conductor-landing"],
-    queryFn: async () => {
-      // ============================
-      // BACKEND: GET landing conductor
-      // ============================
-      await new Promise((r) => setTimeout(r, 400));
+  const [conductor, setConductor] = useState(null);
+  const [showViajeEnCurso, setShowViajeEnCurso] = useState(false);
+  const [showProximoViaje, setShowProximoViaje] = useState(false);
 
-      return {
-        conductor: {
-          nombre: "Juan",
-          apellido: "Pérez",
-        },
-        stats: {
-          rechazados: 3,
-          finalizados: 12,
-        },
-        viajeEnCurso: {
-          id: 77,
-          estado: "En curso",
-          origen: "Rosario",
-          destino: "Córdoba",
-          fechaInicio: "2026-03-20",
-          fechaFin: null,
-        },
-        proximoViaje: null,
-        ultimaLicencia: {
-          tipo: "Carga pesada",
-          fechaVencimiento: "2026-12-31",
-        },
-      };
-    },
-  });
+  /* ===================== CONDUCTOR ===================== */
 
-  /* =========================================================
-     ESTADOS DERIVADOS
-     ========================================================= */
+  const conductorMutation = ConductorGetOne();
 
-  const initials = useMemo(() => {
-    if (!data?.conductor) return "U";
-    return `${data.conductor.nombre[0]}${data.conductor.apellido[0]}`.toUpperCase();
-  }, [data]);
+  useEffect(() => {
+    conductorMutation.mutateAsync(conductorId).then(setConductor);
+  }, [conductorId, conductorMutation]);
 
-  const licenciaActiva = useMemo(() => {
-    return isLicenseActive(data?.ultimaLicencia);
-  }, [data]);
+  /* ===================== VIAJES ===================== */
 
-  if (isLoading) {
+  const { data: viajesActivos = [] } = ViajeActivos();
+  const { data: viajesPendientes = [] } = ViajePendientes();
+  const { data: viajesInactivos = [] } = ViajeInactivos();
+  const { data: viajesRechazados = [] } = ViajeRechazados();
+
+  const viajeEnCurso = useMemo(
+    () => viajesActivos.find(v => v.conductorId === conductorId),
+    [viajesActivos, conductorId]
+  );
+
+  const proximoViaje = useMemo(
+    () => viajesPendientes.find(v => v.conductorId === conductorId),
+    [viajesPendientes, conductorId]
+  );
+
+  const finalizadosCount = useMemo(
+    () => viajesInactivos.filter(v => v.conductorId === conductorId).length,
+    [viajesInactivos, conductorId]
+  );
+
+  const rechazadosCount = useMemo(
+    () => viajesRechazados.filter(v => v.conductorId === conductorId).length,
+    [viajesRechazados, conductorId]
+  );
+
+  /* ===================== LICENCIAS ===================== */
+
+  const { data: licenciasActivas = [] } = LicenciaActivos();
+
+  const ultimaLicencia = useMemo(() => {
+    const delConductor = licenciasActivas.filter(
+      l => l.conductorId === conductorId
+    );
+
+    if (!delConductor.length) return null;
+
+    return delConductor.sort(
+      (a, b) => new Date(b.fechaVencimiento) - new Date(a.fechaVencimiento)
+    )[0];
+  }, [licenciasActivas, conductorId]);
+
+  /* ===================== UI ===================== */
+
+  if (!conductor) {
     return (
       <div className="container py-5 text-center">
         <div className="spinner-border text-primary" />
@@ -157,19 +144,20 @@ export default function LandingConductor() {
     );
   }
 
+  const initials = `${conductor.nombre[0]}${conductor.apellido[0]}`.toUpperCase();
+
   return (
     <div className="container py-4">
       {/* HEADER */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold mb-0">Panel del conductor</h2>
+        <h2 className="fw-bold">Panel del conductor</h2>
 
         <div className="d-flex align-items-center gap-3">
           <span className="fw-semibold">
-            {data.conductor.nombre} {data.conductor.apellido}
+            {conductor.nombre} {conductor.apellido}
           </span>
-
           <div
-            className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+            className="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center fw-bold"
             style={{ width: 40, height: 40 }}
           >
             {initials}
@@ -177,15 +165,15 @@ export default function LandingConductor() {
         </div>
       </div>
 
-      {/* TARJETAS */}
+      {/* CARDS */}
       <div className="row g-4">
         {/* Rechazados */}
         <div className="col-md-4">
-          <div className="card text-center border-0 shadow">
+          <div className="card text-center shadow border-0">
             <div className="card-body">
               <p className="text-muted mb-1">Viajes rechazados</p>
               <span className="badge bg-danger fs-4 px-4 py-2">
-                {data.stats.rechazados}
+                {rechazadosCount}
               </span>
             </div>
           </div>
@@ -193,11 +181,11 @@ export default function LandingConductor() {
 
         {/* Finalizados */}
         <div className="col-md-4">
-          <div className="card text-center border-0 shadow">
+          <div className="card text-center shadow border-0">
             <div className="card-body">
               <p className="text-muted mb-1">Viajes finalizados</p>
               <span className="badge bg-success fs-4 px-4 py-2">
-                {data.stats.finalizados}
+                {finalizadosCount}
               </span>
             </div>
           </div>
@@ -205,20 +193,15 @@ export default function LandingConductor() {
 
         {/* Viaje en curso */}
         <div className="col-md-4">
-          <div
-            className={`card border-0 shadow h-100 ${
-              data.viajeEnCurso ? "" : "text-muted"
-            }`}
-          >
-            <div className="card-body text-center">
-              <p className="mb-2 fw-semibold">Viaje en curso</p>
-
-              {data.viajeEnCurso ? (
+          <div className="card text-center shadow border-0 h-100">
+            <div className="card-body">
+              <p className="fw-semibold mb-2">Viaje en curso</p>
+              {viajeEnCurso ? (
                 <button
                   className="btn btn-outline-primary"
-                  onClick={() => setViajeEnCursoModal(true)}
+                  onClick={() => setShowViajeEnCurso(true)}
                 >
-                  Ver viaje en curso
+                  Ver viaje
                 </button>
               ) : (
                 <span className="badge bg-secondary px-3 py-2">
@@ -231,14 +214,13 @@ export default function LandingConductor() {
 
         {/* Próximo viaje */}
         <div className="col-md-6">
-          <div className="card border-0 shadow h-100">
-            <div className="card-body text-center">
+          <div className="card text-center shadow border-0 h-100">
+            <div className="card-body">
               <p className="fw-semibold mb-2">Próximo viaje</p>
-
-              {data.proximoViaje ? (
+              {proximoViaje ? (
                 <button
                   className="btn btn-outline-primary"
-                  onClick={() => setProximoViajeModal(true)}
+                  onClick={() => setShowProximoViaje(true)}
                 >
                   Ver próximo viaje
                 </button>
@@ -251,15 +233,14 @@ export default function LandingConductor() {
           </div>
         </div>
 
-        {/* Última licencia */}
+        {/* Licencia */}
         <div className="col-md-6">
-          <div className="card border-0 shadow h-100">
-            <div className="card-body text-center">
+          <div className="card text-center shadow border-0 h-100">
+            <div className="card-body">
               <p className="fw-semibold mb-2">Última licencia</p>
-
-              {licenciaActiva ? (
+              {ultimaLicencia ? (
                 <span className="badge bg-success px-3 py-2">
-                  Activa hasta {formatDate(data.ultimaLicencia.fechaVencimiento)}
+                  Activa hasta {formatDate(ultimaLicencia.fechaVencimiento)}
                 </span>
               ) : (
                 <span className="badge bg-danger px-3 py-2">
@@ -273,16 +254,16 @@ export default function LandingConductor() {
 
       {/* MODALES */}
       <ViajeModal
-        show={viajeEnCursoModal}
-        onClose={() => setViajeEnCursoModal(false)}
-        viaje={data.viajeEnCurso}
+        show={showViajeEnCurso}
+        onClose={() => setShowViajeEnCurso(false)}
+        viaje={viajeEnCurso}
         title="Viaje en curso"
       />
 
       <ViajeModal
-        show={proximoViajeModal}
-        onClose={() => setProximoViajeModal(false)}
-        viaje={data.proximoViaje}
+        show={showProximoViaje}
+        onClose={() => setShowProximoViaje(false)}
+        viaje={proximoViaje}
         title="Próximo viaje"
       />
     </div>
