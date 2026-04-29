@@ -1,6 +1,6 @@
 import { Card, Badge, ListGroup } from 'react-bootstrap'
 import { useLicenseExpirationAlerts } from '../../hooks/analytics/useLicenseExpirationAlerts.js'
-import DashboardCardShell from './DashboardCardShell.jsx'
+import DashboardCardShell from '../dashboard/DashboardCardShell.jsx'
 
 const badgeVariant = (days) => {
   if (days < 15) return 'danger'

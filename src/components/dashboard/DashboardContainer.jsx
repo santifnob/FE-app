@@ -1,7 +1,10 @@
 import { Container } from 'react-bootstrap'
-import FleetStatusWidget from './FleetStatusWidget.jsx'
-import TripPerformanceWidget from './TripPerformanceWidget.jsx'
-import LicenseAlertsWidget from './LicenseAlertsWidget.jsx'
+import FleetStatusWidget from '../analytics/FleetStatusWidget.jsx'
+import TripPerformanceWidget from '../analytics/TripPerformanceWidget.jsx'
+import LicenseAlertsWidget from '../analytics/LicenseAlertsWidget.jsx'
+import { QuickActionsWidget } from '../analytics/QuickActionsWidget.jsx'
+import { RouteProfitabilityWidget } from '../analytics/RouteProfitabilityWidget.jsx'
+import { UpcomingTripsWidget } from '../analytics/UpcomingTripsWidget.jsx'
 import './Dashboard.css'
 
 export default function DashboardContainer() {
@@ -20,6 +23,9 @@ export default function DashboardContainer() {
         <FleetStatusWidget/>
         <TripPerformanceWidget/>
         <LicenseAlertsWidget/>
+        <QuickActionsWidget/>
+        <RouteProfitabilityWidget/>
+        <UpcomingTripsWidget/>
       </div>
     </Container>
   )

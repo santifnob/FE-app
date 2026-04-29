@@ -1,6 +1,6 @@
 import { Row, Col } from 'react-bootstrap'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
-import DashboardCardShell from './DashboardCardShell.jsx'
+import DashboardCardShell from '../dashboard/DashboardCardShell.jsx'
 import { useFleetStats } from '../../hooks/analytics/useFleetStats.js'
 
 export default function FleetStatusWidget() {

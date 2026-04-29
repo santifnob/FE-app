@@ -8,9 +8,10 @@ export default function DashboardCardShell({
   error,
   fallback,
   children,
+  className = "",
 }) {
   return (
-    <Card className="dashboard-card">
+    <Card className={`dashboard-card ${className}`}>
       <Card.Body>
         <div className="widget-header">
           <div>

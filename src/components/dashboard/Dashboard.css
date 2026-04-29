@@ -90,3 +90,17 @@
 .license-item:last-child {
   margin-bottom: 0;
 }
+
+.widget-wide {
+  grid-column: span 2;
+}
+
+.widget-tall {
+  grid-row: span 2;
+}
+
+@media (max-width: 768px) {
+  .widget-wide {
+    grid-column: span 1;
+  }
+}
