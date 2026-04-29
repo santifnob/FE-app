@@ -1,11 +1,10 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as bootstrap from "bootstrap";
-
-import { AuthContext } from "../context/AuthContext.jsx";
-import { ConductorGetOne } from "../hooks/conductor/useConductorQuery.js";
-import { useConductorPut } from "../hooks/conductor/useConductorPut.js";
-import { LicenciaFindAll } from "../hooks/licencia/useLicenciaQuery.js";
+import { AuthContext } from "../../context/AuthContext.jsx";
+import  { ConductorGetOne }  from "../../hooks/conductor/useConductorQuery.js";
+import  { useConductorPut }  from "../../hooks/conductor/useConductorPut.js";
+import  { LicenciaFindAll }  from "../../hooks/licencia/useLicenciaQuery.js";
 
 /* =========================================================
  HELPERS
