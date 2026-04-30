@@ -18,8 +18,8 @@ export default function TripPerformanceWidget() {
     if(data.length !== 0 && !isLoading && !isError) {
       const total = data[0].withoutObs + data[0].withObs
       setFormatedData([
-        { name: 'Viajes Exitosos', value: (data[0].withoutObs / total) * 100, fill: '#198754' },
-        { name: 'Con Incidencias', value: (data[0].withObs / total) * 100, fill: '#ffc107' },
+        { name: 'Viajes Exitosos', value: (data[0].withoutObs / total) * 100, fill: '#198754', totalTrips: data[0].withoutObs },
+        { name: 'Con Incidencias', value: (data[0].withObs / total) * 100, fill: '#ffc107', totalTrips: data[0].withObs },
       ])
     }
   }, [data, isError, isLoading])
@@ -52,7 +52,8 @@ export default function TripPerformanceWidget() {
                   <Cell key={entry.name} fill={entry.fill} />
                 ))}
               </Pie>
-              <Tooltip formatter={(value) => [`${value}%`, 'Porcentaje']} />
+              <Tooltip content={<CustomTooltip />} />
+
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -74,3 +75,31 @@ export default function TripPerformanceWidget() {
     </DashboardCardShell>
   )
 }
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+
+    return (
+      <div
+        style={{
+          background: "white",
+          border: "1px solid #ddd",
+          borderRadius: 8,
+          padding: "10px 12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+        }}
+      >
+        <p style={{ margin: 0, fontWeight: 600 }}>{label}</p>
+        <p style={{ margin: 0 }}>
+          Porcentaje: {Number(data.value).toFixed(2)}%
+        </p>
+        <p style={{ margin: 0 }}>
+          Viajes: {data.totalTrips}
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+};

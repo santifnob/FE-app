@@ -1,6 +1,7 @@
-import { Badge } from "react-bootstrap";
+import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 import DashboardCardShell from "../dashboard/DashboardCardShell.jsx";
 import { useUpcomingTrips } from "../../hooks/analytics/useUpcomingTrips.js";
+import { PiWarningOctagon } from "react-icons/pi";
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -21,16 +22,15 @@ function formatTime(dateString) {
 
 export function UpcomingTripsWidget() {
   const { data = [], isLoading, isError, error } = useUpcomingTrips();
-  const upcoming = data.slice(0, 5);
 
   return (
     <DashboardCardShell
       title="Próximos Viajes"
       subtitle="Salidas activas programadas"
-      badge={upcoming.length ? `${upcoming.length} viajes` : "Sin viajes disponibles"}
+      badge={data.length ? `${data.length} viajes` : "Sin viajes disponibles"}
       loading={isLoading}
       error={isError ? error : null}
-      fallback={upcoming.length === 0 && !isLoading && !isError ? (
+      fallback={data.length === 0 && !isLoading && !isError ? (
         <div className="text-center text-muted py-5">No hay viajes activos próximos.</div>
       ) : null}
       className="widget-wide"
@@ -46,16 +46,36 @@ export function UpcomingTripsWidget() {
             </tr>
           </thead>
           <tbody>
-            {upcoming.map((trip) => (
+            {data.map((trip) => (
               <tr key={trip.id}>
-                <td>{`${trip.recorrido.origen} - ${trip.recorrido.destino}`}</td>
-                <td>{trip.conductor?.nombre ?? "-"}</td>
-                <td>{trip.tren?.modelo ?? "-"}</td>
+                <td>{trip.recorrido}</td>
+                <td>{trip.conductor ?? "-"}</td>
+                <td>{trip.tren ?? "-"}</td>
                 <td className="text-end">
-                  <Badge bg="primary" pill>
-                    {formatDate(trip.fechaIni)}
-                  </Badge>
-                  <div className="text-muted small">{formatTime(trip.fechaIni)}</div>
+                  <div className="d-flex flex-column align-align-items-center gap-1">
+                    <div className="d-flex align-items-center gap-2 justify-content-end">
+                      <Badge bg={trip.estado === "Pendiente" ? "warning" : trip.estado === "Activo" ? "success" : "secondary"} pill>
+                        {formatDate(trip.fechaIni)} 
+                      </Badge>
+                      {trip.estado === "Pendiente" && (
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip>
+                              Viaje con id {trip.id} pendiente de confirmación de conductor.
+                            </Tooltip>
+                          }
+                        >
+                          <span className="d-inline-flex">
+                            <PiWarningOctagon size={18} className="text-warning" />
+                          </span>
+                        </OverlayTrigger>
+                      )}
+                    </div>
+                    <div className="text-muted small">{formatTime(trip.fechaIni)}</div>
+                  </div> 
+                  
+                  
                 </td>
               </tr>
             ))}
