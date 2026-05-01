@@ -17,9 +17,11 @@ export default function TripPerformanceWidget() {
   useEffect(() => {
     if(data.length !== 0 && !isLoading && !isError) {
       const total = data[0].withoutObs + data[0].withObs
+      const porcWithoutObs = (data[0].withoutObs / total) * 100
+      const porcWithObs = (data[0].withObs / total) * 100
       setFormatedData([
-        { name: 'Viajes Exitosos', value: (data[0].withoutObs / total) * 100, fill: '#198754', totalTrips: data[0].withoutObs },
-        { name: 'Con Incidencias', value: (data[0].withObs / total) * 100, fill: '#ffc107', totalTrips: data[0].withObs },
+        { name: 'Viajes Exitosos', value: Number(porcWithoutObs.toFixed(2)), fill: '#198754', totalTrips: data[0].withoutObs },
+        { name: 'Con Incidencias', value: Number(porcWithObs.toFixed(2)), fill: '#ffc107', totalTrips: data[0].withObs },
       ])
     }
   }, [data, isError, isLoading])
@@ -34,7 +36,8 @@ export default function TripPerformanceWidget() {
       error={isError ? error : null}
       fallback={formatedData.length === 0 && !isLoading && !isError ? (
         <div className="text-center text-muted py-5">No hay datos de rendimiento de viajes disponibles.</div>
-      ) : null}>
+      ) : null}
+      isChart={true}>
         <div className="widget-chart">
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
@@ -44,7 +47,7 @@ export default function TripPerformanceWidget() {
                 nameKey="name"
                 cx="50%"
                 cy="50%"
-                outerRadius={90}
+                outerRadius={85}
                 fill="#8884d8"
                 label
               >

@@ -9,6 +9,7 @@ export default function DashboardCardShell({
   fallback,
   children,
   className = "",
+  isChart=false,
 }) {
   return (
     <Card className={`dashboard-card ${className}`}>
@@ -20,21 +21,23 @@ export default function DashboardCardShell({
           </div>
           {badge && <div className="widget-badge">{badge}</div>}
         </div>
-
-        {loading ? (
+        <div className={`widget-content ${isChart ? 'no-scroll' : ''}`}>
+          {loading ? (
           <div className="widget-placeholder">
             <Spinner animation="border" size="sm" className="me-2" />
             <span className="text-muted">Cargando datos...</span>
           </div>
-        ) : error ? (
-          <Alert variant="danger" className="py-3 mb-0">
-            {error?.message ?? 'Error al cargar datos'}
-          </Alert>
-        ) : fallback ? (
-          fallback
-        ) : (
-          children
-        )}
+          ) : error ? (
+            <Alert variant="danger" className="py-3 mb-0">
+              {error?.message ?? 'Error al cargar datos'}
+            </Alert>
+          ) : fallback ? (
+            fallback
+          ) : (
+            children
+          )}
+        </div>
+        
       </Card.Body>
     </Card>
   )

@@ -24,6 +24,7 @@ export function RouteProfitabilityWidget() {
         <div className="text-center text-muted py-5">No hay datos de rentabilidad disponibles.</div>
       ) : null}
       className="widget-wide"
+      isChart={true}
     >
       <div className="widget-chart" style={{ height: 380 }}>
         <ResponsiveContainer width="100%" height="100%">

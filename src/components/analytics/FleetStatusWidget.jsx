@@ -24,6 +24,7 @@ export default function FleetStatusWidget() {
       fallback={dataArray.length === 0 && !isLoading && !isError ? (
         <div className="text-center text-muted py-5">No hay datos de estado de la flota disponibles.</div>
       ) : null}
+      isChart={true}
     >
       <div className="widget-chart">
         <ResponsiveContainer width="100%" height={260}>
