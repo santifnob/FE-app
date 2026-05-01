@@ -156,10 +156,10 @@ function LicensesModal({ show, onClose, licenses = [] }) {
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Tipo</th>
-                        <th>Fecha de emisión</th>
-                        <th>Fecha de vencimiento</th>
                         <th>Estado</th>
+                        <th>Fecha de hecho</th>
+                        <th>Fecha de vencimiento</th>
+                        <th>Vigencia</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -168,8 +168,8 @@ function LicensesModal({ show, onClose, licenses = [] }) {
                         return (
                           <tr key={license.id}>
                             <td>{license.id}</td>
-                            <td>{license.tipo ?? "-"}</td>
-                            <td>{formatDate(license.fechaEmision)}</td>
+                            <td>{license.estado ?? "-"}</td>
+                            <td>{formatDate(license.fechaHecho)}</td>
                             <td>{formatDate(license.fechaVencimiento)}</td>
                             <td>
                               <span
