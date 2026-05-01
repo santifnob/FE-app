@@ -323,7 +323,7 @@ export default function PerfilConductor() {
     );
   }
 
-  const initials = `${currentUser?.nombre?.[0] || ""}${currentUser?.apellido?.[0] || ""}`.toUpperCase();
+  const initials = `${user?.nombre?.[0] || ""}${user?.apellido?.[0] || ""}`.toUpperCase();
 
   return (
     <div className="container py-4">
@@ -346,7 +346,7 @@ export default function PerfilConductor() {
       <div className="mb-3">
         <div className="text-muted small">Email</div>
         <div className="d-flex align-items-center gap-2">
-          <div className="fw-semibold">{currentUser?.email}</div>
+          <div className="fw-semibold">{user?.email}</div>
           <span
             className="badge bg-secondary"
             data-bs-toggle="tooltip"
@@ -361,7 +361,7 @@ export default function PerfilConductor() {
       <EditableField
         label="Nombre"
         fieldName="nombre"
-        value={currentUser?.nombre}
+        value={user?.nombre}
         placeholder="Ingresá tu nombre"
         onSave={handleSaveField}
       />
@@ -369,7 +369,7 @@ export default function PerfilConductor() {
       <EditableField
         label="Apellido"
         fieldName="apellido"
-        value={currentUser?.apellido}
+        value={user?.apellido}
         placeholder="Ingresá tu apellido"
         onSave={handleSaveField}
       />
@@ -377,7 +377,7 @@ export default function PerfilConductor() {
       <EditableField
         label="Contraseña"
         fieldName="password"
-        value={currentUser?.password}
+        value={user?.password}
         inputType="password"
         placeholder="Ingresá una nueva contraseña"
         onSave={handleSaveField}
@@ -413,7 +413,7 @@ export default function PerfilConductor() {
       <LicensesModal
         show={showLicensesModal}
         onClose={() => setShowLicensesModal(false)}
-        licenses={currentUser?.licencias || []}
+        licenses={user?.licencias || []}
       />
     </div>
   );
