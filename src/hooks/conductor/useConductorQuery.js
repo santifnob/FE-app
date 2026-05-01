@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { api } from '../../services/api.js'
 import axios from 'axios'
 
@@ -12,15 +12,32 @@ export function ConductorFindAll() { //Obtiene todos los conductores
   }))
 }
 
-export function ConductorGetOne () { //Obtiene un conductor por ID
-  return useMutation({
-    mutationKey: ['conductorGetOne'],
-    mutationFn: async (conductorId) => {
-      console.log(`/conductor/${conductorId}`)
-      const conductor = await api.get(`/conductor/${conductorId}`, { withCredentials: true })
-      return conductor.data.items
-    }
-  })
+// export function ConductorGetOne () { //Obtiene un conductor por ID
+//   return useMutation({
+//     mutationKey: ['conductorGetOne'],
+//     mutationFn: async (conductorId) => {
+//       console.log(`/conductor/${conductorId}`)
+//       const conductor = await api.get(`/conductor/${conductorId}`, { withCredentials: true })
+//       return conductor.data.items
+//     }
+//   })
+// }
+
+// Async function for use inside other hooks (e.g., queryFn)
+export async function conductorGetOneAsync(id) {
+  const res = await api.get(`/conductor/${id}`);
+  return res.data.data;
+}
+
+// Hook for use at component level
+export function ConductorGetOne(id) {
+  return useQuery({
+    queryKey: ["conductor", id],
+    queryFn: async () => {
+      return conductorGetOneAsync(id);
+    },
+    enabled: !!id, // evita correr si no hay id
+  });
 }
 
 export function ConductorActivos() { //Obtiene todos los conductores activos

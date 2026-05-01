@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as bootstrap from "bootstrap";
-
 import { ConductorGetOne } from "../../hooks/conductor/useConductorQuery";
+import { conductorGetOneAsync } from "../../hooks/conductor/useConductorQuery";
 import { useConductorPut } from "../../hooks/conductor/useConductorPut";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 
@@ -209,9 +209,8 @@ export default function PerfilConductor() {
   // ✅ Obtenemos el usuario del contexto de autenticación
   const { user: currentUser, isLoading: isAuthLoading } = useCurrentUser();
 
-  // ✅ Si usás hook de PUT, lo inicializamos acá
-  // (Si tu hook devuelve otra forma, cambiá esta línea)
-  const conductorPut = useConductorPut?.();
+  // ✅ Inicializamos el hook de PUT
+  const conductorPut = useConductorPut();
 
   /* =========================================================
      ✅ 1) GET PERFIL (React Query)
@@ -223,16 +222,7 @@ export default function PerfilConductor() {
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["driver-profile", currentUser.id],
-    enabled: !!currentUser.id,
-    queryFn: async () => {
-      // ✅ IMPORTANTE:
-      // Asegurate que ConductorGetOne(idUser) devuelva el conductor DIRECTO
-      // (no { conductor: ... })
-      return ConductorGetOne(currentUser.id);
-    },
-  });
+  } = ConductorGetOne(currentUser?.id);
 
   /* =========================================================
      ✅ 2) UPDATE CAMPO (Mutation)
@@ -303,7 +293,7 @@ export default function PerfilConductor() {
   const handleSaveField = async (field, value) => {
     await updateFieldMutation.mutateAsync({ field, value });
   };
-
+  
   if (!currentUser?.id) {
     return (
       <div className="container py-4">
@@ -346,7 +336,7 @@ export default function PerfilConductor() {
         </div>
 
         <div>
-          <h2 className="mb-0">Bienvenido a tu perfil, {currentUser?.nombre}</h2>
+          <h2 className="mb-0">Bienvenido a tu perfil, {user?.nombre}</h2>
           <div className="text-muted">
             Desde aquí podés consultar y editar la información de tu cuenta.
           </div>

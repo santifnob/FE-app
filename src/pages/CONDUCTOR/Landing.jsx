@@ -85,12 +85,14 @@ export default function LandingConductor() {
 
   /* ===================== CONDUCTOR ===================== */
 
-  const conductorMutation = ConductorGetOne();
+  const { data } = ConductorGetOne(conductorId);
 
   useEffect(() => {
-    conductorMutation.mutateAsync(conductorId).then(setConductor);
-  }, [conductorId, conductorMutation]);
-
+    console.log("Conductor data: ", data)
+    if (data) {
+      setConductor(data);
+    }
+  }, [data]);
   /* ===================== VIAJES ===================== */
 
   const { data: viajesActivos = [] } = ViajeActivos();
