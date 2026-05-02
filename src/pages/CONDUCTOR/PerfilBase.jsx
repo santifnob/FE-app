@@ -26,14 +26,20 @@ function getLatestLicense(licenses = []) {
 }
 
 function isLicenseActive(license) {
-  if (!license?.fechaVencimiento) return false;
+  if (!license?.fechaVencimiento) return 'Sin fecha de vencimiento';
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   const expirationDate = normalizeDate(license.fechaVencimiento);
 
-  return expirationDate >= today;
+  if((expirationDate >= today) && (license.estado === "Activo")) {
+    return 'Activa';
+  }
+  if(license.estado === "Inactivo") {
+    return 'Suspendida';
+  }
+  return 'Vencida';
 }
 
 function formatDate(dateValue) {
@@ -163,34 +169,37 @@ function LicensesModal({ show, onClose, licenses = [] }) {
                 </p>
               ) : (
                 <div className="table-responsive">
-                  <table className="table table-striped table-hover align-middle">
+                  <table className="table table-striped table-hover align-middle text-center">
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Estado</th>
-                        <th>Fecha de hecho</th>
-                        <th>Fecha de vencimiento</th>
-                        <th>Vigencia</th>
+                        <th className="text-center">Fecha de hecho</th>
+                        <th className="text-center">Fecha de vencimiento</th>
+                        <th className="text-center">Vigencia</th>
                       </tr>
                     </thead>
 
                     <tbody>
                       {licenses.map((license) => {
-                        const active = isLicenseActive(license);
+                        const status = isLicenseActive(license);
+
+                        const statusColors = {
+                          "Activa": "bg-success",
+                          "Vencida": "bg-warning",
+                          "Suspendida": "bg-danger",
+                        };
 
                         return (
                           <tr key={license.id}>
                             <td>{license.id}</td>
-                            <td>{license.estado ?? "-"}</td>
                             <td>{formatDate(license.fechaHecho)}</td>
                             <td>{formatDate(license.fechaVencimiento)}</td>
                             <td>
                               <span
-                                className={`badge ${
-                                  active ? "bg-success" : "bg-danger"
-                                }`}
+                                className={`badge ${statusColors[status]}`}
+                                style={{ minWidth: "100px", display: "inline-block" }}
                               >
-                                {active ? "Activa" : "Vencida"}
+                                {status}
                               </span>
                             </td>
                           </tr>
