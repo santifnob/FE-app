@@ -52,3 +52,13 @@ export function ViajeInactivos() { //Obtiene todos los viajes inactivos
     }
   })
 }
+
+export function ViajeRechazados() { //Obtiene todos los viajes pendientes
+  return useQuery({
+    queryKey: ['viajePendientes'],
+    queryFn: async () => {
+      const res = await axios.get('http://localhost:3000/api/viaje', { withCredentials: true })
+      return res.data.items.filter(item => item.estado === 'Rechazado') 
+    }
+  })
+}

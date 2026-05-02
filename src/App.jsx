@@ -19,9 +19,14 @@ import DashboardContainer from './components/dashboard/DashboardContainer.jsx'
 import { ViajeCrud } from './pages/CRUD/ViajeCrud.jsx'
 import { ObservacionCrud } from './pages/CRUD/ObservacionCrud.jsx'
 import { LineaCargaCrud } from './pages/CRUD/LineaCargaCrud.jsx'
+import  PerfilConductor  from './pages/CONDUCTOR/PerfilBase.jsx'
+import LandingConductor from './pages/CONDUCTOR/Landing.jsx'
 import { ControlPanel } from './pages/ControlPanel.jsx'
+import PendientesViajes from './pages/CONDUCTOR/Viajes/PendientesViajes'
+import EnCursoViajes from './pages/CONDUCTOR/Viajes/EnCursoViajes'
+import FinalizadosViajes from './pages/CONDUCTOR/Viajes/FinalizadosViajes'
 
-function App () {
+function App() {
   return (
     <>
       <BrowserRouter>
@@ -29,12 +34,14 @@ function App () {
 
           <Routes>
             {/* Pagina en construccion */}
-            <Route path='/pagina-en-construccion' 
-            element={<EnConstruccion />}> 
-            </Route>
+            <Route
+              path='/pagina-en-construccion'
+              element={<EnConstruccion />}
+            />
 
             {/* Administrador */}
-            <Route path='/admin' element={<ProtectedRoute allowedRoles='admin' > </ProtectedRoute>}>
+            <Route path='/admin' element={<ProtectedRoute allowedRoles='admin'> </ProtectedRoute>}>
+
               <Route
                 path='dashboard'
                 element={<DashboardContainer />}
@@ -82,12 +89,12 @@ function App () {
 
               <Route
                 path='gestion/observaciones'
-                element={<ObservacionCrud/>}
+                element={<ObservacionCrud />}
               />
 
               <Route
                 path='perfil'
-                element={<EnConstruccionCopy/>}
+                element={<EnConstruccionCopy />}
               />
 
               <Route
@@ -113,32 +120,32 @@ function App () {
               path='/conductor'
               element={<ProtectedRoute
                 allowedRoles='conductor'
-                       />}
+              />}
             >
 
               <Route
                 path='dashboard'
-                element={<EnConstruccionCopy/>}
+                element={<LandingConductor/>}
               />
 
               <Route
                 path='misViajes/pendientes'
-                element={<EnConstruccionCopy/>}
+                element={<PendientesViajes />}
               />
 
               <Route
                 path='misViajes/enCursos'
-                element={<EnConstruccionCopy/>}
+                element={<EnCursoViajes />}
               />
 
               <Route
-                path='finalizados'
-                element={<EnConstruccionCopy/>}
+                path='misViajes/finalizados'
+                element={<FinalizadosViajes />}
               />
 
               <Route
                 path='perfil'
-                element={<EnConstruccionCopy/>}
+                element={<PerfilConductor />}
               />
 
               {/* 404 protegido para /conductor/... */}

@@ -11,14 +11,17 @@ export function ProtectedRoute ({ allowedRoles }) {
   const { logout, setUser } = useContext(AuthContext)
 
   useEffect(() => {
+    console.log(data)
     const verificarAuth = async () => {
       if (isError) {
         await logout()
         setUser(null)
+      } else if (data) {
+        setUser({id: data.userId, role: data.role})
       }
     }
     verificarAuth()
-  }, [isError])
+  }, [isError, data])
 
   if (isLoading) return <p className='text-center'>Cargando...</p>
 
