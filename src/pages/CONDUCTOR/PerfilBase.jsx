@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as bootstrap from "bootstrap";
+
 import { ConductorGetOne } from "../../hooks/conductor/useConductorQuery";
-import { conductorGetOneAsync } from "../../hooks/conductor/useConductorQuery";
 import { useConductorPut } from "../../hooks/conductor/useConductorPut";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 
 /* ===================== HELPERS ====================== */
+
 function normalizeDate(dateValue) {
   const date = new Date(dateValue);
   date.setHours(0, 0, 0, 0);
@@ -16,6 +17,7 @@ function normalizeDate(dateValue) {
 
 function getLatestLicense(licenses = []) {
   if (!licenses.length) return null;
+
   return [...licenses].sort((a, b) => {
     const dateA = new Date(a.fechaVencimiento);
     const dateB = new Date(b.fechaVencimiento);
@@ -25,9 +27,12 @@ function getLatestLicense(licenses = []) {
 
 function isLicenseActive(license) {
   if (!license?.fechaVencimiento) return false;
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+
   const expirationDate = normalizeDate(license.fechaVencimiento);
+
   return expirationDate >= today;
 }
 
@@ -37,6 +42,7 @@ function formatDate(dateValue) {
 }
 
 /* ================== EditableField =================== */
+
 function EditableField({
   label,
   fieldName,
@@ -54,7 +60,9 @@ function EditableField({
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm({ defaultValues: { value: "" } });
+  } = useForm({
+    defaultValues: { value: "" },
+  });
 
   useEffect(() => {
     reset({ value: isPassword ? "" : value ?? "" });
@@ -68,25 +76,26 @@ function EditableField({
   return (
     <div className="mb-3">
       {!isEditing ? (
-        <div className="d-flex align-items-center justify-content-between gap-3">
-          <div className="flex-grow-1">
-            <div className="text-muted small">{label}</div>
-            <div className="fw-semibold">
+        <div>
+          <label className="form-label fw-semibold">{label}</label>
+
+          <div className="d-flex align-items-center justify-content-between gap-3">
+            <div className="form-control bg-light">
               {isPassword ? "••••••••" : value ?? "-"}
             </div>
-          </div>
 
-          <button
-            type="button"
-            className="btn btn-outline-primary btn-sm"
-            onClick={() => setIsEditing(true)}
-          >
-            Modificar
-          </button>
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={() => setIsEditing(true)}
+            >
+              Modificar
+            </button>
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit(submitHandler)}>
-          <div className="text-muted small">{label}</div>
+          <label className="form-label fw-semibold">{label}</label>
 
           <div className="d-flex align-items-start gap-2">
             <div className="flex-grow-1">
@@ -94,11 +103,9 @@ function EditableField({
                 type={inputType}
                 className={`form-control ${errors.value ? "is-invalid" : ""}`}
                 placeholder={placeholder}
-                {...register("value", {
-                  required: "Este campo es obligatorio",
-                  ...(rules || {}),
-                })}
+                {...register("value", rules)}
               />
+
               {errors.value && (
                 <div className="invalid-feedback">{errors.value.message}</div>
               )}
@@ -106,7 +113,7 @@ function EditableField({
 
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-success"
               disabled={isSubmitting}
             >
               Guardar
@@ -114,7 +121,7 @@ function EditableField({
 
             <button
               type="button"
-              className="btn btn-outline-secondary"
+              className="btn btn-secondary"
               onClick={() => {
                 reset({ value: isPassword ? "" : value ?? "" });
                 setIsEditing(false);
@@ -130,29 +137,33 @@ function EditableField({
 }
 
 /* ================= LicensesModal =================== */
+
 function LicensesModal({ show, onClose, licenses = [] }) {
   if (!show) return null;
 
   return (
     <>
-      <div className="modal-backdrop fade show" />
-
-      <div className="modal fade show d-block" tabIndex="-1" role="dialog">
-        <div className="modal-dialog modal-lg" role="document">
+      <div className="modal fade show d-block" tabIndex="-1">
+        <div className="modal-dialog modal-lg modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Licencias del conductor</h5>
-              <button type="button" className="btn-close" onClick={onClose} />
+
+              <button
+                type="button"
+                className="btn-close"
+                onClick={onClose}
+              />
             </div>
 
             <div className="modal-body">
               {licenses.length === 0 ? (
-                <div className="alert alert-info mb-0">
+                <p className="text-muted mb-0">
                   Este conductor no posee licencias registradas.
-                </div>
+                </p>
               ) : (
                 <div className="table-responsive">
-                  <table className="table table-sm align-middle">
+                  <table className="table table-striped table-hover align-middle">
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -162,9 +173,11 @@ function LicensesModal({ show, onClose, licenses = [] }) {
                         <th>Vigencia</th>
                       </tr>
                     </thead>
+
                     <tbody>
                       {licenses.map((license) => {
                         const active = isLicenseActive(license);
+
                         return (
                           <tr key={license.id}>
                             <td>{license.id}</td>
@@ -190,33 +203,33 @@ function LicensesModal({ show, onClose, licenses = [] }) {
             </div>
 
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={onClose}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={onClose}
+              >
                 Cerrar
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      <div className="modal-backdrop fade show" />
     </>
   );
 }
 
 /* =================== PERFIL =================== */
+
 export default function PerfilConductor() {
   const queryClient = useQueryClient();
   const [showLicensesModal, setShowLicensesModal] = useState(false);
 
-  // ✅ Obtenemos el usuario del contexto de autenticación
   const { user: currentUser, isLoading: isAuthLoading } = useCurrentUser();
 
-  // ✅ Inicializamos el hook de PUT
   const conductorPut = useConductorPut();
 
-  /* =========================================================
-     ✅ 1) GET PERFIL (React Query)
-     - key incluye idUser para cache correcto
-     - enabled evita ejecutar hasta tener idUser
-  ========================================================= */
   const {
     data: user,
     isLoading,
@@ -224,60 +237,64 @@ export default function PerfilConductor() {
     error,
   } = ConductorGetOne(currentUser?.id);
 
-  /* =========================================================
-     ✅ 2) UPDATE CAMPO (Mutation)
-     REEMPLAZÁ esta función por tu PUT real si no usás useConductorPut
-  ========================================================= */
   const updateField = async ({ field, value }) => {
-    // ✅ OPCIÓN A: si tenés función directa
-    // return ConductorUpdateField({ idUser, field, value });
+    const editableFields = ["nombre", "apellido", "password"];
 
-    // ✅ OPCIÓN B: si useConductorPut es un hook que devuelve { mutateAsync }
-    if (conductorPut?.mutateAsync) {
-      return conductorPut.mutateAsync({ idUser: currentUser.id, field, value });
+    if (!editableFields.includes(field)) {
+      throw new Error("Campo no permitido para edición.");
     }
 
-    // ✅ OPCIÓN C: si useConductorPut devuelve una función directamente
-    if (typeof conductorPut === "function") {
-      return conductorPut({ idUser: currentUser.id, field, value });
+    if (!user) {
+      throw new Error("No se encontró el conductor actual.");
     }
 
-    throw new Error(
-      "No se encontró implementación de updateField. Conectá tu PUT real."
-    );
+    const conductorId = user?.id ?? currentUser?.id;
+
+    if (!conductorId) {
+      throw new Error("No se encontró el ID del conductor.");
+    }
+
+    const updatedConductor = {
+      ...user,
+      id: conductorId,
+      [field]: value,
+    };
+
+    await conductorPut.mutateAsync(updatedConductor);
+
+    return updatedConductor;
   };
 
   const updateFieldMutation = useMutation({
     mutationFn: updateField,
-    onSuccess: (result, variables) => {
-      // ✅ ARREGLADO: faltaba el "||"
-      const maybeUser = result?.user || result;
+    onSuccess: (updatedConductor, variables) => {
+      queryClient.setQueryData(
+        ["driver-profile", currentUser.id],
+        (oldData) => {
+          if (!oldData) return updatedConductor;
 
-      queryClient.setQueryData(["driver-profile", currentUser.id], (oldData) => {
-        if (!oldData) return oldData;
-
-        // Si el backend devuelve el usuario completo (o conductor completo)
-        if (maybeUser && typeof maybeUser === "object") {
-          // Si tiene nombre/email/licencias, lo tratamos como objeto válido:
-          if ("nombre" in maybeUser || "email" in maybeUser || "licencias" in maybeUser) {
-            return maybeUser;
-          }
+          return {
+            ...oldData,
+            [variables.field]: variables.value,
+          };
         }
+      );
 
-        // Si solo devuelve confirmación
-        return { ...oldData, [variables.field]: variables.value };
+      queryClient.invalidateQueries({
+        queryKey: ["conductor", currentUser.id],
       });
     },
   });
 
-  /* ============ Tooltips bootstrap ============ */
   useEffect(() => {
     const tooltipTriggerList = document.querySelectorAll(
       '[data-bs-toggle="tooltip"]'
     );
+
     const tooltipList = [...tooltipTriggerList].map(
       (el) => new bootstrap.Tooltip(el)
     );
+
     return () => tooltipList.forEach((t) => t.dispose());
   }, [user]);
 
@@ -285,6 +302,7 @@ export default function PerfilConductor() {
     () => getLatestLicense(user?.licencias || []),
     [user]
   );
+
   const hasActiveLicense = useMemo(
     () => isLicenseActive(latestLicense),
     [latestLicense]
@@ -293,11 +311,11 @@ export default function PerfilConductor() {
   const handleSaveField = async (field, value) => {
     await updateFieldMutation.mutateAsync({ field, value });
   };
-  
+
   if (!currentUser?.id) {
     return (
       <div className="container py-4">
-        <div className="alert alert-warning mb-0">
+        <div className="alert alert-warning">
           No hay usuario autenticado (idUser vacío).
         </div>
       </div>
@@ -307,7 +325,7 @@ export default function PerfilConductor() {
   if (isAuthLoading || isLoading) {
     return (
       <div className="container py-4">
-        <div className="alert alert-secondary mb-0">Cargando...</div>
+        <div className="text-center">Cargando...</div>
       </div>
     );
   }
@@ -317,96 +335,115 @@ export default function PerfilConductor() {
       <div className="container py-4">
         <div className="alert alert-danger">
           Ocurrió un error al cargar el perfil.
-          <div className="small mt-2">{error?.message || "Error desconocido"}</div>
+          <br />
+          {error?.message || "Error desconocido"}
         </div>
       </div>
     );
   }
 
-  const initials = `${user?.nombre?.[0] || ""}${user?.apellido?.[0] || ""}`.toUpperCase();
+  const initials = `${user?.nombre?.[0] || ""}${
+    user?.apellido?.[0] || ""
+  }`.toUpperCase();
 
   return (
     <div className="container py-4">
-      <div className="d-flex align-items-center gap-3 mb-4">
-        <div
-          className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
-          style={{ width: 56, height: 56, fontWeight: 700, fontSize: 18 }}
-        >
-          {initials || "U"}
-        </div>
+      <div className="card shadow-sm">
+        <div className="card-body">
+          <div className="d-flex align-items-center gap-3 mb-4">
+            <div
+              className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+              style={{ width: 64, height: 64, fontSize: 24 }}
+            >
+              {initials || "U"}
+            </div>
 
-        <div>
-          <h2 className="mb-0">Bienvenido a tu perfil, {user?.nombre}</h2>
-          <div className="text-muted">
-            Desde aquí podés consultar y editar la información de tu cuenta.
-          </div>
-        </div>
-      </div>
-
-      <div className="mb-3">
-        <div className="text-muted small">Email</div>
-        <div className="d-flex align-items-center gap-2">
-          <div className="fw-semibold">{user?.email}</div>
-          <span
-            className="badge bg-secondary"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="No editable"
-          >
-            No editable
-          </span>
-        </div>
-      </div>
-
-      <EditableField
-        label="Nombre"
-        fieldName="nombre"
-        value={user?.nombre}
-        placeholder="Ingresá tu nombre"
-        onSave={handleSaveField}
-      />
-
-      <EditableField
-        label="Apellido"
-        fieldName="apellido"
-        value={user?.apellido}
-        placeholder="Ingresá tu apellido"
-        onSave={handleSaveField}
-      />
-
-      <EditableField
-        label="Contraseña"
-        fieldName="password"
-        value={user?.password}
-        inputType="password"
-        placeholder="Ingresá una nueva contraseña"
-        onSave={handleSaveField}
-        isPassword
-        rules={{
-          minLength: { value: 6, message: "Mínimo 6 caracteres" },
-        }}
-      />
-
-      <div className="mb-3">
-        <div className="text-muted small">Licencias</div>
-
-        <div className="d-flex align-items-center justify-content-between gap-3">
-          <div className="fw-semibold">
-            {hasActiveLicense ? "Licencia activa" : "Sin licencia activa"}{" "}
-            {latestLicense && (
-              <span className="text-muted fw-normal">
-                (Último vencimiento: {formatDate(latestLicense.fechaVencimiento)})
-              </span>
-            )}
+            <div>
+              <h3 className="mb-1">Bienvenido a tu perfil, {user?.nombre}</h3>
+              <p className="text-muted mb-0">
+                Desde aquí podés consultar y editar la información de tu cuenta.
+              </p>
+            </div>
           </div>
 
-          <button
-            type="button"
-            className="btn btn-outline-primary"
-            onClick={() => setShowLicensesModal(true)}
-          >
-            Licencias
-          </button>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Email</label>
+
+            <div className="d-flex align-items-center justify-content-between gap-3">
+              <div className="form-control bg-light">{user?.email}</div>
+
+              <span className="badge bg-secondary">No editable</span>
+            </div>
+          </div>
+
+          <EditableField
+            label="Nombre"
+            fieldName="nombre"
+            value={user?.nombre}
+            placeholder="Ingresá tu nombre"
+            onSave={handleSaveField}
+            rules={{
+              required: "El nombre es obligatorio.",
+            }}
+          />
+
+          <EditableField
+            label="Apellido"
+            fieldName="apellido"
+            value={user?.apellido}
+            placeholder="Ingresá tu apellido"
+            onSave={handleSaveField}
+            rules={{
+              required: "El apellido es obligatorio.",
+            }}
+          />
+
+          <EditableField
+            label="Contraseña"
+            fieldName="password"
+            inputType="password"
+            placeholder="Ingresá tu nueva contraseña"
+            onSave={handleSaveField}
+            isPassword
+            rules={{
+              required: "La contraseña es obligatoria.",
+              minLength: {
+                value: 6,
+                message: "La contraseña debe tener al menos 6 caracteres.",
+              },
+            }}
+          />
+
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Licencias</label>
+
+            <div className="d-flex align-items-center justify-content-between gap-3">
+              <div className="form-control bg-light">
+                <span
+                  className={`badge ${
+                    hasActiveLicense ? "bg-success" : "bg-danger"
+                  } me-2`}
+                >
+                  {hasActiveLicense ? "Licencia activa" : "Sin licencia activa"}
+                </span>
+
+                {latestLicense && (
+                  <span className="text-muted">
+                    (Último vencimiento:{" "}
+                    {formatDate(latestLicense.fechaVencimiento)})
+                  </span>
+                )}
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                onClick={() => setShowLicensesModal(true)}
+              >
+                Licencias
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
