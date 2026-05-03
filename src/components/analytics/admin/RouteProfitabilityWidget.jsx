@@ -7,8 +7,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import DashboardCardShell from "../dashboard/DashboardCardShell.jsx";
-import { useRouteProfitability } from "../../hooks/analytics/useRouteProfitability.js";
+import DashboardCardShell from "../../dashboard/DashboardCardShell.jsx";
+import { useRouteProfitability } from "../../../hooks/analytics/useRouteProfitability.js";
 
 export function RouteProfitabilityWidget() {
   const { data = [], isLoading, isError, error } = useRouteProfitability();

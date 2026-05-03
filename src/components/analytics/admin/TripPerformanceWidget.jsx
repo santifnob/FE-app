@@ -1,9 +1,9 @@
 import { Card, Row, Col } from 'react-bootstrap'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
-import { useTripPerformanceStats } from '../../hooks/analytics/useTripPerformanceStats.js'
+import { useTripPerformanceStats } from '../../../hooks/analytics/useTripPerformanceStats.js'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import DashboardCardShell from '../dashboard/DashboardCardShell.jsx'
+import DashboardCardShell from '../../dashboard/DashboardCardShell.jsx'
 
 export default function TripPerformanceWidget() {
 

@@ -1,6 +1,6 @@
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
-import DashboardCardShell from "../dashboard/DashboardCardShell.jsx";
-import { useUpcomingTrips } from "../../hooks/analytics/useUpcomingTrips.js";
+import DashboardCardShell from "../../dashboard/DashboardCardShell.jsx";
+import { useUpcomingTrips } from "../../../hooks/analytics/useUpcomingTrips.js";
 import { PiWarningOctagon } from "react-icons/pi";
 
 function formatDate(dateString) {

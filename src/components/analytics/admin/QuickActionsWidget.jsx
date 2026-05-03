@@ -1,7 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 import { FaChartLine, FaPlusCircle, FaTools, FaUserPlus } from "react-icons/fa";
-import DashboardCardShell from "../dashboard/DashboardCardShell.jsx";
-import { useQuickActions } from "../../hooks/analytics/useQuickActions.js";
+import DashboardCardShell from "../../dashboard/DashboardCardShell.jsx";
+import { useQuickActions } from "../../../hooks/analytics/useQuickActions.js";
 
 const iconMap = {
   "New Trip": FaPlusCircle,
