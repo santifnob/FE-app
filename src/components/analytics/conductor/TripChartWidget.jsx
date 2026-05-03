@@ -1,8 +1,8 @@
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
-import DashboardCardShell from "../dashboard/DashboardCardShell.jsx";
-import { useUpcomingTrips } from "../../hooks/analytics/useUpcomingTrips.js";
+import DashboardCardShell from "../../dashboard/DashboardCardShell.jsx";
+import { useUpcomingTrips } from "../../../hooks/analytics/useUpcomingTrips.js";
 import { PiWarningOctagon } from "react-icons/pi";
-import { useConductorTripChart } from "../../hooks/analytics/useConductorTripChart.js";
+import { useConductorTripChart } from "../../../hooks/analytics/useConductorTripChart.js";
 
 export default function ConductorTripChartWidget() {
     const { data, isLoading, isError, error } = useConductorTripChart();

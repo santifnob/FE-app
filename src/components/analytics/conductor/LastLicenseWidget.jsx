@@ -1,8 +1,8 @@
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
-import DashboardCardShell from "../dashboard/DashboardCardShell.jsx";
-import { useUpcomingTrips } from "../../hooks/analytics/useUpcomingTrips.js";
+import DashboardCardShell from "../../dashboard/DashboardCardShell.jsx";
+import { useUpcomingTrips } from "../../../hooks/analytics/useUpcomingTrips.js";
 import { PiWarningOctagon } from "react-icons/pi";
-import { useConductorLastLicense } from "../../hooks/analytics/useConductorLastLicense.js";
+import { useConductorLastLicense } from "../../../hooks/analytics/useConductorLastLicense.js";
 
 export default function ConductorLastLicenseWidget() {
     const { data, isLoading, isError, error } = useConductorLastLicense();

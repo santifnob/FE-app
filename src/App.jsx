@@ -125,7 +125,7 @@ function App() {
 
               <Route
                 path='dashboard'
-                element={<DashboardContainerConductor/>}
+                element={<DashboardContainer/>}
               />
 
               <Route
