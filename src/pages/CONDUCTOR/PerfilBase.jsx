@@ -25,6 +25,8 @@ function getLatestLicense(licenses = []) {
 }
 
 function isLicenseActive(license) {
+  if (!license) return 'Sin licencia';
+
   if (!license?.fechaVencimiento) return 'Sin fecha de vencimiento';
 
   const today = new Date();
@@ -312,7 +314,7 @@ export default function PerfilConductor() {
   );
 
   const hasActiveLicense = useMemo(
-    () => isLicenseActive(latestLicense),
+    () => isLicenseActive(latestLicense) === 'Activa',
     [latestLicense]
   );
 

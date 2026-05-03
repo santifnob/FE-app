@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { dashboardKeys } from './keys.js';
+import { dashboardKeys } from './conductorKeys.js';
 import { api } from "../../services/api.js";
 
 export function useConductorLastLicense () {

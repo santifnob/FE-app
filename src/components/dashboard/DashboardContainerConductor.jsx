@@ -1,11 +1,10 @@
 import { Container } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import FleetStatusWidget from '../analytics/FleetStatusWidget.jsx'
-import TripPerformanceWidget from '../analytics/TripPerformanceWidget.jsx'
-import LicenseAlertsWidget from '../analytics/LicenseAlertsWidget.jsx'
-import { QuickActionsWidget } from '../analytics/QuickActionsWidget.jsx'
-import { RouteProfitabilityWidget } from '../analytics/RouteProfitabilityWidget.jsx'
-import { UpcomingTripsWidget } from '../analytics/UpcomingTripsWidget.jsx'
+import  ConductorEarningsWidget  from '../analytics/ConductorEarningsWidget.jsx';
+import  ConductorKilometersWidget  from '../analytics/ConductorKilometersWidget.jsx';
+import  ConductorLastLicenseWidget from '../analytics/ConductorLastLicenseWidget.jsx';
+import  ConductorNextTripWidget  from '../analytics/ConductorNextTripWidget.jsx';
+import  ConductorTripChartWidget  from '../analytics/ConductorTripChartWidget.jsx';
 import './Dashboard.css'
 import { useCurrentUser } from "../../hooks/useCurrentUser.js";
 import { ConductorGetOne } from "../../hooks/conductor/useConductorQuery.js";
@@ -62,12 +61,11 @@ export default function DashboardContainerConductor() {
       </div>
 
       <div className="dashboard-grid">
-        <FleetStatusWidget/>
-        <TripPerformanceWidget/>
-        <LicenseAlertsWidget/>
-        <QuickActionsWidget/>
-        <RouteProfitabilityWidget/>
-        <UpcomingTripsWidget/>
+        <ConductorEarningsWidget/>
+        <ConductorTripChartWidget/>
+        <ConductorLastLicenseWidget/>
+        <ConductorKilometersWidget/>
+        <ConductorNextTripWidget/>
       </div>
     </Container>
   )
