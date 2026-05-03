@@ -32,6 +32,15 @@
   border-color: rgba(255, 255, 255, 0.85);
 }
 
+.user-info {
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.user-info:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 32px 90px rgba(15, 23, 42, 0.14) !important;
+}
+
 .widget-header {
   display: flex;
   justify-content: space-between;
