@@ -68,7 +68,7 @@ export default function DashboardContainer() {
         <h1 className="dashboard-title mb-2">Dashboard {isAdmin ? "Administrativo" : "Usuario"}</h1>
         {isAdmin && (
           <p className="text-muted mb-0">
-          Visualiza la salud de la flota, el rendimiento de viajes y alertas de licencias con un layout modular.
+          Visualiza y gestiona los viajes, la salud de la flota y alertas importantes.
           </p>
         )}
         {!isAdmin && (
