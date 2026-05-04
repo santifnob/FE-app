@@ -12,7 +12,7 @@ export default function ConductorNextTripWidget() {
     return (
         <DashboardCardShell
             title="Próximo Viaje"
-            subtitle="Detalles del próximo viaje programado para el conductor"
+            subtitle="Detalles del próximo viaje programado"
             badge={nextTrip ? new Date(nextTrip.fechaHoraSalida).toLocaleString('es-AR') : "Sin viajes programados"}
             loading={isLoading}
             error={isError ? error : null}

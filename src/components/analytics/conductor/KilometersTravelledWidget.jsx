@@ -10,7 +10,7 @@ export default function ConductorKilometersWidget() {
   return (
     <DashboardCardShell
       title="Kilómetros Recorridos"
-      subtitle="Total de kilómetros recorridos por el conductor"
+      subtitle="Total de kilómetros recorridos"
       badge={data ? `${data.toLocaleString('es-AR')} km` : "Sin datos"}
       loading={isLoading}
       error={isError ? error : null}

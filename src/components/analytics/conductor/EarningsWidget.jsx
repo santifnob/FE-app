@@ -10,7 +10,7 @@ export default function ConductorEarningsWidget() {
   return (
     <DashboardCardShell
       title="Ganancias"
-      subtitle="Ganancias totales del conductor"
+      subtitle="Ganancias totales"
       badge={data ? `$${data.toLocaleString('es-AR')}` : "Sin datos"}
       loading={isLoading}
       error={isError ? error : null}

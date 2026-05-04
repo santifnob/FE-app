@@ -1,11 +1,14 @@
 import ViajesConductorBase from './ViajesConductorBase'
-
+import ConductorBadgeProfile from '../../../components/conductor/ConductorBadgeProfile'
 export default function EnCursoViajes() {
   return (
-    <ViajesConductorBase
-      estado='Activo'
-      titulo='🔄 Viajes en Curso'
-      emptyMessage='No tienes viajes en curso'
-    />
+    <>
+      <ConductorBadgeProfile />
+      <ViajesConductorBase
+        estado="Activo"
+        titulo="🔄 Viajes en Curso"
+        emptyMessage="No tienes viajes en curso"
+      />
+    </>
   )
 }
