@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as bootstrap from "bootstrap";
-
 import { ConductorGetOne } from "../../hooks/conductor/useConductorQuery";
 import { useConductorPut } from "../../hooks/conductor/useConductorPut";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
@@ -26,6 +25,8 @@ function getLatestLicense(licenses = []) {
 }
 
 function isLicenseActive(license) {
+  if (!license) return 'Sin licencia';
+
   if (!license?.fechaVencimiento) return 'Sin fecha de vencimiento';
 
   const today = new Date();
@@ -313,7 +314,7 @@ export default function PerfilConductor() {
   );
 
   const hasActiveLicense = useMemo(
-    () => isLicenseActive(latestLicense),
+    () => isLicenseActive(latestLicense) === 'Activa',
     [latestLicense]
   );
 
