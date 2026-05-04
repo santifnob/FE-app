@@ -10,7 +10,7 @@ export default function ConductorLastLicenseWidget() {
     return (
         <DashboardCardShell
             title="Última Licencia"
-            subtitle="Fecha de vencimiento de la última licencia del conductor"
+            subtitle="Fecha de vencimiento de la última licencia"
             badge={data ? new Date(data.fechaVencimiento).toLocaleDateString('es-AR') : "Sin datos"}
             loading={isLoading}
             error={isError ? error : null}

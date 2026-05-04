@@ -10,7 +10,7 @@ export default function ConductorTripChartWidget() {
     return (
         <DashboardCardShell
             title="Gráfico de Viajes"
-            subtitle="Evolución de los viajes del conductor en el último período"
+            subtitle="Evolución de los viajes en el último período"
             badge={data && data.length > 0 ? `Último viaje: ${new Date(data[data.length - 1].fechaFin).toLocaleDateString('es-AR')}` : "Sin datos"}
             loading={isLoading}
             error={isError ? error : null}
