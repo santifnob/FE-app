@@ -34,10 +34,6 @@ export function QuickActionsWidget() {
   const SelectedAction = componentMap[selectedAction]; // Para que funcione como componente JSX
 // isLoading and isError hardcoded for now
 
-
-  console.log(componentMap)
-console.log(SelectedAction)
-
   const handleActionClick = (action) => {
     setSelectedAction(action.title);
   }
