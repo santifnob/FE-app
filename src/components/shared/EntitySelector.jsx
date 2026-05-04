@@ -17,6 +17,20 @@ export function EntitySelector({ value, onChange, entityList, fetchNextPage, has
         return `${entity.id} - ${entity.ciudadSalida} -> ${entity.ciudadLlegada}`
       case 'tren':
         return `${entity.id} - ${entity.modelo}`
+      case 'tipoCarga':
+        return `${entity.id} - ${entity.name}`
+      case 'categoriaDenuncia':
+        return `${entity.id} - ${entity.titulo}`
+      case 'licencia':
+        return `${entity.id} - ${entity.numero}`
+      case 'lineaCarga':
+        return `${entity.id} - ${entity.nombre}`
+      case 'observacion':
+        return `${entity.id} - ${entity.observaciones?.slice(0, 20)}...`
+      case 'viaje':
+        return `${entity.id} - ${entity.recorrido?.ciudadSalida} -> ${entity.recorrido?.ciudadLlegada} (${entity.fechaIni ? new Date(new Date(entity.fechaIni).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'})`
+      case 'carga':
+        return `${entity.id} - ${entity.name}`
       default:
         return `${entity.id} - Entidad`
     }
@@ -25,7 +39,7 @@ export function EntitySelector({ value, onChange, entityList, fetchNextPage, has
   return (
     <div className='position-relative'>
       <button type='button' className='form-control text-start' onClick={() => setIsOpen(!isOpen)}>
-        {chosedItem? defineEntityDisplay(chosedItem) : 'Selecciona una entidad'}
+        {chosedItem ? defineEntityDisplay(chosedItem) : 'Selecciona una entidad'}
       </button>
 
       {isOpen && (

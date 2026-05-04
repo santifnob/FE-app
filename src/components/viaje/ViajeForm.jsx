@@ -5,10 +5,10 @@ import { useViajePut } from '../../hooks/viaje/useViajesPut'
 import { useRecorridosInfinite } from '../../hooks/recorrido/useRecorridoInfinite.js'
 import { useConductoresInfinite } from '../../hooks/conductor/useConductorInfinite.js'
 import { useTrenesInfinite } from '../../hooks/tren/useTrenInfinite.js'
-import { EntitySelector } from './EntitySelector.jsx'
+import { EntitySelector } from '../shared/EntitySelector.jsx'
 
 export function ViajeForm({ onSuccess, viajeToEdit }) {
-  // Hooks de datos de react query para los infinite scrolls 
+  // Hooks de datos de react query para los infinite scrolls
   const { data: dataRecorridos, fetchNextPage: nextRecorridos, hasNextPage: hasNextRecorridos } = useRecorridosInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
   const { data: dataConductores, fetchNextPage: nextConductor, hasNextPage: hasNextConductor } = useConductoresInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
   const { data: dataTrenes, fetchNextPage: nextTrenes, hasNextPage: hasNextTrenes } = useTrenesInfinite({})
@@ -17,14 +17,12 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
   const [conductores, setConductores] = useState([])
   const [trenes, setTrenes] = useState([])
 
-  // Mutaciones de react query (crear / editar viaje) 
+  // Mutaciones de react query (crear / editar viaje)
   const { mutateAsync: handlePost, isError: isErrorPost, isPending: isPendingPost, error: errorPost } = useViajePost()
   const { mutateAsync: handlePut, isError: isErrorPut, isPending: isPendingPut, error: errorPut } = useViajePut()
   const isPendingForm = isPendingPost || isPendingPut
 
- 
-
-  // Setup del formulario 
+  // Setup del formulario
   const {
     control,
     register,
@@ -35,13 +33,13 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
     mode: 'onBlur',
     defaultValues: viajeToEdit
       ? {
-          fechaIni: viajeToEdit.fechaIni?.slice(0, 10),
-          fechaFin: viajeToEdit.fechaFin?.slice(0, 10),
-          estado: viajeToEdit.estado,
-          idTren: viajeToEdit.tren?.id,
-          idRecorrido: viajeToEdit.recorrido?.id,
-          idConductor: viajeToEdit.conductor?.id
-        }
+        fechaIni: viajeToEdit.fechaIni?.slice(0, 10),
+        fechaFin: viajeToEdit.fechaFin?.slice(0, 10),
+        estado: viajeToEdit.estado,
+        idTren: viajeToEdit.tren?.id,
+        idRecorrido: viajeToEdit.recorrido?.id,
+        idConductor: viajeToEdit.conductor?.id
+      }
       : {}
   })
 
@@ -50,9 +48,9 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
   const watchFechaIni = watch('fechaIni')
   const watchFechaFin = watch('fechaFin')
 
-  const {isPending: isValidando, isError: isValidateError, error: validateError} = useValidationCheck(watchIdTren, watchIdConductor, watchFechaFin, watchFechaIni, viajeToEdit?.id)
+  const { isPending: isValidando, isError: isValidateError, error: validateError } = useValidationCheck(watchIdTren, watchIdConductor, watchFechaFin, watchFechaIni, viajeToEdit?.id)
 
-  const isSubmitDisabled = isPendingForm || isValidando || !!isValidateError;
+  const isSubmitDisabled = isPendingForm || isValidando || !!isValidateError
 
   // Cargar datos de los hooks infinitos 
   useEffect(() => {
@@ -61,7 +59,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
     setTrenes(dataTrenes?.pages.flatMap(p => p.items) ?? [])
   }, [dataRecorridos, dataConductores, dataTrenes])
 
-  // Envío del formulario 
+  // Envío del formulario
   const onSubmit = async (formData) => {
     const viaje = {
       fechaIni: formData.fechaIni,
@@ -92,7 +90,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
           control={control}
           rules={{ required: 'El "Conductor" es requerido' }}
           render={({ field }) => (
-            <EntitySelector value={field.value} onChange={field.onChange} entityList={conductores} fetchNextPage={nextConductor} hasNextPage={hasNextConductor} entityName={'conductor'}/>
+            <EntitySelector value={field.value} onChange={field.onChange} entityList={conductores} fetchNextPage={nextConductor} hasNextPage={hasNextConductor} entityName="conductor" />
           )}
         />
         {errors.idConductor && <span className='text-danger'>{errors.idConductor.message}</span>}
@@ -106,7 +104,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
           control={control}
           rules={{ required: 'El "Tren" es requerido' }}
           render={({ field }) => (
-            <EntitySelector value={field.value} onChange={field.onChange} entityList={trenes} fetchNextPage={nextTrenes} hasNextPage={hasNextTrenes} entityName={'tren'}/>
+            <EntitySelector value={field.value} onChange={field.onChange} entityList={trenes} fetchNextPage={nextTrenes} hasNextPage={hasNextTrenes} entityName="tren" />
           )}
         />
         {errors.idTren && <span className='text-danger'>{errors.idTren.message}</span>}
@@ -120,7 +118,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
           control={control}
           rules={{ required: 'El "Recorrido" es requerido' }}
           render={({ field }) => (
-            <EntitySelector value={field.value} onChange={field.onChange} entityList={recorridos} fetchNextPage={nextRecorridos} hasNextPage={hasNextRecorridos} entityName={'recorrido'}/>
+            <EntitySelector value={field.value} onChange={field.onChange} entityList={recorridos} fetchNextPage={nextRecorridos} hasNextPage={hasNextRecorridos} entityName="recorrido" />
           )}
         />
         {errors.idRecorrido && <span className='text-danger'>{errors.idRecorrido.message}</span>}
@@ -162,15 +160,14 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
         </select>
       </div>
 
- 
       {/* {mensajeError && <p className='text-danger mt-2'>{mensajeError}</p>} */}
 
       {isErrorPost && <p className='text-danger mt-2'>{errorPost.response?.data?.message || errorPost.message}</p>}
       {isErrorPut && <p className='text-danger mt-2'>{errorPut.response?.data?.message || errorPut.message}</p>}
-      
+
       {isValidateError && (
-        <div className="alert alert-warning mt-3">
-         ⚠️ {validateError.response?.data?.message || validateError.message}
+        <div className='alert alert-warning mt-3'>
+          ⚠️ {validateError.response?.data?.message || validateError.message}
         </div>
       )}
 
