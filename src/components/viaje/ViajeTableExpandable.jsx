@@ -43,10 +43,10 @@ export function ViajeTableExpandable({ viajes, fetchNextPage, hasNextPage, handl
               <tr key={viaje.id}>
                 <td className='border-dark-center' style={{ borderRightWidth: 1 }}>{viaje.id}</td>
                 <td className='text-center'>
-                  {viaje.tren?.modelo ? `${viaje.tren.modelo} #${viaje.tren.id}` : 'Sin modelo'} (color: {viaje.tren?.color ?? 'Sin color'})
+                  {viaje.tren?.modelo ? `${viaje.tren.modelo}` : 'Sin modelo'} (color: {viaje.tren?.color ?? 'Sin color'})
                 </td>
                 <td className='text-center'>
-                  {viaje.conductor?.nombre ? `${viaje.conductor.nombre} ${viaje.conductor.apellido} #${viaje.conductor.id}` : 'NN NN'}
+                  {viaje.conductor?.nombre ? `${viaje.conductor.nombre} ${viaje.conductor.apellido}` : 'NN NN'}
                 </td>
                 <td className='text-center'>
                   <EstadoBadge viaje={viaje} />
@@ -55,7 +55,7 @@ export function ViajeTableExpandable({ viajes, fetchNextPage, hasNextPage, handl
                   {viaje.fechaIni ? new Date(new Date(viaje.fechaIni).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}
                 </td>
                 <td className='text-center'>
-                  {viaje.recorrido ? `${viaje.recorrido.ciudadSalida} → ${viaje.recorrido.ciudadLlegada} #${viaje.recorrido.id}` : 'Sin recorrido'}
+                  {viaje.recorrido ? `${viaje.recorrido.ciudadSalida} → ${viaje.recorrido.ciudadLlegada}` : 'Sin recorrido'}
                 </td>
                 <td className='text-end'>
                   <div className='d-flex justify-content-end align-items-center gap-2'>

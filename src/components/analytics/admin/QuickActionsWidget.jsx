@@ -25,7 +25,7 @@ const componentMap = {
 
 export function QuickActionsWidget() {
   const quickActions = [
-  { id: "qa-1", title: "Crear Viaje", description: "Programar un nuevo servicio" },
+  { id: "qa-1", title: "Crear Viaje" },
   { id: "qa-2", title: "Registrar un conductor" },
   { id: "qa-3", title: "Reparación trenes", description: "Revisar revisiones próximas o actuales" },
   { id: "qa-4", title: "Solicitudes registro", description: "Ver los conductores pendientes de aprobación" },
@@ -48,6 +48,7 @@ export function QuickActionsWidget() {
         fallback={quickActions.length === 0 ? (
           <div className="text-center text-muted py-5">No hay acciones rápidas disponibles.</div>
         ) : null}
+        
       >
         <Row className="gx-2 gy-2">
           {quickActions.map((action) => {

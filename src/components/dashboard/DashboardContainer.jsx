@@ -81,10 +81,10 @@ export default function DashboardContainer() {
       
       {isAdmin && (
         <div className="dashboard-grid">
+          <QuickActionsWidget/>
           <FleetStatusWidget/>
           <TripPerformanceWidget/>
           <LicenseAlertsWidget/>
-          <QuickActionsWidget/>
           <RouteProfitabilityWidget/>
           <UpcomingTripsWidget/>
         </div>

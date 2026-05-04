@@ -79,24 +79,6 @@ export function LoginPage () {
           <div className='text-center mt-3'>
             ¿Quieres ser conductor? <a onClick={() => navigate('/register')} className='fw-bold link-underline text-info'>Registrate</a>
           </div>
-
-          <div className='text-center mt-4 pt-3 border-top'>
-            <p className='mb-2'>Continuar con</p>
-            <div className='d-flex justify-content-center gap-3'>
-              <img
-                src='https://img.icons8.com/color/48/google-logo.png' alt='Google' onClick={() => navigate('/pagina-en-construccion')}
-                style={{ width: '35px', height: '35px', cursor: 'pointer' }}
-              />
-              <img
-                src='https://img.icons8.com/color/48/facebook-new.png' alt='Facebook' onClick={() => navigate('/pagina-en-construccion')}
-                style={{ width: '35px', height: '35px', cursor: 'pointer' }} className='mx-2'
-              />
-              <img
-                src='https://img.icons8.com/ios-filled/50/mac-os.png' alt='Apple' onClick={() => navigate('/pagina-en-construccion')}
-                style={{ width: '35px', height: '35px', cursor: 'pointer' }}
-              />
-            </div>
-          </div>
         </div>
       </div>
     </div>
