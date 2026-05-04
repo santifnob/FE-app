@@ -6,6 +6,8 @@ import LicenseAlertsWidget from '../analytics/admin/LicenseAlertsWidget.jsx'
 import { QuickActionsWidget } from '../analytics/admin/QuickActionsWidget.jsx'
 import { RouteProfitabilityWidget } from '../analytics/admin/RouteProfitabilityWidget.jsx'
 import { UpcomingTripsWidget } from '../analytics/admin/UpcomingTripsWidget.jsx'
+import { CargoDistributionWidget } from '../analytics/admin/CargoDistributionWidget.jsx'
+import { CancellationRiskWidget } from '../analytics/admin/CancellationRiskWidget.jsx'
 import './Dashboard.css'
 import { useCurrentUser } from '../../hooks/useCurrentUser.js'
 import { ConductorGetOne } from '../../hooks/conductor/useConductorQuery.js'
@@ -87,6 +89,8 @@ export default function DashboardContainer() {
           <LicenseAlertsWidget/>
           <RouteProfitabilityWidget/>
           <UpcomingTripsWidget/>
+          <CargoDistributionWidget/>
+          <CancellationRiskWidget/>
         </div>
         )}
 

@@ -7,4 +7,6 @@ export const dashboardKeys = {
   upcomingTrips: () => [...dashboardKeys.all, 'upcoming-trips'],
   routeProfitability: () => [...dashboardKeys.all, 'route-profitability'],
   quickActions: () => [...dashboardKeys.all, 'quick-actions'],
+  cargoDistribution: () => [...dashboardKeys.all, 'cargo-distribution'],
+  cancellationRisk: () => [...dashboardKeys.all, 'cancellation-risk'],
 };
