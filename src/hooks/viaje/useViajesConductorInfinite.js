@@ -57,26 +57,16 @@ export function useViajesConductorInfinite(conductorId, estado) {
       const res = await api.get('/viaje', {
         params: {
           limit: 10,
-          cursor: pageParam
+          cursor: pageParam,
+          conductorId,
+          estado
         },
-        withCredentials: true // ← No olvides esto
-      })
-
-      // Filtramos por conductor, estado y fecha de inicio futura o igual a hoy
-      const filteredItems = res.data.items.filter(viaje => {
-        const mismoConductor = viaje.conductor?.id === conductorId
-        const today = new Date()
-        today.setHours(0, 0, 0, 0)
-        const viajeDate = new Date(viaje.fechaIni)
-        viajeDate.setHours(0, 0, 0, 0)
-        const fechaValida = viajeDate >= today
-        const mismoEstado = estado ? ((viaje.estado === estado) && fechaValida) : true
-        return mismoConductor && mismoEstado
+        withCredentials: true
       })
 
       return {
         ...res.data,
-        items: filteredItems
+        items: res.data.items
       }
     },
     getNextPageParam: (lastPage) => {

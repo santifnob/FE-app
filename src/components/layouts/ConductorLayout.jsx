@@ -27,9 +27,14 @@ export default function AdminLayout () {
       {/* SIDEBAR */}
       <aside className={`sidebar ${showSidebar ? 'open' : 'closed'}`}>
         <div className='sidebar-top'>
-          <h2 className='mb-4 text-center text-white'>Mi ferrocarril</h2>
-           
-           
+          <h2
+            className='mb-4 text-center text-white'
+            role='button'
+            onClick={() => navigate('/conductor/dashboard')}
+            style={{ cursor: 'pointer' }}
+          >
+            Mi ferrocarril
+          </h2>
           <div className='d-flex justify-content-center mt-1 mb-4'>
             <div
               className='d-inline-flex align-items-center gap-2 px-2 py-1 rounded-pill'
@@ -66,10 +71,11 @@ export default function AdminLayout () {
                 </a>
 
                 <ul className={`submenu list-unstyled ms-3 w-100 h5 ${isMisViajesOpen ? 'open' : ''}`}>
-                  
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/pendientes' ? 'active' : ''}`} to='/conductor/misViajes/pendientes'>⚠️ Pendientes</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/enCursos' ? 'active' : ''}`} to="/conductor/misViajes/enCursos">🧳 En curso</Link></li>
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/finalizados' ? 'active' : ''}`} to='/conductor/misViajes/finalizados'>✔️ Finalizados</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/enCursos' ? 'active' : ''}`} to="/conductor/misViajes/enCursos">🧳 En curso</Link></li>                    
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/pendientes' ? 'active' : ''}`} to='/conductor/misViajes/pendientes'>⚠️ Pendientes</Link></li>                    
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/rechazados' ? 'active' : ''}`} to='/conductor/misViajes/rechazados'>❌ Rechazados</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/cancelados' ? 'active' : ''}`} to='/conductor/misViajes/cancelados'>🚫 Cancelados</Link></li>                    
                 </ul>
 
               </li>

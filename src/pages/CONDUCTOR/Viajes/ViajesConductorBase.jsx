@@ -91,7 +91,7 @@ export default function ViajesConductorBase({ estado, titulo, emptyMessage }) {
       <InfiniteScroll
         dataLength={viajes.length}
         next={fetchNextPage}
-        hasMore={hasNextPage}
+        hasMore={Boolean(hasNextPage)}
         loader={
           <div className='text-center mt-3'>
             <div className='spinner-border spinner-border-sm text-primary' role='status'>

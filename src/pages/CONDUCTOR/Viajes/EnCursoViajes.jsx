@@ -5,7 +5,7 @@ export default function EnCursoViajes() {
     <>
       <ConductorBadgeProfile />
       <ViajesConductorBase
-        estado="Activo"
+        estado="En curso"
         titulo="🔄 Viajes en Curso"
         emptyMessage="No tienes viajes en curso"
       />

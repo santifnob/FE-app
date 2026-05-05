@@ -23,6 +23,8 @@ import  PerfilConductor  from './pages/CONDUCTOR/PerfilBase.jsx'
 import PendientesViajes from './pages/CONDUCTOR/Viajes/PendientesViajes'
 import EnCursoViajes from './pages/CONDUCTOR/Viajes/EnCursoViajes'
 import FinalizadosViajes from './pages/CONDUCTOR/Viajes/FinalizadosViajes'
+import RechazadosViajes from './pages/CONDUCTOR/Viajes/RechazadosViajes.jsx'
+import CanceladosViajes from './pages/CONDUCTOR/Viajes/CanceladosViajes.jsx'
 
 function App() {
   return (
@@ -139,6 +141,16 @@ function App() {
               <Route
                 path='misViajes/finalizados'
                 element={<FinalizadosViajes />}
+              />
+
+              <Route
+                path='misViajes/rechazados'
+                element={<RechazadosViajes />}
+              />
+
+              <Route
+                path='misViajes/cancelados'
+                element={<CanceladosViajes />}
               />
 
               <Route

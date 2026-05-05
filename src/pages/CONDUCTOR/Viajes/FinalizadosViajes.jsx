@@ -6,7 +6,7 @@ export default function FinalizadosViajes() {
     <>
       <ConductorBadgeProfile />
       <ViajesConductorBase
-        estado="Inactivo"
+        estado="Finalizado"
         titulo="✅ Viajes Finalizados"
         emptyMessage="No tienes viajes finalizados"
       />
