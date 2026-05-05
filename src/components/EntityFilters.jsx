@@ -220,6 +220,13 @@ export function EntityFilters({ entityName, availableAttributes, onApplyFilters 
     onApplyFilters({})
   }
 
+  const handleFilterKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      handleApply()
+    }
+  }
+
   const hasAppliedFilters = Boolean(Object.keys(appliedFilters).length)
 
   const renderFilterInput = (attribute) => {
@@ -239,60 +246,62 @@ export function EntityFilters({ entityName, availableAttributes, onApplyFilters 
               value={filters[attribute.key]}
               onChange={(e) => handleFilterChange(attribute.key, e.target.value)}
             />
-            {errors[attribute.key] && <div className="invalid-feedback">{errors[attribute.key]}</div>}
+            {errors[attribute.key] && <div className='invalid-feedback'>{errors[attribute.key]}</div>}
           </div>
         )
       case 'exact':
         return (
           <div key={attribute.key} className={columnClass}>
-            {attribute.options ? (
-              <select
-                className={`form-select ${errors[attribute.key] ? 'is-invalid' : ''}`}
-                value={filters[attribute.key]}
-                onChange={(e) => handleFilterChange(attribute.key, e.target.value)}
-              >
-                <option value="">{attribute.label}</option>
-                {attribute.options.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-            ) : (
-              <input
-                type="text"
-                className={`form-control ${errors[attribute.key] ? 'is-invalid' : ''}`}
-                placeholder={`${attribute.label}...`}
-                value={filters[attribute.key]}
-                onChange={(e) => handleFilterChange(attribute.key, e.target.value)}
-              />
-            )}
-            {errors[attribute.key] && <div className="invalid-feedback">{errors[attribute.key]}</div>}
+            {attribute.options
+              ? (
+                <select
+                  className={`form-select ${errors[attribute.key] ? 'is-invalid' : ''}`}
+                  value={filters[attribute.key]}
+                  onChange={(e) => handleFilterChange(attribute.key, e.target.value)}
+                >
+                  <option value=''>{attribute.label}</option>
+                  {attribute.options.map((option) => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              )
+              : (
+                <input
+                  type='text'
+                  className={`form-control ${errors[attribute.key] ? 'is-invalid' : ''}`}
+                  placeholder={`${attribute.label}...`}
+                  value={filters[attribute.key]}
+                  onChange={(e) => handleFilterChange(attribute.key, e.target.value)}
+                />
+              )}
+            {errors[attribute.key] && <div className='invalid-feedback'>{errors[attribute.key]}</div>}
           </div>
         )
       case 'range': {
         const minKey = attribute.minKey || `min${capitalize(attribute.key)}`
         const maxKey = attribute.maxKey || `max${capitalize(attribute.key)}`
         return (
-          <div key={attribute.key} className="col-12 mb-2">
-            <div className="row g-2">
-              <div className="col-6">
+          <div key={attribute.key} className='col-12 mb-2'>
+            <div className='row g-2'>
+              <div className='col-6'>
                 <input
-                  type="number"
+                  type='number'
                   className={`form-control ${errors[minKey] ? 'is-invalid' : ''}`}
                   placeholder={`Min ${attribute.label}`}
                   value={filters[minKey]}
                   onChange={(e) => handleFilterChange(minKey, e.target.value)}
                 />
-                {errors[minKey] && <div className="invalid-feedback d-block">{errors[minKey]}</div>}
+                {errors[minKey] && <div className='invalid-feedback d-block'>{errors[minKey]}</div>}
               </div>
-              <div className="col-6">
+              <div className='col-6'>
                 <input
-                  type="number"
+                  type='number'
                   className={`form-control ${errors[maxKey] ? 'is-invalid' : ''}`}
                   placeholder={`Max ${attribute.label}`}
                   value={filters[maxKey]}
                   onChange={(e) => handleFilterChange(maxKey, e.target.value)}
                 />
-                {errors[maxKey] && <div className="invalid-feedback d-block">{errors[maxKey]}</div>}
+                {errors[maxKey] && <div className='invalid-feedback d-block'>{errors[maxKey]}</div>}
               </div>
             </div>
           </div>
@@ -302,27 +311,27 @@ export function EntityFilters({ entityName, availableAttributes, onApplyFilters 
         const startKey = attribute.startKey || `start${capitalize(attribute.key)}`
         const endKey = attribute.endKey || `end${capitalize(attribute.key)}`
         return (
-          <div key={attribute.key} className="col-12 mb-2">
-            <div className="row g-2">
-              <div className="col-6">
+          <div key={attribute.key} className='col-12 mb-2'>
+            <div className='row g-2'>
+              <div className='col-6'>
                 <input
-                  type="date"
+                  type='date'
                   className={`form-control ${errors[startKey] ? 'is-invalid' : ''}`}
                   placeholder={`Desde ${attribute.label}`}
                   value={filters[startKey]}
                   onChange={(e) => handleFilterChange(startKey, e.target.value)}
                 />
-                {errors[startKey] && <div className="invalid-feedback d-block">{errors[startKey]}</div>}
+                {errors[startKey] && <div className='invalid-feedback d-block'>{errors[startKey]}</div>}
               </div>
-              <div className="col-6">
+              <div className='col-6'>
                 <input
-                  type="date"
+                  type='date'
                   className={`form-control ${errors[endKey] ? 'is-invalid' : ''}`}
                   placeholder={`Hasta ${attribute.label}`}
                   value={filters[endKey]}
                   onChange={(e) => handleFilterChange(endKey, e.target.value)}
                 />
-                {errors[endKey] && <div className="invalid-feedback d-block">{errors[endKey]}</div>}
+                {errors[endKey] && <div className='invalid-feedback d-block'>{errors[endKey]}</div>}
               </div>
             </div>
           </div>
@@ -332,38 +341,38 @@ export function EntityFilters({ entityName, availableAttributes, onApplyFilters 
         return null
     }
   }
-  
+
   return (
-    <div className="d-flex flex-column flex-sm-row align-items-start gap-2 w-100">
+    <div className='d-flex flex-column flex-sm-row align-items-start gap-2 w-100'>
       {hasAppliedFilters && (
         <button
-          type="button"
-          className="clear-filters-btn"
+          type='button'
+          className='clear-filters-btn'
           onClick={handleClearFilters}
-          title="Limpiar filtros"
+          title='Limpiar filtros'
         >
           ×
         </button>
       )}
 
-      <div className="dropdown" data-bs-auto-close="outside">
+      <div className='dropdown' data-bs-auto-close='outside'>
         <button
-          className="btn btn-outline-secondary dropdown-toggle px-3"
-          type="button"
+          className='btn btn-outline-secondary dropdown-toggle px-3'
+          type='button'
           id={`${entityName}FilterDropdown`}
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
+          data-bs-toggle='dropdown'
+          aria-expanded='false'
         >
           Filtrar por {selectedAttributes.length > 0 ? `(${selectedAttributes.length})` : ''}
         </button>
 
-        <ul className="dropdown-menu" aria-labelledby={`${entityName}FilterDropdown`}>
+        <ul className='dropdown-menu' aria-labelledby={`${entityName}FilterDropdown`}>
           {availableAttributes.map((attribute) => (
             <li key={attribute.key}>
-              <label className="dropdown-item d-flex align-items-center gap-2 mb-0" htmlFor={`check-${entityName}-${attribute.key}`}>
+              <label className='dropdown-item d-flex align-items-center gap-2 mb-0' htmlFor={`check-${entityName}-${attribute.key}`}>
                 <input
-                  className="form-check-input"
-                  type="checkbox"
+                  className='form-check-input'
+                  type='checkbox'
                   id={`check-${entityName}-${attribute.key}`}
                   checked={selectedAttributes.includes(attribute.key)}
                   onChange={(event) => handleAttributeChange(attribute.key, event)}
@@ -376,15 +385,15 @@ export function EntityFilters({ entityName, availableAttributes, onApplyFilters 
       </div>
 
       {selectedAttributes.length > 0 && (
-        <div className="flex-grow-1 w-100" style={{ minWidth: '220px' }}>
-          <div className="row g-2">
+        <div className='flex-grow-1 w-100' style={{ minWidth: '220px' }} onKeyDown={handleFilterKeyDown}>
+          <div className='row g-2'>
             {availableAttributes.map((attribute) => renderFilterInput(attribute))}
           </div>
-          <div className="mt-2 d-flex gap-2 flex-wrap">
-            <button type="button" className="btn btn-primary" onClick={handleApply}>
+          <div className='mt-2 d-flex gap-2 flex-wrap'>
+            <button type='button' className='btn btn-primary' onClick={handleApply}>
               Aplicar filtros
             </button>
-            <button type="button" className="btn btn-outline-secondary" onClick={handleClearFilters}>
+            <button type='button' className='btn btn-outline-secondary' onClick={handleClearFilters}>
               Limpiar
             </button>
           </div>
