@@ -2,11 +2,13 @@ import RailTrackerLogo from '../assets/RailTrackerImages/RailTrackerLogoRecorted
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useRegisterMutation } from '../hooks/useRegisterMutation.js'
+import { useState } from 'react'
 
 export function RegisterPage () {
   const { register, formState: { errors }, handleSubmit } = useForm({ mode: 'onBlur' })
   const navigate = useNavigate()
-  const { isError, mutateAsync: registerMutation, isPending } = useRegisterMutation()
+  const { mutateAsync: registerMutation, isPending } = useRegisterMutation()
+  const [error, setError] = useState(null)
 
   const onSubmit = async (formData) => {
     try {
@@ -20,16 +22,12 @@ export function RegisterPage () {
       }
 
       await registerMutation(conductorData)
-      console.log(isError)
-      if (isError) {
-        throw new Error('Error en el registro')
-      }
 
       alert('Cuenta creada con éxito')
       navigate('/')
     } catch (error) {
-      alert('Hubo un problema con el registro')
-      console.error(error)
+      console.error(error.message)
+      setError(error || 'Error al crear la cuenta')
     }
   }
 
@@ -122,6 +120,8 @@ export function RegisterPage () {
             </button>
           </div>
         </form>
+
+        {error && <span className='text-danger mt-1'>{error.message}</span>}
       </div>
     </div>
   )

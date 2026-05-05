@@ -5,7 +5,12 @@ export function useRegisterMutation () {
   return useMutation({
     mutationKey: ['register'],
     mutationFn: async (conductorData) => {
-      await api.post('/conductor', conductorData)
+      try{
+        await api.post('/conductor', conductorData)
+      } catch (error){
+        throw new Error(error.response.data.error)
+      }
+      
     }
   })
 }

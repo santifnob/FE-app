@@ -77,7 +77,7 @@ export function LoginPage () {
           </form>
 
           <div className='text-center mt-3'>
-            ¿Quieres ser conductor? <a onClick={() => navigate('/register')} className='fw-bold link-underline text-info'>Registrate</a>
+            ¿Quieres ser conductor? <a onClick={() => navigate('/register')} className='fw-bold link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover' role='button'>Registrate</a>
           </div>
         </div>
       </div>
