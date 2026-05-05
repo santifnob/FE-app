@@ -42,7 +42,7 @@ export default function FleetStatusWidget() {
                 <Cell key={entry.stateName} fill={getBackroundColorByState(entry.stateName)} />
               ))}
             </Pie>
-            <Tooltip formatter={(value) => [`${value}`, 'Trenes']} />
+            <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </ResponsiveContainer>
       </div>
@@ -77,4 +77,27 @@ const getBackroundColorByState = (state) => {
     default:
       return '#6c757d'
   }
+}
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+
+    return (
+      <div
+        style={{
+          background: "white",
+          border: "1px solid #ddd",
+          borderRadius: 8,
+          padding: "10px 12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+        }}
+      >
+        <p style={{ margin: 0, fontWeight: 600 }}>
+          {`${data.stateName}: ${data.stateCount}`}
+        </p>
+      </div>
+    );
+  }
+
+  return null;
 }

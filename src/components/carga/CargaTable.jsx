@@ -31,7 +31,7 @@ export function CargaTable({ cargas, fetchNextPage, hasNextPage, handleEdit, del
                 <tr key={carga.id}>
                   <td className='border-dark' style={{ borderRightWidth: 1 }}>{carga.id}</td>
                   <td className='text-center'>{carga.name ? carga.name : 'Sin nombre'}</td>
-                  <td className='text-center'>{carga.precio ? carga.precio : 'Sin precio'}</td>
+                  <td className='text-center'>${carga.precio ? carga.precio : 'Sin precio'}</td>
                   <td className='text-center'>{carga.tipoCarga && carga.tipoCarga.estado === 'Activo' ? carga.tipoCarga.name : 'Sin tipo de carga'}</td>
                   <td className='text-center'>{carga.createdAt ? new Date(new Date(carga.createdAt).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>

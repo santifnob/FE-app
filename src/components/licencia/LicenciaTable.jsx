@@ -20,7 +20,6 @@ export function LicenciaTable({ licencias, fetchNextPage, hasNextPage, handleEdi
               <td className='text-center'>Fecha de Emisión</td>
               <td className='text-center'>Fecha de Vencimiento</td>
               <td className='text-center'>Conductor</td>
-              <td className='text-center'>Fecha de creación</td>
               <td className='text-center'>Estado</td>
               <td className='text-end' style={{ paddingRight: 75 }}>Acción</td>
             </tr>
@@ -34,7 +33,6 @@ export function LicenciaTable({ licencias, fetchNextPage, hasNextPage, handleEdi
                   <td className='text-center'>{licencia.fechaHecho ? new Date(new Date(licencia.fechaHecho).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>{licencia.fechaVencimiento ? new Date(new Date(licencia.fechaVencimiento).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>{licencia.conductor ? `${licencia.conductor.nombre} ${licencia.conductor.apellido} #${licencia.conductor.id}` : 'Sin conductor'}</td>
-                  <td className='text-center'>{licencia.createdAt ? new Date(new Date(licencia.createdAt).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>
                     <EstadoBadge estadoTexto={licencia.estado ?? 'Sin estado'} />
                   </td>

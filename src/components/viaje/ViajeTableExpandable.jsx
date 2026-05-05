@@ -43,7 +43,7 @@ export function ViajeTableExpandable({ viajes, fetchNextPage, hasNextPage, handl
               <tr key={viaje.id}>
                 <td className='border-dark-center' style={{ borderRightWidth: 1 }}>{viaje.id}</td>
                 <td className='text-center'>
-                  {viaje.tren?.modelo ? `${viaje.tren.modelo}` : 'Sin modelo'} (color: {viaje.tren?.color ?? 'Sin color'})
+                  {viaje.tren?.modelo ? `${viaje.tren.modelo}` : 'Sin modelo'}
                 </td>
                 <td className='text-center'>
                   {viaje.conductor?.nombre ? `${viaje.conductor.nombre} ${viaje.conductor.apellido}` : 'NN NN'}
