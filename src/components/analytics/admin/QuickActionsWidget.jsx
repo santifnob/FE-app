@@ -27,8 +27,8 @@ export function QuickActionsWidget() {
   const quickActions = [
   { id: "qa-1", title: "Crear Viaje" },
   { id: "qa-2", title: "Registrar un conductor" },
-  { id: "qa-3", title: "Reparación trenes", description: "Revisar revisiones próximas o actuales" },
-  { id: "qa-4", title: "Solicitudes registro", description: "Ver los conductores pendientes de aprobación" },
+  { id: "qa-3", title: "Reparación trenes"},
+  { id: "qa-4", title: "Solicitudes registro"},
 ];
   const [selectedAction, setSelectedAction] = useState(null);
   const SelectedAction = componentMap[selectedAction]; // Para que funcione como componente JSX
@@ -50,26 +50,61 @@ export function QuickActionsWidget() {
         ) : null}
         
       >
-        <Row className="gx-2 gy-2">
-          {quickActions.map((action) => {
-            const Icon = iconMap[action.title] ?? FaChartLine;
-            return (
-              <Col xs={6} key={action.id}>
-                <button type="button" className="btn btn-outline-primary w-100 text-start py-3 h-100" onClick={() => handleActionClick(action)}>
-                  <div className="d-flex align-items-center gap-3">
-                    <span className="fs-4">
+        <div className="d-flex flex-column" style={{ height: '100%', minHeight: '300px' }}>
+          <div className="d-flex flex-grow-1">
+            {quickActions.slice(0, 2).map((action) => {
+              const Icon = iconMap[action.title] ?? FaChartLine;
+              return (
+                <button
+                  key={action.id}
+                  type="button"
+                  className="btn btn-outline-primary d-flex align-items-center justify-content-center text-center p-3 m-1"
+                  onClick={() => handleActionClick(action)}
+                  style={{
+                    flex: 1,
+                    borderRadius: '8px',
+                    transition: 'all 0.3s ease',
+                  }}
+                  
+                >
+                  <div>
+                    <span className="fs-3 d-block mb-2">
                       <Icon />
                     </span>
-                    <div>
-                      <div className="fw-semibold">{action.title}</div>
-                      <div className="small text-muted">{action.description}</div>
-                    </div>
+                    <div className="fw-semibold">{action.title}</div>
+                    <div className="small opacity-75">{action.description}</div>
                   </div>
                 </button>
-              </Col>
-            );
-          })}
-        </Row>
+              );
+            })}
+          </div>
+          <div className="d-flex flex-grow-1">
+            {quickActions.slice(2, 4).map((action) => {
+              const Icon = iconMap[action.title] ?? FaChartLine;
+              return (
+                <button
+                  key={action.id}
+                  type="button"
+                  className="btn btn-outline-primary d-flex align-items-center justify-content-center text-center p-3 m-1"
+                  onClick={() => handleActionClick(action)}
+                  style={{
+                    flex: 1,
+                    borderRadius: '8px',
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  <div>
+                    <span className="fs-3 d-block mb-2">
+                      <Icon />
+                    </span>
+                    <div className="fw-semibold">{action.title}</div>
+                    <div className="small opacity-75">{action.description}</div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </DashboardCardShell>
 
       {SelectedAction && (
