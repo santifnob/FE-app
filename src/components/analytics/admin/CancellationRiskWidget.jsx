@@ -14,10 +14,12 @@ export function CancellationRiskWidget() {
     { name: "Restante", value: 100 - data.overallRate, fill: "#e9ecef" },
   ];
 
+  const isLowVolume = data.tripsCount < 400; 
+
   return (
     <DashboardCardShell
-      title="Riesgo de Cancelación"
-      subtitle="Probabilidad general y rutas de alto riesgo"
+      title={`Riesgo de Cancelación`}
+      subtitle={`Probabilidad general y rutas con riesgo mayor a 5%. ${isLowVolume ? `Muestra estadística limitada (n = ${data.tripsCount})` : ""}`}
       badge={`${data.overallRate}% riesgo`}
       loading={isLoading}
       error={isError ? error : null}
@@ -35,7 +37,7 @@ export function CancellationRiskWidget() {
                 <Pie
                   data={gaugeData}
                   cx="50%"
-                  cy="50%"
+                  cy="60%"
                   innerRadius={60}
                   outerRadius={80}
                   startAngle={180}
@@ -52,27 +54,31 @@ export function CancellationRiskWidget() {
           </div>
           <div className="ms-3 text-center">
             <h2 className="mb-0">{data.overallRate}%</h2>
-            <small className="text-muted">Tasa de cancelación</small>
+            <small className="text-muted">Tasa de cancelación general</small>
           </div>
         </div>
 
-        {/* Bottom half: Insights */}
-        <div className="mt-3">
-          <h6>Insights</h6>
+        <div>
+          <h6>Perspectivas de datos</h6>
           <div className="d-flex justify-content-between">
-            <div>
-              <small className="text-muted">Tendencia:</small>
-              <div className={data.trend.startsWith("+") ? "text-danger" : "text-success"}>
-                {data.trend} vs mes anterior
-              </div>
-            </div>
-            <div>
-              <small className="text-muted">Ruta de alto riesgo:</small>
-              <div className="text-danger">
-                {data.topRiskRoutes[0]?.route} ({data.topRiskRoutes[0]?.rate}%)
-              </div>
-            </div>
+            <small className="text-muted">Ruta de alto riesgo:</small>
+            <small className="text-muted">Tendencia/mes anterior:</small>
           </div>
+          {data.topRiskRoutes.map((route, index) => (
+            <div key={index} className="d-flex justify-content-between mt-2">
+              <div>
+                <div className="text-danger">
+                  {route.routeName} ({route.rate}%)
+                </div>
+              </div>
+              <div>
+                <div className={route.trend.startsWith("+") ? "text-danger" : "text-success"}>
+                  {route.trend} 
+                </div>
+              </div>
+            </div>
+          ))}
+          
         </div>
       </div>
     </DashboardCardShell>
