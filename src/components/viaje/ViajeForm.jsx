@@ -21,7 +21,6 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
   const { mutateAsync: handlePost, isError: isErrorPost, isPending: isPendingPost, error: errorPost } = useViajePost()
   const { mutateAsync: handlePut, isError: isErrorPut, isPending: isPendingPut, error: errorPut } = useViajePut()
   const isPendingForm = isPendingPost || isPendingPut
-
   // Setup del formulario
   const {
     control,
@@ -33,8 +32,8 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
     mode: 'onBlur',
     defaultValues: viajeToEdit
       ? {
-        fechaIni: viajeToEdit.fechaIni?.slice(0, 10),
-        fechaFin: viajeToEdit.fechaFin?.slice(0, 10),
+        fechaIni: viajeToEdit.fechaIni?.slice(0, 16),
+        fechaFin: viajeToEdit.fechaFin?.slice(0, 16),
         estado: viajeToEdit.estado,
         idTren: viajeToEdit.tren?.id,
         idRecorrido: viajeToEdit.recorrido?.id,
@@ -54,10 +53,26 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
 
   // Cargar datos de los hooks infinitos 
   useEffect(() => {
-    setRecorridos(dataRecorridos?.pages.flatMap(p => p.items) ?? [])
-    setConductores(dataConductores?.pages.flatMap(p => p.items) ?? [])
-    setTrenes(dataTrenes?.pages.flatMap(p => p.items) ?? [])
-  }, [dataRecorridos, dataConductores, dataTrenes])
+    let newRecorridos = dataRecorridos?.pages.flatMap(p => p.items) ?? []
+    let newConductores = dataConductores?.pages.flatMap(p => p.items) ?? []
+    let newTrenes = dataTrenes?.pages.flatMap(p => p.items) ?? []
+
+    if (viajeToEdit) {
+      if (viajeToEdit.recorrido && !newRecorridos.find(r => r.id === viajeToEdit.recorrido.id)) {
+        newRecorridos = [viajeToEdit.recorrido, ...newRecorridos]
+      }
+      if (viajeToEdit.conductor && !newConductores.find(c => c.id === viajeToEdit.conductor.id)) {
+        newConductores = [viajeToEdit.conductor, ...newConductores]
+      }
+      if (viajeToEdit.tren && !newTrenes.find(t => t.id === viajeToEdit.tren.id)) {
+        newTrenes = [viajeToEdit.tren, ...newTrenes]
+      }
+    }
+
+    setRecorridos(newRecorridos)
+    setConductores(newConductores)
+    setTrenes(newTrenes)
+  }, [dataRecorridos, dataConductores, dataTrenes, viajeToEdit])
 
   // Envío del formulario
   const onSubmit = async (formData) => {
@@ -65,9 +80,9 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
       fechaIni: formData.fechaIni,
       fechaFin: formData.fechaFin,
       estado: formData.estado,
-      idTren: Number(formData.idTren),
-      idRecorrido: Number(formData.idRecorrido),
-      idConductor: Number(formData.idConductor)
+      idTren: Number(formData.tren.id),
+      idRecorrido: Number(formData.recorrido.id),
+      idConductor: Number(formData.conductor.id)
     }
 
     if (viajeToEdit) {

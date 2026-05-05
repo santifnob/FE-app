@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 export function EntitySelector({ value, onChange, entityList, fetchNextPage, hasNextPage, entityName }) {
   const [isOpen, setIsOpen] = useState(false)
   const [chosedItem, setchosedItem] = useState(undefined)
-
+  console.log(value)
   useEffect(() => {
     setchosedItem(entityList.find(c => c.id === value))
   }, [value, entityList, entityName])

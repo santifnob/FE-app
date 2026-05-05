@@ -29,9 +29,22 @@ export function ObservacionForm({ onSuccess, observacionToEdit }) {
 
   // Cargar datos de los hooks infinitos
   useEffect(() => {
-    setCategoriaDenuncias(dataCategoriaDenuncias?.pages.flatMap(p => p.items) ?? [])
-    setViajes(dataViajes?.pages.flatMap(p => p.items) ?? [])
-  }, [dataCategoriaDenuncias, dataViajes])
+    let newCategoriaDenuncias = dataCategoriaDenuncias?.pages.flatMap(p => p.items) ?? []
+    let newViajes = dataViajes?.pages.flatMap(p => p.items) ?? []
+
+    // Prepend selected entities for editing to ensure they are available in selectors
+    if (observacionToEdit) {
+      if (observacionToEdit.categoriaDenuncia && !newCategoriaDenuncias.find(cd => cd.id === observacionToEdit.categoriaDenuncia.id)) {
+        newCategoriaDenuncias = [observacionToEdit.categoriaDenuncia, ...newCategoriaDenuncias]
+      }
+      if (observacionToEdit.viaje && !newViajes.find(v => v.id === observacionToEdit.viaje.id)) {
+        newViajes = [observacionToEdit.viaje, ...newViajes]
+      }
+    }
+
+    setCategoriaDenuncias(newCategoriaDenuncias)
+    setViajes(newViajes)
+  }, [dataCategoriaDenuncias, dataViajes, observacionToEdit])
 
   const onSubmit = async (formData) => {
     const observacion = {

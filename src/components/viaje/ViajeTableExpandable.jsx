@@ -67,7 +67,7 @@ export function ViajeTableExpandable({ viajes, fetchNextPage, hasNextPage, handl
                     </button>
                     <button style={{ marginTop: '-10px' }}
                       className='btn btn-sm btn-info text-white'
-                      onClick={handleEdit.bind(this, viaje)}
+                      onClick={() => handleEdit(viaje)}
                     >
                       Editar
                     </button>

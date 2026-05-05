@@ -17,8 +17,15 @@ export function CargaForm({ onSuccess, cargaToEdit }) {
 
   // Cargar datos de los hooks infinitos 
   useEffect(() => {
-    setTipoCargas(dataTipoCargas?.pages.flatMap(p => p.items) ?? [])
-  }, [dataTipoCargas])
+    let newTipoCargas = dataTipoCargas?.pages.flatMap(p => p.items) ?? []
+
+    // Prepend selected entity for editing to ensure it is available in selector
+    if (cargaToEdit && cargaToEdit.tipoCarga && !newTipoCargas.find(tc => tc.id === cargaToEdit.tipoCarga.id)) {
+      newTipoCargas = [cargaToEdit.tipoCarga, ...newTipoCargas]
+    }
+
+    setTipoCargas(newTipoCargas)
+  }, [dataTipoCargas, cargaToEdit])
 
   // Precarga de valores cuando estamos editando (se mantiene de tu implementación actual)
   useEffect(() => {

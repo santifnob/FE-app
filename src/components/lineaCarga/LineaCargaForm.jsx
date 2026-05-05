@@ -39,9 +39,22 @@ export function LineaCargaForm({ onSuccess, lineaCargaToEdit }) {
 
   // Cargar datos de los hooks infinitos
   useEffect(() => {
-    setCargas(dataCargas?.pages.flatMap(p => p.items) ?? [])
-    setViajes(dataViajes?.pages.flatMap(p => p.items) ?? [])
-  }, [dataCargas, dataViajes])
+    let newCargas = dataCargas?.pages.flatMap(p => p.items) ?? []
+    let newViajes = dataViajes?.pages.flatMap(p => p.items) ?? []
+
+    // Prepend selected entities for editing to ensure they are available in selectors
+    if (lineaCargaToEdit) {
+      if (lineaCargaToEdit.carga && !newCargas.find(c => c.id === lineaCargaToEdit.carga.id)) {
+        newCargas = [lineaCargaToEdit.carga, ...newCargas]
+      }
+      if (lineaCargaToEdit.viaje && !newViajes.find(v => v.id === lineaCargaToEdit.viaje.id)) {
+        newViajes = [lineaCargaToEdit.viaje, ...newViajes]
+      }
+    }
+
+    setCargas(newCargas)
+    setViajes(newViajes)
+  }, [dataCargas, dataViajes, lineaCargaToEdit])
 
   useEffect(() => {
     if (!lineaCargaToEdit && idViaje && idCarga) {

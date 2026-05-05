@@ -8,14 +8,24 @@ import { EntitySelector } from '../shared/EntitySelector.jsx'
 export function EstadoTrenForm({ onSuccess, estadoTrenToEdit }) {
     const { data: dataTrenes, fetchNextPage: nextTrenes, hasNextPage: hasNextTrenes } = useTrenesInfinite({})
     const [trenes, setTrenes] = useState([])
-    const { register, formState: { errors }, handleSubmit, isPending: isPendingForm, control } = useForm({ mode: 'onBlur' })
+    const { register, formState: { errors }, handleSubmit, isPending: isPendingForm, control } = useForm({ 
+        mode: 'onBlur',
+        defaultValues: estadoTrenToEdit ? { idTren: estadoTrenToEdit.tren?.id } : {}
+    })
     const { mutateAsync: handlePost, isError: isErrorPost } = useEstadoTrenPost()
     const { mutateAsync: handlePut, isError: isErrorPut } = useEstadoTrenPut()
 
     // Cargar datos de los hooks infinitos
     useEffect(() => {
-        setTrenes(dataTrenes?.pages.flatMap(p => p.items) ?? [])
-    }, [dataTrenes])
+        let newTrenes = dataTrenes?.pages.flatMap(p => p.items) ?? []
+
+        // Prepend selected entity for editing to ensure it is available in selector
+        if (estadoTrenToEdit && estadoTrenToEdit.tren && !newTrenes.find(t => t.id === estadoTrenToEdit.tren.id)) {
+            newTrenes = [estadoTrenToEdit.tren, ...newTrenes]
+        }
+
+        setTrenes(newTrenes)
+    }, [dataTrenes, estadoTrenToEdit])
 
     const onSubmit = async (formData) => {
         const estadoTren = {

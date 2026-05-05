@@ -8,14 +8,24 @@ import { EntitySelector } from '../shared/EntitySelector.jsx'
 export function LicenciaForm({ onSuccess, licenciaToEdit }) {
   const { data: dataConductores, fetchNextPage: nextConductores, hasNextPage: hasNextConductores } = useConductoresInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
   const [conductores, setConductores] = useState([])
-  const { register, formState: { errors }, handleSubmit, isPending: isPendingForm, watch, control } = useForm({ mode: 'onBlur' })
+  const { register, formState: { errors }, handleSubmit, isPending: isPendingForm, watch, control } = useForm({ 
+    mode: 'onBlur',
+    defaultValues: licenciaToEdit ? { idConductor: licenciaToEdit.conductor?.id } : {}
+  })
   const { mutateAsync: handlePost, isError: isErrorPost } = useLicenciaPost()
   const { mutateAsync: handlePut, isError: isErrorPut } = useLicenciaPut()
 
   // Cargar datos de los hooks infinitos
   useEffect(() => {
-    setConductores(dataConductores?.pages.flatMap(p => p.items) ?? [])
-  }, [dataConductores])
+    let newConductores = dataConductores?.pages.flatMap(p => p.items) ?? []
+
+    // Prepend selected entity for editing to ensure it is available in selector
+    if (licenciaToEdit && licenciaToEdit.conductor && !newConductores.find(c => c.id === licenciaToEdit.conductor.id)) {
+      newConductores = [licenciaToEdit.conductor, ...newConductores]
+    }
+
+    setConductores(newConductores)
+  }, [dataConductores, licenciaToEdit])
 
   const onSubmit = async (formData) => {
     const licencia = {
