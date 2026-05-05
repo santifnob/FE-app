@@ -51,7 +51,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
 
   const isSubmitDisabled = isPendingForm || isValidando || !!isValidateError
 
-  // Cargar datos de los hooks infinitos 
+  // Cargar datos de los hooks infinitos
   useEffect(() => {
     let newRecorridos = dataRecorridos?.pages.flatMap(p => p.items) ?? []
     let newConductores = dataConductores?.pages.flatMap(p => p.items) ?? []
@@ -80,9 +80,9 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
       fechaIni: formData.fechaIni,
       fechaFin: formData.fechaFin,
       estado: formData.estado,
-      idTren: Number(formData.tren.id),
-      idRecorrido: Number(formData.recorrido.id),
-      idConductor: Number(formData.conductor.id)
+      idTren: Number(formData.idTren),
+      idRecorrido: Number(formData.idRecorrido),
+      idConductor: Number(formData.idConductor)
     }
 
     if (viajeToEdit) {
@@ -105,7 +105,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
           control={control}
           rules={{ required: 'El "Conductor" es requerido' }}
           render={({ field }) => (
-            <EntitySelector value={field.value} onChange={field.onChange} entityList={conductores} fetchNextPage={nextConductor} hasNextPage={hasNextConductor} entityName="conductor" />
+            <EntitySelector value={field.value} onChange={field.onChange} entityList={conductores} fetchNextPage={nextConductor} hasNextPage={hasNextConductor} entityName='conductor' />
           )}
         />
         {errors.idConductor && <span className='text-danger'>{errors.idConductor.message}</span>}
@@ -119,7 +119,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
           control={control}
           rules={{ required: 'El "Tren" es requerido' }}
           render={({ field }) => (
-            <EntitySelector value={field.value} onChange={field.onChange} entityList={trenes} fetchNextPage={nextTrenes} hasNextPage={hasNextTrenes} entityName="tren" />
+            <EntitySelector value={field.value} onChange={field.onChange} entityList={trenes} fetchNextPage={nextTrenes} hasNextPage={hasNextTrenes} entityName='tren' />
           )}
         />
         {errors.idTren && <span className='text-danger'>{errors.idTren.message}</span>}
@@ -133,7 +133,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
           control={control}
           rules={{ required: 'El "Recorrido" es requerido' }}
           render={({ field }) => (
-            <EntitySelector value={field.value} onChange={field.onChange} entityList={recorridos} fetchNextPage={nextRecorridos} hasNextPage={hasNextRecorridos} entityName="recorrido" />
+            <EntitySelector value={field.value} onChange={field.onChange} entityList={recorridos} fetchNextPage={nextRecorridos} hasNextPage={hasNextRecorridos} entityName='recorrido' />
           )}
         />
         {errors.idRecorrido && <span className='text-danger'>{errors.idRecorrido.message}</span>}
