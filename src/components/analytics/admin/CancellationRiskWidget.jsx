@@ -24,6 +24,7 @@ export function CancellationRiskWidget() {
       fallback={!data && !isLoading && !isError ? (
         <div className="text-center text-muted py-5">No hay datos de riesgo de cancelación.</div>
       ) : null}
+      className="widget-wide"
     >
       <div className="d-flex flex-column h-100">
         {/* Top half: Gauge Chart */}
