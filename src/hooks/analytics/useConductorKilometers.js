@@ -1,16 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
+import { dashboardKeys } from './conductorKeys.js'
 import { api } from '../../services/api.js'
 
 export function useConductorKilometers(conductorId) {
   return useQuery({
-    queryKey: ['conductorKilometers', conductorId],
+    queryKey: [dashboardKeys.kilometersConductor(), conductorId],
     queryFn: async () => {
       if (!conductorId) return 0
 
       const res = await api.get('/viaje', {
         params: {
           conductorId,
-          estado: 'Activo'
+          limit: 10000 // Obtener todos los viajes
         },
         withCredentials: true
       })
@@ -19,14 +20,13 @@ export function useConductorKilometers(conductorId) {
       const today = new Date()
       today.setHours(0, 0, 0, 0)
 
-      return items.reduce((sum, viaje) => {
-        const fechaFinRaw = viaje.fechaFin ?? viaje.fechaFin ?? viaje.fechaFin ?? viaje.fechaFin
-        const fechaFin = fechaFinRaw ? new Date(fechaFinRaw) : null
-        if (!fechaFin || Number.isNaN(fechaFin.getTime()) || fechaFin > today) return sum
-
-        const km = Number(viaje.recorrido.totalKm ?? viaje.recorrido.totalKm ?? viaje.km ?? viaje.recorrido.totalKm ?? 0)
-        return sum + (Number.isFinite(km) ? km : 0)
-      }, 0)
+      // Sumar totalKm desde el objeto recorrido de viajes activos finalizados
+      return items
+        .filter(viaje => viaje.estado === 'Activo' && new Date(viaje.fechaFin) <= today)
+        .reduce((total, viaje) => {
+          const km = viaje.recorrido?.totalKm ?? 0
+          return total + (Number(km) || 0)
+        }, 0)
     },
     enabled: !!conductorId,
     staleTime: 1000 * 60 * 5,

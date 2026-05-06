@@ -1,9 +1,9 @@
 // src/hooks/analytics/conductorKeys.ts
 export const dashboardKeys = {
   all: ['dashboard'],
-  tripChartConductor: () => [...dashboardKeys.all, 'trip-chart-conductor'],
-  nextTripConductor: () => [...dashboardKeys.all, 'next-trip-conductor'],
-  lastLicenseConductor: () => [...dashboardKeys.all, 'last-license-conductor'],
-  kilometersConductor: () => [...dashboardKeys.all, 'kilometers-conductor'],
-  earningsConductor: () => [...dashboardKeys.all, 'earnings-conductor'],
+  tripChartConductor: (conductorId) => [...dashboardKeys.all, 'trip-chart-conductor', conductorId],
+  nextTripConductor: (conductorId) => [...dashboardKeys.all, 'next-trip-conductor', conductorId],
+  lastLicenseConductor: (conductorId) => [...dashboardKeys.all, 'last-license-conductor', conductorId],
+  kilometersConductor: (conductorId) => [...dashboardKeys.all, 'kilometers-conductor', conductorId],
+  earningsConductor: (conductorId) => [...dashboardKeys.all, 'earnings-conductor', conductorId],
 };
