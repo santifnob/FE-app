@@ -76,6 +76,7 @@ export default function AdminLayout () {
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/pendientes' ? 'active' : ''}`} to='/conductor/misViajes/pendientes'>⚠️ Pendientes</Link></li>                    
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/aceptados' ? 'active' : ''}`} to='/conductor/misViajes/programados'>🔄 Programados</Link></li>
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/rechazados' ? 'active' : ''}`} to='/conductor/misViajes/rechazados'>❌ Rechazados</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/noAceptados' ? 'active' : ''}`} to='/conductor/misViajes/noAceptados'>❌ No aceptados</Link></li>
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/cancelados' ? 'active' : ''}`} to='/conductor/misViajes/cancelados'>🚫 Cancelados</Link></li>                    
                 </ul>
 
