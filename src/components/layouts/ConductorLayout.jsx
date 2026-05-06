@@ -71,13 +71,13 @@ export default function AdminLayout () {
                 </a>
 
                 <ul className={`submenu list-unstyled ms-3 w-100 h5 ${isMisViajesOpen ? 'open' : ''}`}>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/finalizados' ? 'active' : ''}`} to='/conductor/misViajes/finalizados'>✔️ Finalizados</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/enCursos' ? 'active' : ''}`} to="/conductor/misViajes/enCursos">🧳 En curso</Link></li>                    
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/pendientes' ? 'active' : ''}`} to='/conductor/misViajes/pendientes'>⚠️ Pendientes</Link></li>                    
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/aceptados' ? 'active' : ''}`} to='/conductor/misViajes/programados'>🔄 Programados</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/rechazados' ? 'active' : ''}`} to='/conductor/misViajes/rechazados'>❌ Rechazados</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/noAceptados' ? 'active' : ''}`} to='/conductor/misViajes/noAceptados'>❌ No aceptados</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/cancelados' ? 'active' : ''}`} to='/conductor/misViajes/cancelados'>🚫 Cancelados</Link></li>                    
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/finalizados' ? 'active' : ''}`} to='/conductor/misViajes/finalizados'>Finalizados</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/enCursos' ? 'active' : ''}`} to="/conductor/misViajes/enCursos">En curso</Link></li>                    
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/pendientes' ? 'active' : ''}`} to='/conductor/misViajes/pendientes'>Pendientes</Link></li>                    
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/aceptados' ? 'active' : ''}`} to='/conductor/misViajes/programados'>Programados</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/rechazados' ? 'active' : ''}`} to='/conductor/misViajes/rechazados'>Rechazados</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/noAceptados' ? 'active' : ''}`} to='/conductor/misViajes/noAceptados'>No aceptados</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/conductor/misViajes/cancelados' ? 'active' : ''}`} to='/conductor/misViajes/cancelados'>Cancelados</Link></li>                    
                 </ul>
 
               </li>

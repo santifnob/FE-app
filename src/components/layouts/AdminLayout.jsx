@@ -71,19 +71,19 @@ export default function AdminLayout () {
 
                 <ul className={`submenu list-unstyled ms-3 w-100 h5 ${isGestionOpen ? 'open' : ''}`}>
                   <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/trenes' ? 'active' : ''}`} to='/admin/gestion/trenes' >
-                      🚂Trenes
+                      Trenes
                     </Link></li>
                     <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/estadoTrenes' ? 'active' : ''}`} to='/admin/gestion/estadoTrenes'>
-                      🛤️Estado Trenes</Link>
+                      Estado Trenes</Link>
                     </li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/conductores' ? 'active' : ''}`} to='/admin/gestion/conductores'>👨‍✈️Conductores</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/licencias' ? 'active' : ''}`} to='/admin/gestion/licencias'>📃Licencias</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/observaciones' ? 'active' : ''}`} to='/admin/gestion/observaciones'>🕵Observaciones</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/categoriaDenuncias' ? 'active' : ''}`} to='/admin/gestion/categoriaDenuncias'>⚖Categoria de Denuncias</Link></li>                    
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/cargas' ? 'active' : ''}`} to='/admin/gestion/cargas'>🔋Cargas</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/tipoCargas' ? 'active' : ''}`} to='/admin/gestion/tipoCargas'>💙Tipo Cargas</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/recorridos' ? 'active' : ''}`} to='/admin/gestion/recorridos'>🗺️Recorridos</Link></li>
-                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/lineaCargas' ? 'active' : ''}`} to='/admin/gestion/lineaCargas'>📍Líneas de cargas</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/conductores' ? 'active' : ''}`} to='/admin/gestion/conductores'>Conductores</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/licencias' ? 'active' : ''}`} to='/admin/gestion/licencias'>Licencias</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/observaciones' ? 'active' : ''}`} to='/admin/gestion/observaciones'>Observaciones</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/categoriaDenuncias' ? 'active' : ''}`} to='/admin/gestion/categoriaDenuncias'>Categoria de Denuncias</Link></li>                    
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/cargas' ? 'active' : ''}`} to='/admin/gestion/cargas'>Cargas</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/tipoCargas' ? 'active' : ''}`} to='/admin/gestion/tipoCargas'>Tipo Cargas</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/recorridos' ? 'active' : ''}`} to='/admin/gestion/recorridos'>Recorridos</Link></li>
+                    <li><Link className={`nav-link text-white mt-2 text-center ${location.pathname === '/admin/gestion/lineaCargas' ? 'active' : ''}`} to='/admin/gestion/lineaCargas'>Líneas de cargas</Link></li>
                 </ul>
                 
               </li>
