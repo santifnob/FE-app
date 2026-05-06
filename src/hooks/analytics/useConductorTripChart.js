@@ -1,32 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { dashboardKeys } from './conductorKeys.js';
 import { api } from "../../services/api.js";
+import { getEstadoInferido } from "../../shared/utils/viajeUtils.js";
 
 function getInferredState(viaje) {
-  if (!viaje) return 'Sin Estado';
-
-  const hoy = new Date();
-  hoy.setHours(0, 0, 0, 0);
-  const fechaIni = viaje.fechaIni ? new Date(viaje.fechaIni) : null;
-  const fechaFin = viaje.fechaFin ? new Date(viaje.fechaFin) : null;
-
-  if (!fechaIni || !fechaFin) return viaje.estado || 'Sin Estado';
-
-  if (viaje.estado === 'Inactivo') {
-    return 'Cancelado/Suspendido';
-  }
-  if (viaje.estado === 'Rechazado') {
-    return 'Rechazado';
-  }
-  if (viaje.estado === 'Pendiente') {
-    return fechaIni > hoy ? 'Pendiente' : 'Viaje no aceptado';
-  }
-
-  if (fechaFin < hoy) return 'Finalizado';
-  if (fechaIni > hoy) return 'Programado';
-  if (fechaIni <= hoy && fechaFin >= hoy) return 'En curso';
-
-  return 'Sin Estado';
+  return getEstadoInferido(viaje);
 }
 
 export function useConductorTripChart(conductorId) {
@@ -35,8 +13,12 @@ export function useConductorTripChart(conductorId) {
     queryFn: async () => {
       if (!conductorId) return []
 
+      // Obtener TODOS los viajes del conductor sin límite de paginación
       const res = await api.get('/viaje', {
-        params: { conductorId },
+        params: {
+          conductorId,
+          limit: 10000 // Límite alto para obtener todos los viajes
+        },
         withCredentials: true
       })
 

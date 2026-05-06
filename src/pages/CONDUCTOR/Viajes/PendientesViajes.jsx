@@ -7,6 +7,7 @@ export default function PendientesViajes() {
       <ConductorBadgeProfile />
       <ViajesConductorBase
         estado='Pendiente'
+        estadoInferido='Pendiente'
         titulo='🚧 Viajes Pendientes'
         emptyMessage='No tienes viajes pendientes'
       />

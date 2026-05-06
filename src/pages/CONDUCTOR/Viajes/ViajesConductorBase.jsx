@@ -5,9 +5,10 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { ViajeCardConductor } from './ViajeCardConductor'
 import { Modal } from '../../../components/Modal'
 import { ViajeDetails } from '../../../components/viaje/ViajeDetails'
+import { getEstadoInferido } from '../../../shared/utils/viajeUtils.js'
 
 // Componente base reutilizable para los 3 estados de viajes
-export default function ViajesConductorBase({ estado, titulo, emptyMessage }) {
+export default function ViajesConductorBase({ estado, titulo, emptyMessage, estadoInferido }) {
   // Obtener el usuario logueado
   const { user, isLoading: userLoading } = useCurrentUser()
 
@@ -29,10 +30,18 @@ export default function ViajesConductorBase({ estado, titulo, emptyMessage }) {
   // Cada vez que llegan nuevos datos, actualizamos la lista
   useEffect(() => {
     if (data) {
-      const todosLosViajes = data.pages.flatMap(page => page.items)
+      let todosLosViajes = data.pages.flatMap(page => page.items)
+
+      // Aplicar filtro adicional por estado inferido si se especifica
+      if (estadoInferido) {
+        todosLosViajes = todosLosViajes.filter(viaje =>
+          getEstadoInferido(viaje) === estadoInferido
+        )
+      }
+
       setViajes(todosLosViajes)
     }
-  }, [data])
+  }, [data, estadoInferido])
 
   // 1. Mostrar mientras carga el usuario
   if (userLoading) {

@@ -1,28 +1,8 @@
+import { getEstadoInferido } from '../../shared/utils/viajeUtils.js';
+
 export function EstadoBadge({ viaje, variant = 'table' }) {
   // Use the computed status from backend if available, otherwise compute it
-  const getEstadoTexto = (viaje) => {
-    const hoy = new Date()
-    const fechaIni = new Date(viaje.fechaIni)
-    const fechaFin = new Date(viaje.fechaFin)
-
-    if (viaje.estado === 'Inactivo') {
-      return 'Cancelado/Suspendido'
-    }
-    if (viaje.estado === 'Rechazado') {
-      return 'Rechazado'
-    }
-    if (viaje.estado === 'Pendiente') {
-      return fechaIni > hoy ? 'Pendiente' : 'Viaje no aceptado'
-    }
-
-    if (fechaFin < hoy) return 'Finalizado'
-    if (fechaIni > hoy) return 'Programado'
-    if (fechaIni <= hoy && fechaFin >= hoy) return 'En curso'
-
-    return 'Sin Estado'
-  }
-
-  const estadoTexto = viaje.estadoInferido || getEstadoTexto(viaje)
+  const estadoTexto = viaje.estadoInferido || getEstadoInferido(viaje)
 
   const map = {
     Finalizado: 'success',
