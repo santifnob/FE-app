@@ -48,8 +48,8 @@ export default function ConductorNextTripWidget() {
     <>
       <DashboardCardShell
         title="Viajes Pendientes"
-        subtitle="Lista de viajes Pendiente con inicio a partir de hoy"
-        badge={`${pendingTrips?.length ?? 0} pendientes`}
+        subtitle="Lista de viajes Pendientes"
+        badge={` Pendientes: ${pendingTrips?.length ?? 0}`}
         loading={isLoading || userLoading}
         error={isError ? error : null}
         fallback={!pendingTrips?.length && !isLoading && !isError ? (
