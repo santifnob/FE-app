@@ -25,10 +25,12 @@ export function useValidationCheck(watchIdTren, watchIdConductor, watchFechaFin,
       inicio: watchFechaIni, 
       fin: watchFechaFin,
       idViajeToEdit: idViajeToEdit
-    } 
+    },
+    withCredentials: true
   }),
   enabled: !!watchFechaIni && !!watchFechaFin && (!!watchIdTren || !!watchIdConductor),
   retry: false,
-  staleTime: 5000 // Para no saturar el server si el usuario cambia rápido
+  staleTime: 5000 // Para no saturar el server si el usuario cambia rápido,
+  
 });
 }

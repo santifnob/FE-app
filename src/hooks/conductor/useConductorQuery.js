@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../services/api.js'
-import axios from 'axios'
 
 export function ConductorFindAll() { // Obtiene todos los conductores
   return (useQuery({
@@ -25,7 +24,7 @@ export function ConductorFindAll() { // Obtiene todos los conductores
 
 // Async function for use inside other hooks (e.g., queryFn)
 export async function conductorGetOneAsync(id) {
-  const res = await api.get(`/conductor/${id}`)
+  const res = await api.get(`/conductor/${id}`, {withCredentials: true})
   return res.data.data
 }
 
@@ -44,7 +43,7 @@ export function ConductorActivos() { // Obtiene todos los conductores activos
   return useQuery({
     queryKey: ['conductorActivos'],
     queryFn: async () => {
-      const res = await api.get('/conductor')
+      const res = await api.get('/conductor', {withCredentials: true})
       return res.data.items.filter(item => item.estado === 'Activo')
     }
   })
@@ -54,7 +53,7 @@ export function ConductorPendientes() { // Obtiene todos los conductores pendien
   return useQuery({
     queryKey: ['conductorPendientes'],
     queryFn: async () => {
-      const res = await api.get('/conductor')
+      const res = await api.get('/conductor', {withCredentials: true})
       return res.data.items.filter(item => item.estado === 'Pendiente')
     }
   })
@@ -64,7 +63,7 @@ export function ConductorInactivos() { // Obtiene todos los conductores inactivo
   return useQuery({
     queryKey: ['conductorInactivos'],
     queryFn: async () => {
-      const res = await api.get('/conductor')
+      const res = await api.get('/conductor', {withCredentials: true})
       return res.data.items.filter(item => item.estado === 'Inactivo')
     }
   })
@@ -74,7 +73,7 @@ export function ConductorValidoViaje() { // Obtiene todos los conductores valido
   return useQuery({
     queryKey: ['conductorValidoViaje'],
     queryFn: async () => {
-      const res = await api.get('/conductor')
+      const res = await api.get('/conductor', { withCredentials: true})
       return res.data.items.filter(item => {
         return item.licencias.some(licencia => new Date(licencia.fechaVencimiento) > new Date()) // se puede agregar item.estado === 'Activo' && para la validacion (no esta agregado porque se podria haber hecho un viaje con un conductor que actualmente este inactivo)
       })
