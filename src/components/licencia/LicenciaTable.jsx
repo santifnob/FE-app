@@ -1,6 +1,6 @@
 import { CrudInfiniteScroll } from '../shared/CrudInfiniteScroll.jsx'
 import { CrudActions } from '../shared/CrudActions.jsx'
-import { EstadoBadge } from '../shared/EstadoBadge.jsx'
+import { LicenciaEstadoBadge } from './LicenciaEstadoBadge.jsx'
 
 export function LicenciaTable({ licencias, fetchNextPage, hasNextPage, handleEdit, deleteMutation, handleAscOrder, ascOrder }) {
   return (
@@ -34,7 +34,7 @@ export function LicenciaTable({ licencias, fetchNextPage, hasNextPage, handleEdi
                   <td className='text-center'>{licencia.fechaVencimiento ? new Date(new Date(licencia.fechaVencimiento).getTime() + 3 * 60 * 60 * 1000).toLocaleDateString('es-AR') : 'Sin fecha'}</td>
                   <td className='text-center'>{licencia.conductor ? `${licencia.conductor.nombre} ${licencia.conductor.apellido} #${licencia.conductor.id}` : 'Sin conductor'}</td>
                   <td className='text-center'>
-                    <EstadoBadge estadoTexto={licencia.estado ?? 'Sin estado'} />
+                    <LicenciaEstadoBadge licencia={licencia} />
                   </td>
                   <td className='text-end'>
                     <CrudActions

@@ -96,11 +96,12 @@ export default function DashboardContainer() {
 
       {!isAdmin && (
         <div className="dashboard-grid">
+          <ConductorNextTripWidget/>
           <ConductorEarningsWidget/>
           <ConductorTripChartWidget/>
           <ConductorLastLicenseWidget/>
           <ConductorKilometersWidget/>
-          <ConductorNextTripWidget/>
+          
         </div> 
       )}
     </Container>

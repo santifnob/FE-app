@@ -25,6 +25,7 @@ import EnCursoViajes from './pages/CONDUCTOR/Viajes/EnCursoViajes'
 import FinalizadosViajes from './pages/CONDUCTOR/Viajes/FinalizadosViajes'
 import RechazadosViajes from './pages/CONDUCTOR/Viajes/RechazadosViajes.jsx'
 import CanceladosViajes from './pages/CONDUCTOR/Viajes/CanceladosViajes.jsx'
+import ProgramadosViajes from './pages/CONDUCTOR/Viajes/ProgramadosViajes.jsx'
 
 function App() {
   return (
@@ -141,6 +142,11 @@ function App() {
               <Route
                 path='misViajes/finalizados'
                 element={<FinalizadosViajes />}
+              />
+              
+              <Route
+                path='misViajes/programados'
+                element={<ProgramadosViajes />}
               />
 
               <Route
