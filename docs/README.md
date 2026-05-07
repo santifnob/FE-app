@@ -39,7 +39,7 @@ Bienvenido a la documentación del frontend del proyecto. Aquí encontrará toda
 
 ## 2. Links a PR/MR y issues
 - Repositorio frontend: https://github.com/santifnob/FE-app
-- Pull requests / merge requests: https://github.com/santifnob/FE-app/pulls
+- Pull requests / merge requests: https://github.com/utnfrrodsw/tp/pull/181
 
 ## 3. Instrucciones de instalación
 
