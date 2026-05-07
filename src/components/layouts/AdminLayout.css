@@ -7,20 +7,15 @@ body,
 
 .app-root {
   height: 100dvh;
-  /* usa medida dinámica para móviles */
   overflow: hidden;
-  /* evita scroll en el body, todo scroll interno */
   display: flex;
 }
-
-/* Sidebar: fijo y de altura viewport */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   width: 300px;
   height: 100dvh;
-  /* preferible a 100vh para mobile */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -32,7 +27,6 @@ body,
   transform: translateX(0);
   transition: transform .25s ease;
   overflow: hidden;
-  /* importante: NO scrollear todo el sidebar */
 }
 
 .sidebar.closed {
@@ -43,27 +37,25 @@ body,
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  min-height: 0; /* allow children to shrink so internal scroll works */
+  min-height: 0; 
   overflow: hidden;
 }
 
-/* Parte del menú que SÍ scrollea internamente */
+
 .sidebar-scroll {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   flex: 1 1 auto;
-  /* ocupa el espacio entre brand y bottom */
+
   padding-right: 0.25rem;
-  /* evita superposición con scrollbar */
+
 }
 
-/* Bottom (botones) siempre visibles */
 .sidebar-bottom {
   flex: 0 0 auto;
   margin-top: 0.5rem;
 }
 
-/* Toggle de apertura (cuando sidebar cerrado) */
 .sidebar-toggle {
   position: fixed;
   top: 12px;
@@ -74,7 +66,6 @@ body,
   padding: 0;
 }
 
-/* Contenido principal: ESTE scrollea */
 .content {
   margin-left: 300px;
   /* cuando sidebar abierto */
@@ -97,7 +88,7 @@ body,
     margin-left: 0px !important;
   }
 
-  /* no empujamos en mobile */
+
 }
 
 * Links del sidebar */ .sidebar .nav-link {
@@ -112,15 +103,14 @@ body,
   transform: translateX(6px);
   box-shadow: inset 3px 0 0 #0dcaf0;
   border-radius: 0 6px 6px 0;
-  /* barra izquierda */
+
 }
 
-/* Opciones del submenú */
+
 .sidebar .list-unstyled .nav-link {
   font-size: 0.95em;
 }
 
-/* Hover también para el botón de Gestión */
 .sidebar a.nav-link[role="button"] {
   transition: all 0.2s ease;
 }
@@ -143,8 +133,6 @@ body,
   font-size: x-large;
 }
 
-/* Para la animación de los submenús */
-
 .submenu {
   max-height: 0;
   overflow: hidden;
@@ -154,7 +142,7 @@ body,
 
 .submenu.open {
   max-height: 500px;
-  /* ajustable */
+
   opacity: 1;
 }
 

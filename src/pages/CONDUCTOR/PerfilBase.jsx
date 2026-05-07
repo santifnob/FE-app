@@ -6,8 +6,6 @@ import { ConductorGetOne } from "../../hooks/conductor/useConductorQuery";
 import { useConductorPut } from "../../hooks/conductor/useConductorPut";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 
-/* ===================== HELPERS ====================== */
-
 function normalizeDate(dateValue) {
   const date = new Date(dateValue);
   date.setHours(0, 0, 0, 0);

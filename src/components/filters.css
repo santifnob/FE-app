@@ -1,12 +1,9 @@
-/* Estilos para los filtros */
-
-/* estilo del botón de limpiar filtros */
 
 .clear-filters-btn {
   border: none;
   background: transparent;
   color: #dc3545;
-  /* bootstrap danger */
+
   font-size: 1.4rem;
   line-height: 1;
   padding: 6px;
@@ -29,6 +26,6 @@
 
 @media(min-width: 576px) {
   .clear-filters-btn {
-    margin-top: 8px; /* para centrarlo verticalmente en desktop sin tener que renegar con bootsrap */
+    margin-top: 8px; 
   }
 }

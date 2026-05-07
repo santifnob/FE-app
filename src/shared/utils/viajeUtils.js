@@ -1,12 +1,4 @@
-/**
- * Utilidades para viajes - lógica compartida
- */
 
-/**
- * Obtiene el estado inferido de un viaje basado en su estado y fechas
- * @param {Object} viaje - Objeto viaje con estado, fechaIni, fechaFin
- * @returns {string} Estado inferido
- */
 export function getEstadoInferido(viaje) {
   if (!viaje) return 'Sin Estado';
 
