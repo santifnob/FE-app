@@ -3,15 +3,35 @@
 Bienvenido a la documentación del frontend del proyecto. Aquí encontrará toda la información necesaria para entender, instalar y ejecutar la aplicación.
 
 ## Índice de Contenidos
-- [1. Proposal](#1-proposal)
-- [2. Links a PR/MR y issues](#2-links-a-prmr-y-issues)
-- [3. Instrucciones de instalación](#3-instrucciones-de-instalación)
-- [4. Tecnologías utilizadas](#4-tecnologías-utilizadas)
-- [5. Documentación de la API](#5-documentación-de-la-api)
-- [6. Evidencia de ejecución de tests automáticos](#6-evidencia-de-ejecución-de-tests-automáticos)
-- [7. Tracking de features y bugs](#7-tracking-de-features-y-bugs)
-- [8. Deploy](#8-deploy)
-- [9. Demo de app en video](#9-demo-de-app-en-video)
+- [Documentación del Proyecto - Mi Ferrocarril (FE-app)](#documentación-del-proyecto---mi-ferrocarril-fe-app)
+  - [Índice de Contenidos](#índice-de-contenidos)
+  - [1. Proposal](#1-proposal)
+  - [2. Links a PR/MR y issues](#2-links-a-prmr-y-issues)
+  - [3. Instrucciones de instalación](#3-instrucciones-de-instalación)
+    - [3.1 Requisitos Previos](#31-requisitos-previos)
+    - [3.2 Pasos de instalación](#32-pasos-de-instalación)
+  - [4. Tecnologías utilizadas](#4-tecnologías-utilizadas)
+    - [4.1 Core del proyecto](#41-core-del-proyecto)
+    - [4.2 Gestión de datos y comunicación](#42-gestión-de-datos-y-comunicación)
+    - [4.3 Navegación y formularios](#43-navegación-y-formularios)
+    - [4.4 UI y visualización](#44-ui-y-visualización)
+    - [4.5 Pruebas y calidad](#45-pruebas-y-calidad)
+  - [5. Documentación de la API](#5-documentación-de-la-api)
+    - [5.1 Base URL](#51-base-url)
+    - [5.2 Referencia de la API backend](#52-referencia-de-la-api-backend)
+  - [6. Evidencia de ejecución de tests automáticos](#6-evidencia-de-ejecución-de-tests-automáticos)
+    - [6.1 Vitest](#61-vitest)
+      - [6.1.1 Archivo de Test Disponible](#611-archivo-de-test-disponible)
+      - [6.1.2 Ejecución de Test](#612-ejecución-de-test)
+    - [6.2 Cypress](#62-cypress)
+      - [6.2.1 Archivo de Test E2E Disponible](#621-archivo-de-test-e2e-disponible)
+      - [6.2.2 Ejecución de Test](#622-ejecución-de-test)
+  - [7. Tracking de features y bugs](#7-tracking-de-features-y-bugs)
+  - [8. Deploy y Cloud](#8-deploy-y-cloud)
+  - [8.1 Arquitectura de Despliegue](#81-arquitectura-de-despliegue)
+  - [8.2 Configuración del Entorno](#82-configuración-del-entorno)
+  - [8.3 Solución al Ruteo y Recarga (F5)](#83-solución-al-ruteo-y-recarga-f5)
+  - [9. Demo de app en video](#9-demo-de-app-en-video)
 
 ## 1. Proposal 
 - Proposal: [proposal.md](https://github.com/santifnob/tp/blob/main/proposal.md)
@@ -22,30 +42,31 @@ Bienvenido a la documentación del frontend del proyecto. Aquí encontrará toda
 - Pull requests / merge requests: https://github.com/santifnob/FE-app/pulls
 
 ## 3. Instrucciones de instalación
-1. Instalar Node.js (versión recomendada 18 o superior).
-2. Instalar pnpm globalmente si no está instalado:
-   ```bash
-   npm install -g pnpm
-   ```
-3. Clonar el repositorio y posicionarse en la carpeta raíz del proyecto:
+
+### 3.1 Requisitos Previos
+- Node.js (versión recomendada 18 o superior).
+- pnpm instalado globalmente.
+- Acceso al backend de la API en `http://localhost:3000/api` o la URL configurada.
+
+### 3.2 Pasos de instalación
+1. Clonar el repositorio y posicionarse en la carpeta raíz del proyecto:
    ```bash
    git clone https://github.com/santifnob/FE-app.git
    cd FE-app
    ```
-4. Instalar dependencias:
+2. Instalar dependencias:
    ```bash
    pnpm install
    ```
-5. Configurar la API backend en un archivo `.env` o como variable de entorno:
+3. Configurar la API backend en un archivo `.env` o como variable de entorno:
    ```env
    VITE_API_URL=http://localhost:3000/api
    ```
-6. Levantar la aplicación en modo desarrollo:
+4. Levantar la aplicación en modo desarrollo:
    ```bash
    pnpm run dev
    ```
-7. Abrir el navegador en `http://localhost:5173` (o la URL que indique Vite).
-
+5. Abrir el navegador en `http://localhost:5173` (o la URL que indique Vite).
 
 ## 4. Tecnologías utilizadas
 El desarrollo del frontend se ha basado en un stack moderno de JavaScript/React, seleccionando herramientas que priorizan el rendimiento, la experiencia de desarrollo y la mantenibilidad del código.
@@ -74,17 +95,21 @@ El desarrollo del frontend se ha basado en un stack moderno de JavaScript/React,
 - **jsdom** - entorno de DOM para pruebas unitarias de componentes React.
 
 ## 5. Documentación de la API
-### Base URL
+
+### 5.1 Base URL
 - `VITE_API_URL` (por defecto `http://localhost:3000/api`)
-(mandar al readme.md del back)
+
+### 5.2 Referencia de la API backend
+- Ver [documentación de API](https://github.com/santifnob/BE-app/blob/main/docs/README.md)
 
 ## 6. Evidencia de ejecución de tests automáticos
-### Vitest
 
-### Archivo de Test Disponible
+### 6.1 Vitest
+
+#### 6.1.1 Archivo de Test Disponible
 - `src/components/estadoTren/EstadoTrenForm.test.jsx` - Test para probar el estadoTren form
 
-### Ejecución de Test
+#### 6.1.2 Ejecución de Test
 Para ejecutar el test:
 - Comando: `pnpm test -- --run`
 - Resultado actual: `1 archivo de prueba pasado`, `7 tests pasaron`.
@@ -103,12 +128,12 @@ Para ejecutar el test:
    Start at  13:06:39
    Duration  2.50s (transform 93ms, setup 0ms, import 317ms, tests 6ms, environment 1.98s)
 
-### Cypress
+### 6.2 Cypress
 
-### Archivo de Test E2E Disponible
+#### 6.2.1 Archivo de Test E2E Disponible
 - `cypress/e2e/create_trip.cy.js` - Test para crear un viaje iniciando seccion como admin
 
-### Ejecución de Test
+#### 6.2.2 Ejecución de Test
 Para ejecutar el test:
 - Comando de ejecución E2E: `pnpm run cypress:run`
 - Comando de apertura local: `pnpm run cypress:open`
@@ -175,39 +200,39 @@ Para ejecutar el test:
   - Manejar sesiones de usuario y permisos en el frontend.
 - Seguimiento en GitHub Issues: https://github.com/santifnob/FE-app/issues
 
-## 8. Deploy
+## 8. Deploy y Cloud
 
-### Descripción del deploy
-El frontend FE-app está construido con Vite y React, lo que permite un despliegue rápido y eficiente en plataformas de hosting estáticas o de aplicaciones modernas. El bundle se genera con `pnpm build`, produciendo una carpeta `dist/` lista para servir.
+El frontend de **Mi Ferrocarril** se encuentra desplegado a través de **Vercel**. Esta elección garantiza baja latencia y alta disponibilidad para la interfaz de usuario.
 
-### Tecnologías involucradas en el deploy
-- `Vite`: empaqueta y optimiza la aplicación para producción.
-- `React`: renderiza la interfaz del usuario en el cliente.
-- `pnpm`: administra dependencias y comandos de build.
-- `Axios` + `React Query`: consumen la API remota en tiempo de ejecución.
-- `Bootstrap` y `React Bootstrap`: proveen la capa de estilo y UI responsive en producción.
-- `Recharts`: muestra gráficos de métricas en el dashboard.
+## 8.1 Arquitectura de Despliegue
 
-### Recomendaciones de hosting
-- Plataforma estática: Vercel, Netlify o GitHub Pages.
-- Plataforma con soporte de SPA: configurar redirección de rutas a `index.html`.
-- Backend requerido: el frontend se conecta a `VITE_API_URL` y necesita un backend activo con los endpoints documentados.
+La aplicación es una **SPA (Single Page Application)** construida con React y Vite. El flujo de comunicación y despliegue se organiza de la siguiente manera:
 
-### Comandos de build y preview
-```bash
-pnpm build
-pnpm run preview
+1.  **Alojamiento:** Los activos estáticos (HTML, CSS, JS) son servidos desde los nodos de borde de Vercel.
+2.  **CI/CD:** Se ha configurado un pipeline de integración y despliegue continuo vinculado a la rama `main` de GitHub. Cada cambio aprobado se despliega automáticamente.
+3.  **Comunicación con la API:** El frontend consume los servicios alojados en **DigitalOcean** mediante peticiones HTTPS seguras.
+
+## 8.2 Configuración del Entorno
+
+Para la correcta vinculación con el backend, se configuraron las siguientes variables de entorno en el panel de control de Vercel:
+
+| Variable            | Descripción                                                                        |
+| :------------------ | :--------------------------------------------------------------------------------- |
+| `VITE_API_URL` | URL base de la API en DigitalOcean (ej: `/api` si se usa proxy o la URL completa). |
+| `VITE_FRONTEND_URL`          | Define la URL utilizada en el frontend.                              |
+
+## 8.3 Solución al Ruteo y Recarga (F5)
+
+Dado que es una SPA, se implementó una regla de **Rewrite** en el archivo `vercel.json` para evitar errores 404 al recargar la página. Esto asegura que cualquier ruta sea gestionada por `index.html` y procesada por React Router:
+
+```json
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "[https://tu-api-digitalocean.app/api/:path](https://tu-api-digitalocean.app/api/:path)*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
 ```
-
-### Links de acceso
-- Mi Ferrocarril: https://www.miferrocarril.app/
-
-### Credenciales de prueba
-
-| Rol | Usuario | Contraseña |
-| --- | --- | --- |
-| Admin | admin@admin.com | admin |
-| Conductor | g@email.com | asd |
 
 ## 9. Demo de app en video
 - Demo pendiente / TBD.
