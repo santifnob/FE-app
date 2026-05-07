@@ -1,9 +1,12 @@
 # FE-app
-This is the frontend app from our project
+Frontend del proyecto Mi Ferrocarril.
 
-[MODELO DE DOMINIO](https://app.diagrams.net/#G1CbL1amhzWdO4Q_SigsjlzUsf7KscJk_t#%7B"pageId"%3A"KFOGIdaJm5DWyXvSNqt7"%7D)
+## 📚 Documentación
+- Documentación principal: [docs/README.md](docs/README.md)
 
-[BE-app](https://github.com/santifnob/BE-app)
+## 🔗 Enlaces
+- Modelo de dominio: [diagrama en diagrams.net](https://app.diagrams.net/#G1CbL1amhzWdO4Q_SigsjlzUsf7KscJk_t#%7B"pageId"%3A"KFOGIdaJm5DWyXvSNqt7"%7D)
+- Backend: [BE-app](https://github.com/santifnob/BE-app)
 
 ## Reglas de negocio
 ### Negocio:
@@ -30,6 +33,7 @@ This is the frontend app from our project
 - Tiene 'Nombre' (str) y fecha de vigencia (dd/mm/yyyy)
 - Tiene un unico 'Tren'
 - 2 tipos de estados, 'Activo' e 'Inactivo'
+- Se utiliza el nombre "Disponible" para hacer referencia a que el tren esta en condiciones para realizar viajes
 
 ### Tren:
 - Esta codificado, tiene 'Modelo' (str) y 'Color' (str)
