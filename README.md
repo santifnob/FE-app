@@ -2,7 +2,7 @@
 Frontend del proyecto Mi Ferrocarril.
 
 ## 📚 Documentación
-- Documentación principal: [docs/README.md](docs/README.md)
+- Documentación principal del frontend: [docs/README.md](docs/README.md)
 
 ## 🔗 Enlaces
 - Modelo de dominio: [diagrama en diagrams.net](https://app.diagrams.net/#G1CbL1amhzWdO4Q_SigsjlzUsf7KscJk_t#%7B"pageId"%3A"KFOGIdaJm5DWyXvSNqt7"%7D)
