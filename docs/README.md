@@ -8,11 +8,9 @@ Bienvenido a la documentación del frontend del proyecto. Aquí encontrará toda
 - [3. Instrucciones de instalación](#3-instrucciones-de-instalación)
 - [4. Documentación de la API](#4-documentación-de-la-api)
 - [5. Evidencia de ejecución de tests automáticos](#5-evidencia-de-ejecución-de-tests-automáticos)
-- [6. Minutas de reunión y avance](#6-minutas-de-reunión-y-avance)
-- [7. Tracking de features y bugs](#7-tracking-de-features-y-bugs)
-- [8. Deploy](#8-deploy)
-- [9. Demo de app en video](#9-demo-de-app-en-video)
-- [10. Enlace al README del proyecto](#10-enlace-al-readme-del-proyecto)
+- [6. Tracking de features y bugs](#6-tracking-de-features-y-bugs)
+- [7. Deploy](#7-deploy)
+- [8. Demo de app en video](#8-demo-de-app-en-video)
 
 ## 1. Proposal 
 - Proposal: [proposal.md](https://github.com/santifnob/tp/blob/main/proposal.md)
@@ -128,31 +126,22 @@ graph TD
 - Comando de ejecución E2E: `pnpm run cypress:run`
 - Comando de apertura local: `pnpm run cypress:open`
 
-## 6. Minutas de reunión y avance
-- Se definieron los requerimientos del dominio: trenes, viajes, conductores, licencias, recorridos, cargas y observaciones.
-- Se acordó implementar un frontend React con Vite y React Query para consumir el backend.
-- Se trabajó en la estructura de carpetas: `components/`, `hooks/`, `services/`, `pages/` y `auth/`.
-- Se ajustó la documentación para incluir instalación, test y API.
-- Se revisó la lógica para validaciones de formulario y estados del viaje.
-
-## 7. Tracking de features y bugs
+## 6. Tracking de features y bugs
 - Features principales:
   - Gestión de conductores y licencias.
   - Gestión de trenes, estados de tren y viajes.
   - Gestión de cargas, recorridos y líneas de carga.
   - Dashboard analítico con métricas de viaje y conductor.
+  - Cards visuales en los listados de entidades para dispositivos moviles
 - Bugs y mejoras:
   - Validar rangos de fechas para viajes y licencias.
   - Controlar estado de disponibilidad del tren antes de asignar viajes.
   - Manejar sesiones de usuario y permisos en el frontend.
 - Seguimiento en GitHub Issues: https://github.com/santifnob/FE-app/issues
 
-## 8. Deploy
+## 7. Deploy
 - Deploy no configurado en esta entrega.
 - Recomendación futura: usar Vercel, Netlify o GitHub Pages para desplegar la build del frontend.
 
-## 9. Demo de app en video
+## 8. Demo de app en video
 - Demo pendiente / TBD.
-
-## 10. Enlace al README del proyecto
-- El README principal del proyecto apunta a esta documentación en `docs/README.md`.
