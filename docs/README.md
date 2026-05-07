@@ -227,4 +227,4 @@ Dado que es una SPA, se implementó una regla de **Rewrite** en el archivo `verc
 
 ## 9. Demo de app en video
 - Puedes ver el video demostrativo del proyecto:
-📹 [Ver video demostrativo](./video.mp4)
+[![Miniatura del video](image.png)](https://www.youtube.com/watch?v=_CfoCqo7NYQ)
