@@ -112,31 +112,21 @@ El desarrollo del frontend se ha basado en un stack moderno de JavaScript/React,
 #### 6.1.2 Ejecución de Test
 Para ejecutar el test:
 - Comando: `pnpm test -- --run`
-- Resultado actual: `1 archivo de prueba pasado`, `7 tests pasaron`.
- ✓ src/components/estadoTren/EstadoTrenForm.test.jsx (7 tests) 6ms
-   ✓ Test Unitario - EstadoTrenForm (7)
-     ✓ El componente EstadoTrenForm debe existir 2ms
-     ✓ Debe ser una función (componente de React) 0ms
-     ✓ El campo "Trenes" debe ser obligatorio 0ms
-     ✓ El campo "Nombre" (estado del tren) debe ser obligatorio 0ms
-     ✓ El campo "Fecha de vigencia" debe ser obligatorio 0ms
-     ✓ Los estados del tren disponibles deben ser: En reparación, Obsoleto, Disponible 1ms
-     ✓ Las opciones de "Estado" deben ser Activo e Inactivo 0ms
+### Evidencia del resultado
 
- Test Files  1 passed (1)
-      Tests  7 passed (7)
-   Start at  13:06:39
-   Duration  2.50s (transform 93ms, setup 0ms, import 317ms, tests 6ms, environment 1.98s)
-
+![alt text](test.png)
 ### 6.2 Cypress
 
 #### 6.2.1 Archivo de Test E2E Disponible
 - `cypress/e2e/create_trip.cy.js` - Test para crear un viaje iniciando seccion como admin
 
-#### 6.2.2 Ejecución de Test
+### Ejecución de Test (visual)
+Para ejecutar el test:
+- Comando de ejecución E2E: `pnpm run cypress:open`
+### Ejecución de Test (cmd)
 Para ejecutar el test:
 - Comando de ejecución E2E: `pnpm run cypress:run`
-- Comando de apertura local: `pnpm run cypress:open`
+- Resultado:
 
   (Run Starting)
 
@@ -187,18 +177,19 @@ Para ejecutar el test:
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
     √  All specs passed!                        00:05        1        1        -        -        -  
 
-## 7. Tracking de features y bugs
+   
+
+## 7. Tracking de features
 - Features principales:
   - Gestión de conductores y licencias.
   - Gestión de trenes, estados de tren y viajes.
   - Gestión de cargas, recorridos y líneas de carga.
   - Dashboard analítico con métricas de viaje y conductor.
   - Cards visuales en los listados de entidades para dispositivos moviles
-- Bugs y mejoras:
+- Mejoras:
   - Validar rangos de fechas para viajes y licencias.
   - Controlar estado de disponibilidad del tren antes de asignar viajes.
   - Manejar sesiones de usuario y permisos en el frontend.
-- Seguimiento en GitHub Issues: https://github.com/santifnob/FE-app/issues
 
 ## 8. Deploy y Cloud
 
@@ -235,4 +226,5 @@ Dado que es una SPA, se implementó una regla de **Rewrite** en el archivo `verc
 ```
 
 ## 9. Demo de app en video
-- Demo pendiente / TBD.
+- Puedes ver el video demostrativo del proyecto:
+📹 [Ver video demostrativo](./video.mp4)
