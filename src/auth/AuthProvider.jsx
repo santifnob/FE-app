@@ -7,17 +7,21 @@ import { useLogoutMutation } from '../hooks/useLogoutMutation.js'
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
+  const [authResolved, setAuthResolved] = useState(false)
   const location = useLocation()
 
   const { data, isLoading: isAuthLoading, isError: isAuthError } = useAuthQuery(location)
 
   useEffect(() => {
+    if(isAuthLoading) return
+
     if (isAuthError) {
       setUser(null)
     } else if (data) {
       setUser({ id: data.userId, role: data.role })
     }
-  }, [data, isAuthError])
+    setAuthResolved(true)
+  }, [data, isAuthError, isAuthLoading])
 
   const { mutateAsync: login, isPending: isLoginPending, isError: isLoginError } = useLoginMutation()
 
@@ -34,7 +38,8 @@ export const AuthProvider = ({ children }) => {
       isLogoutPending,
       isLogoutError,
       isAuthLoading,
-      isAuthError
+      isAuthError,
+      authResolved
     }}>
       {children}
     </AuthContext.Provider>

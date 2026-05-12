@@ -13,6 +13,7 @@ export const useCurrentUser = () => {
     user: context.user, // Datos del usuario logueado
     setUser: context.setUser, // Función para actualizar usuario
     isLoading: context.isAuthLoading, // Estado de carga de comprobación de sesión
-    isError: context.isAuthError // Estado de error de comprobación de sesión
+    isError: context.isAuthError, // Estado de error de comprobación de sesión
+    authResolved: context.authResolved
   }
 }

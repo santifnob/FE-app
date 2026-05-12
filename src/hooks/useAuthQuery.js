@@ -3,7 +3,7 @@ import { api } from '../services/api.js'
 
 export function useAuthQuery (location) {
   return useQuery({
-    queryKey: ['auth', location],
+    queryKey: ['auth', location.pathname, location.search],
     queryFn: async () => {
       const res = await api.get('/auth/check', { withCredentials: true })
       return res.data.userData

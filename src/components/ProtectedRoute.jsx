@@ -5,7 +5,7 @@ import ConductorLayout from './layouts/ConductorLayout.jsx'
 import { LoadingScreen } from './shared/LoadingScreen.jsx'
 
 export function ProtectedRoute ({ allowedRoles }) {
-  const { user, isLoading } = useCurrentUser()
+  const { user, isLoading, authResolved } = useCurrentUser()
   const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles]
   
   if (user?.role === 'admin') {
@@ -24,13 +24,19 @@ export function ProtectedRoute ({ allowedRoles }) {
     )
   }
 
-  if (isLoading) {
-    return <LoadingScreen title='Validando sesión...' subtitle='Un momento por favor' />
+  if (!authResolved) {
+  // mantener layout mientras valida
+  return (
+    <LoadingScreen
+      title='Validando sesión...'
+      subtitle='Un momento por favor'
+    />
+  )
   }
 
-  if (!user) {
-    return <Navigate to='/' />
-  }
+if (!user) {
+  return <Navigate to='/' />
+}
 
   if (!roles.includes(user.role)) {
     if (user.role === 'admin') return <Navigate to='/admin/dashboard' />
