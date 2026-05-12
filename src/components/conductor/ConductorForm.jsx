@@ -12,8 +12,11 @@ export function ConductorForm ({ onSuccess, conductorToEdit }) {
       nombre: formData.nombre,
       apellido: formData.apellido,
       email: formData.email,
-      password: formData.password,
       estado: formData.estado
+    }
+
+    if (formData.password) {
+      conductor.password = formData.password
     }
 
     if (conductorToEdit) {
@@ -75,10 +78,10 @@ export function ConductorForm ({ onSuccess, conductorToEdit }) {
         <label className='form-label' htmlFor='password'>Contraseña:</label>
         <input
           id='password' type='password' {...register('password', {
-            required: 'La "Contraseña" es requerida',
+            required: conductorToEdit ? false : 'La "Contraseña" es requerida',
             // minLength: { value: 8, message: 'El password debe tener al menos 8 caracteres' },
-            value: conductorToEdit ? conductorToEdit.password : ''
           })}
+          defaultValue=""
           className='form-control' placeholder='Contraseña del conductor'
         />
         {errors.password && <span className='text-danger'>{errors.password.message}</span>}
