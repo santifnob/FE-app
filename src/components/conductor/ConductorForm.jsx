@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useConductorPost } from '../../hooks/conductor/useConductorPost'
 import { useConductorPut } from '../../hooks/conductor/useConductorPut'
 
-export function ConductorForm({ onSuccess, conductorToEdit }) {
+export function ConductorForm ({ onSuccess, conductorToEdit }) {
   const { showFeedback } = useFeedback()
   const { register, formState: { errors }, handleSubmit, isPending: isPendingForm } = useForm({ mode: 'onBlur' })
   const { mutateAsync: handlePost, isError: isErrorPost } = useConductorPost()
@@ -21,12 +21,6 @@ export function ConductorForm({ onSuccess, conductorToEdit }) {
       conductor.password = formData.password
     }
 
-    if (conductorToEdit) {
-      conductor.id = conductorToEdit.id
-      await handlePut(conductor)
-
-      if (!isErrorPut) onSuccess()
-      return
     try {
       if (conductorToEdit) {
         conductor.id = conductorToEdit.id
@@ -36,6 +30,7 @@ export function ConductorForm({ onSuccess, conductorToEdit }) {
         await handlePost(conductor)
         showFeedback('success', 'Conductor creado', 'El conductor se creó correctamente.')
       }
+
       onSuccess()
     } catch (error) {
       showFeedback('danger', 'Error', `No se pudo ${conductorToEdit ? 'actualizar' : 'crear'} el conductor. Intenta nuevamente.`)
@@ -88,10 +83,10 @@ export function ConductorForm({ onSuccess, conductorToEdit }) {
         <label className='form-label' htmlFor='password'>Contraseña:</label>
         <input
           id='password' type='password' {...register('password', {
-            required: conductorToEdit ? false : 'La "Contraseña" es requerida',
+            required: conductorToEdit ? false : 'La "Contraseña" es requerida'
             // minLength: { value: 8, message: 'El password debe tener al menos 8 caracteres' },
           })}
-          defaultValue=""
+          defaultValue=''
           className='form-control' placeholder='Contraseña del conductor'
         />
         {errors.password && <span className='text-danger'>{errors.password.message}</span>}
