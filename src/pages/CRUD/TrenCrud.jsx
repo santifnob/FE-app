@@ -3,6 +3,7 @@ import { TrenForm } from '../../components/tren/TrenForm.jsx'
 import { TrenList } from '../../components/tren/TrenList.jsx'
 import { useTrenCrud } from '../../hooks/tren/useTrenCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 export function TrenCrud() {
   const {
@@ -34,7 +35,7 @@ export function TrenCrud() {
   { key: 'fechaCreacion', label: 'Fecha de creacion', type: 'dateRange', startKey: 'fechaIni', endKey: 'fechaFin' }
 ]
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return < LoadingScreen title='Cargando trenes...' />
 
   if (isError) return <h1>{error}</h1>
 

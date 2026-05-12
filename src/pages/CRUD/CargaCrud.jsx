@@ -3,6 +3,7 @@ import { CargaForm } from '../../components/carga/CargaForm.jsx'
 import { CargaList } from '../../components/carga/CargaList.jsx'
 import { useCargaCrud } from '../../hooks/carga/useCargasCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 export function CargaCrud() {
   const {
@@ -35,7 +36,7 @@ export function CargaCrud() {
     { key: 'nombreTipoCarga', label: 'Tipo de carga', type: 'partial' }
   ]
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return <LoadingScreen title='Cargando cargas...' />
 
   if (isError) return <h1>{error}</h1>
 

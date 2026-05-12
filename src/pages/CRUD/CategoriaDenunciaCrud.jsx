@@ -3,6 +3,7 @@ import { CategoriaDenunciaForm } from '../../components/categoriaDenuncia/Catego
 import { CategoriaDenunciaList } from '../../components/categoriaDenuncia/CategoriaDenunciaList.jsx'
 import { useCategoriaDenunciaCrud } from '../../hooks/categoriaDenuncia/useCategoriaDenunciaCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 export function CategoriaDenunciaCrud() {
 
@@ -35,7 +36,7 @@ export function CategoriaDenunciaCrud() {
     { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
   ]
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return <LoadingScreen title='Cargando categorias de denuncias...' />
 
   if (isError) return <h1>{error}</h1>
 

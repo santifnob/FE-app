@@ -3,6 +3,7 @@ import { ConductorForm } from '../../components/conductor/ConductorForm.jsx'
 import { ConductorList } from '../../components/conductor/ConductorList.jsx'
 import { useConductorCrud } from '../../hooks/conductor/useConductorCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 export function ConductorCrud () {
 
@@ -36,7 +37,7 @@ export function ConductorCrud () {
     { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
   ]
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return <LoadingScreen title='Cargando conductores...' />
 
   if (isError) return <h1>{error}</h1>
 

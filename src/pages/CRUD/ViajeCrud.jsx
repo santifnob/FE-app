@@ -4,6 +4,7 @@ import { ViajeTableExpandable } from '../../components/viaje/ViajeTableExpandabl
 import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { useViajeCrud } from '../../hooks/viaje/useViajeCrud.js'
 import { ViajeCards } from '../../components/viaje/ViajeCards.jsx'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 const viajeFilterAttributes = [
   { key: 'estado', label: 'Estado', type: 'exact', options: [
@@ -44,7 +45,7 @@ export function ViajeCrud() {
     handleApplyFilters
   } = useViajeCrud()
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return <LoadingScreen title='Cargando viajes...' />
 
   if (isError) return <h1>{error}</h1>
 

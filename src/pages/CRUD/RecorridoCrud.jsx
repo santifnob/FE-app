@@ -3,6 +3,7 @@ import { RecorridoForm } from '../../components/recorrido/RecorridoForm.jsx'
 import { RecorridoList } from '../../components/recorrido/RecorridoList.jsx'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { useRecorridoCrud } from '../../hooks/recorrido/useRecorridoCrud.js'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 const recorridoFilterAttributes = [
   { key: 'ciudadSalida', label: 'Ciudad Salida', type: 'partial' },
@@ -34,7 +35,7 @@ export function RecorridoCrud() {
   } = useRecorridoCrud()
 
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return <LoadingScreen title='Cargando recorridos...' />
 
   if (isError) return <h1>{error}</h1>
 

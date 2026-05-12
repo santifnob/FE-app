@@ -5,6 +5,7 @@ import * as bootstrap from "bootstrap";
 import { ConductorGetOne } from "../../hooks/conductor/useConductorQuery";
 import { useConductorPut } from "../../hooks/conductor/useConductorPut";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { LoadingScreen } from "../../components/shared/LoadingScreen.jsx";
 
 function normalizeDate(dateValue) {
   const date = new Date(dateValue);
@@ -331,11 +332,7 @@ export default function PerfilConductor() {
   }
 
   if (isAuthLoading || isLoading) {
-    return (
-      <div className="container py-4">
-        <div className="text-center">Cargando...</div>
-      </div>
-    );
+    return <LoadingScreen title='Cargando perfil...' subtitle='Un momento por favor' />
   }
 
   if (isError) {

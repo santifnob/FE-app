@@ -3,6 +3,7 @@ import { ObservacionForm } from '../../components/observacion/ObservacionForm.js
 import { ObservacionList } from '../../components/observacion/ObservacionList.jsx'
 import { useObservacionCrud } from '../../hooks/observacion/useObservacionCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 export function ObservacionCrud() {
   const {
@@ -36,7 +37,7 @@ export function ObservacionCrud() {
     { key: 'tituloCategoria', label: 'Título categoría denuncia', type: 'partial' }
   ]
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return <LoadingScreen title='Cargando observaciones...' />
 
   if (isError) return <h1>{error}</h1>
 

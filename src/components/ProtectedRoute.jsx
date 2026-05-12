@@ -1,57 +1,43 @@
-import { Outlet, Navigate, useLocation } from 'react-router-dom'
-import { useAuthQuery } from '../hooks/useAuthQuery.js'
-import { useContext, useEffect } from 'react'
-import { AuthContext } from '../context/AuthContext.jsx'
+import { Outlet, Navigate } from 'react-router-dom'
+import { useCurrentUser } from '../hooks/useCurrentUser.js'
 import AdminLayout from './layouts/AdminLayout.jsx'
 import ConductorLayout from './layouts/ConductorLayout.jsx'
+import { LoadingScreen } from './shared/LoadingScreen.jsx'
 
 export function ProtectedRoute ({ allowedRoles }) {
-  const location = useLocation()
-  const { data, isLoading, isError } = useAuthQuery(location)
-  const { logout, setUser } = useContext(AuthContext)
-
-  useEffect(() => {
-    console.log(data)
-    const verificarAuth = async () => {
-      if (isError) {
-        await logout()
-        setUser(null)
-      } else if (data) {
-        setUser({id: data.userId, role: data.role})
-      }
-    }
-    verificarAuth()
-  }, [isError, data])
-
-  if (isLoading) return <p className='text-center'>Cargando...</p>
-
-  // Si no está autorizado
-  if (isError || !allowedRoles.includes(data.role)) {
-    if (isError) return <Navigate to='/' />
-
-    if (data.role === 'admin') return <Navigate to='/admin/dashboard' />
-    if (data.role === 'conductor') return <Navigate to='/conductor/dashboard' />
-  }
-
-  // Layout según rol
-  if (data.role === 'admin') {
+  const { user, isLoading } = useCurrentUser()
+  const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles]
+  
+  if (user?.role === 'admin') {
     return (
       <AdminLayout>
-        <Outlet />
+        {isLoading ? <LoadingScreen title='Validando sesión...' subtitle='Un momento por favor' /> : <Outlet />}
       </AdminLayout>
     )
   }
 
-  if (data.role === 'conductor') {
+  if (user?.role === 'conductor') {
     return (
-
       <ConductorLayout>
-        <Outlet />
+        {isLoading ? <LoadingScreen title='Validando sesión...' subtitle='Un momento por favor' /> : <Outlet />}
       </ConductorLayout>
-
     )
   }
 
-  // Si por algún motivo no coincide con ningún rol
+  if (isLoading) {
+    return <LoadingScreen title='Validando sesión...' subtitle='Un momento por favor' />
+  }
+
+  if (!user) {
+    return <Navigate to='/' />
+  }
+
+  if (!roles.includes(user.role)) {
+    if (user.role === 'admin') return <Navigate to='/admin/dashboard' />
+    if (user.role === 'conductor') return <Navigate to='/conductor/dashboard' />
+    return <Navigate to='/' />
+  }
+
+
   return <Navigate to='/' />
 }

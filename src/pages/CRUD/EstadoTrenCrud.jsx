@@ -3,6 +3,7 @@ import { EstadoTrenForm } from '../../components/estadoTren/EstadoTrenForm.jsx'
 import { EstadoTrenList } from '../../components/estadoTren/EstadoTrenList.jsx'
 import { useEstadoTrenCrud } from '../../hooks/estadoTren/useEstadoTrenCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 export function EstadoTrenCrud() {
   
@@ -37,7 +38,7 @@ export function EstadoTrenCrud() {
     { key: 'modeloTren', label: 'Modelo de tren', type: 'partial' }
   ]
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return <LoadingScreen title='Cargando estados de tren...' />
 
   if (isError) return <h1>{error}</h1>
 

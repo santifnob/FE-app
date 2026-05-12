@@ -7,7 +7,7 @@ export function useLicenseExpirationAlerts () {
     queryKey: dashboardKeys.licenseAlerts(),
     queryFn: async () => {
       const res = await api.get('/analytics/license-expiration-alerts', { withCredentials: true })
-      console.log(res.data.result)
+
       return res.data.result
     },
     staleTime: 1000 * 60 * 720, // Los stats pueden durar 5 min en caché

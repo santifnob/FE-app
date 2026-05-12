@@ -3,6 +3,7 @@ import { LicenciaForm } from '../../components/licencia/LicenciaForm.jsx'
 import { LicenciaList } from '../../components/licencia/LicenciaList.jsx'
 import { useLicenciaCrud } from '../../hooks/licencia/useLicenciaCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 export function LicenciaCrud() {
 
@@ -37,7 +38,7 @@ export function LicenciaCrud() {
     { key: 'conductorNombreYApellido', label: 'Nombre y apellido conductor', type: 'partial' }
   ]
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return <LoadingScreen title='Cargando licencias...' />
 
   if (isError) return <h1>{error}</h1>
 

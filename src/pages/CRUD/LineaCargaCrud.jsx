@@ -3,6 +3,7 @@ import { LineaCargaForm } from '../../components/lineaCarga/LineaCargaForm.jsx'
 import { LineaCargaList } from '../../components/lineaCarga/LineaCargaList.jsx'
 import { useLineaCargaCrud } from '../../hooks/lineaCarga/useLineaCargaCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
+import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
 
 export function LineaCargaCrud() {
   const {
@@ -36,7 +37,7 @@ export function LineaCargaCrud() {
     { key: 'nombreCarga', label: 'Nombre de carga', type: 'partial' }
   ]
 
-  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
+  if (isLoading) return <LoadingScreen title='Cargando líneas de carga...' />
 
   if (isError) return <h1>{error}</h1>
 

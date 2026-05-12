@@ -16,6 +16,7 @@ import ConductorKilometersWidget from '../analytics/conductor/KilometersTravelle
 import ConductorLastLicenseWidget from '../analytics/conductor/LastLicenseWidget.jsx'
 import ConductorNextTripWidget from '../analytics/conductor/NextTripWidget.jsx'
 import ConductorTripChartWidget from '../analytics/conductor/TripChartWidget.jsx'
+import { LoadingScreen } from '../shared/LoadingScreen.jsx'
 
 export default function DashboardContainer() {
   const { user: currentUser, isLoading: isLoadingAuth, isError: isErrorAuth } = useCurrentUser()
@@ -31,7 +32,7 @@ export default function DashboardContainer() {
 
 
   if (isLoadingAuth) {
-    return
+    return <LoadingScreen title='Cargando usuario...' subtitle='Validando el acceso' />
   }
   if(isErrorAuth){
     return <h1 className='text-center'>Error al cargar el usuario</h1>

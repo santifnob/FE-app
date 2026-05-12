@@ -15,9 +15,6 @@ export function CargoDistributionWidget() {
 
     const top5RevenuePerc = data.reduce((acc, row) => acc + Number(row.revenuePercentage), 0);
 
-    console.log(top5WagonsCount)
-    console.log(top5RevenuePerc)
-
     const othersRow = {
       categoryName: 'Otros',
       wagonCount: totalGlobalWagons - top5WagonsCount,

@@ -12,7 +12,7 @@ export function LoginPage () {
   const onSubmit = async (data) => {
     try {
       const userToSet = await login({ email: data.email, password: data.password })
-      console.log(userToSet)
+
       setUser(userToSet) // si uso directamente el estado user, no llega a cargar ya que los estados se manejan de manera asincrona, por lo que uso el user devuelto por la API
       switch (userToSet.role) {
         case 'admin': navigate('/admin/dashboard'); break
