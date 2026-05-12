@@ -4,6 +4,7 @@ import { LicenciaList } from '../../components/licencia/LicenciaList.jsx'
 import { useLicenciaCrud } from '../../hooks/licencia/useLicenciaCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
 export function LicenciaCrud() {
 
@@ -24,13 +25,26 @@ export function LicenciaCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useLicenciaCrud()
+  const { showFeedback } = useFeedback()
+
+  const handleDelete = async (licenciaId) => {
+    try {
+      await deleteMutation(licenciaId)
+      showFeedback('success', 'Licencia eliminada', 'La licencia se eliminó correctamente.')
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo eliminar la licencia. Intenta nuevamente.')
+    }
+  }
 
   const licenciaFilterAttributes = [
     { key: 'id', label: 'ID', type: 'id' },
-    { key: 'estado', label: 'Estado', type: 'exact', options: [
-      { label: 'Activo', value: 'Activo' },
-      { label: 'Inactivo', value: 'Inactivo' }
-    ]},
+    {
+      key: 'estado', label: 'Estado', type: 'exact', options: [
+        { label: 'Activo', value: 'Activo' },
+        { label: 'Inactivo', value: 'Inactivo' }
+      ]
+    },
     { key: 'fechaHecho', label: 'Fecha de hecho', type: 'dateRange', startKey: 'fechaHechoIni', endKey: 'fechaHechoFin' },
     { key: 'fechaVencimiento', label: 'Fecha de vencimiento', type: 'dateRange', startKey: 'fechaVencimientoIni', endKey: 'fechaVencimientoFin' },
     { key: 'conductorId', label: 'ID Conductor', type: 'id' },
@@ -60,7 +74,7 @@ export function LicenciaCrud() {
         </button>
       </div>
       {/* Logica pensada para ordenar los Licencias segun el atributo que apreta el usuario, todavia no hecha */}
-      <LicenciaList licencias={licencias} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation} />
+      <LicenciaList licencias={licencias} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={handleDelete} />
 
       {
         showModal &&

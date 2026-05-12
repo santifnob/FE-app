@@ -4,6 +4,7 @@ import { CategoriaDenunciaList } from '../../components/categoriaDenuncia/Catego
 import { useCategoriaDenunciaCrud } from '../../hooks/categoriaDenuncia/useCategoriaDenunciaCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
 export function CategoriaDenunciaCrud() {
 
@@ -24,15 +25,28 @@ export function CategoriaDenunciaCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useCategoriaDenunciaCrud()
+  const { showFeedback } = useFeedback()
+
+  const handleDelete = async (categoriaDenunciaId) => {
+    try {
+      await deleteMutation(categoriaDenunciaId)
+      showFeedback('success', 'Categoría eliminada', 'La categoría de denuncia se eliminó correctamente.')
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo eliminar la categoría de denuncia. Intenta nuevamente.')
+    }
+  }
 
   const categoriaDenunciaFilterAttributes = [
     { key: 'id', label: 'ID', type: 'id' },
     { key: 'titulo', label: 'Título', type: 'partial' },
     { key: 'descripcion', label: 'Descripción', type: 'partial' },
-    { key: 'estado', label: 'Estado', type: 'exact', options: [
-      { label: 'Activo', value: 'Activo' },
-      { label: 'Inactivo', value: 'Inactivo' }
-    ]},
+    {
+      key: 'estado', label: 'Estado', type: 'exact', options: [
+        { label: 'Activo', value: 'Activo' },
+        { label: 'Inactivo', value: 'Inactivo' }
+      ]
+    },
     { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
   ]
 
@@ -58,9 +72,9 @@ export function CategoriaDenunciaCrud() {
         </button>
 
       </div>
-      {/* Logica pensada para ordenar los categoriaDenuncias segun el atributo que apreta el usuario, todavian no hecha */ }
-      <CategoriaDenunciaList categoriaDenuncias={categoriaDenuncias} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation}/>
-      
+      {/* Logica pensada para ordenar los categoriaDenuncias segun el atributo que apreta el usuario, todavian no hecha */}
+      <CategoriaDenunciaList categoriaDenuncias={categoriaDenuncias} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={handleDelete} />
+
       {
         showModal &&
         <Modal onClose={() => setShowModal(false)} title={(categoriaDenunciaToEdit.current ? 'Editar' : 'Crear') + ' CategoriaDenuncia'}>

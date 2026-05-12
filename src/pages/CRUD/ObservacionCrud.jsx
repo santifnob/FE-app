@@ -4,6 +4,7 @@ import { ObservacionList } from '../../components/observacion/ObservacionList.js
 import { useObservacionCrud } from '../../hooks/observacion/useObservacionCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
 export function ObservacionCrud() {
   const {
@@ -23,14 +24,27 @@ export function ObservacionCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useObservacionCrud()
+  const { showFeedback } = useFeedback()
+
+  const handleDelete = async (observacionId) => {
+    try {
+      await deleteMutation(observacionId)
+      showFeedback('success', 'Observación eliminada', 'La observación se eliminó correctamente.')
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo eliminar la observación. Intenta nuevamente.')
+    }
+  }
 
   const observacionFilterAttributes = [
     { key: 'id', label: 'ID', type: 'id' },
     { key: 'observaciones', label: 'Observaciones', type: 'partial' },
-    { key: 'estado', label: 'Estado', type: 'exact', options: [
-      { label: 'Activo', value: 'Activo' },
-      { label: 'Inactivo', value: 'Inactivo' }
-    ]},
+    {
+      key: 'estado', label: 'Estado', type: 'exact', options: [
+        { label: 'Activo', value: 'Activo' },
+        { label: 'Inactivo', value: 'Inactivo' }
+      ]
+    },
     { key: 'categoriaDenunciaId', label: 'ID Categoría Denuncia', type: 'id' },
     { key: 'viajeId', label: 'ID Viaje', type: 'id' },
     { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' },
@@ -59,7 +73,7 @@ export function ObservacionCrud() {
         </button>
       </div>
       {/* Logica pensada para ordenar los Observaciones segun el atributo que apreta el usuario, todavia no hecha */}
-      <ObservacionList observaciones={observaciones} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation} />
+      <ObservacionList observaciones={observaciones} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={handleDelete} />
 
       {
         showModal &&

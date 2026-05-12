@@ -4,10 +4,12 @@ import { useCargaPost } from '../../hooks/carga/useCargaPost'
 import { useCargaPut } from '../../hooks/carga/useCargasPut'
 import { useTipoCargasInfinite } from '../../hooks/tipoCarga/useTipoCargaInfinite.js'
 import { EntitySelector } from '../shared/EntitySelector.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
-export function CargaForm({ onSuccess, cargaToEdit }) {
+export function CargaForm ({ onSuccess, cargaToEdit }) {
   const { data: dataTipoCargas, fetchNextPage: nextTipoCargas, hasNextPage: hasNextTipoCargas } = useTipoCargasInfinite({ filters: { estado: 'Activo' } })
   const [tipoCargas, setTipoCargas] = useState([])
+  const { showFeedback } = useFeedback()
   const { register, formState: { errors, isSubmitting: isPendingForm }, handleSubmit, reset, control } = useForm({
     mode: 'onBlur',
     defaultValues: { name: '', precio: '', estado: '', idTipoCarga: '' }
@@ -15,7 +17,7 @@ export function CargaForm({ onSuccess, cargaToEdit }) {
   const { mutateAsync: handlePost, isError: isErrorPost } = useCargaPost()
   const { mutateAsync: handlePut, isError: isErrorPut } = useCargaPut()
 
-  // Cargar datos de los hooks infinitos 
+  // Cargar datos de los hooks infinitos
   useEffect(() => {
     let newTipoCargas = dataTipoCargas?.pages.flatMap(p => p.items) ?? []
 
@@ -45,23 +47,30 @@ export function CargaForm({ onSuccess, cargaToEdit }) {
       precio: formData.precio,
       estado: formData.estado,
       idTipoCarga: Number(formData.idTipoCarga)
-    };
+    }
 
     // Solo enviar idTipoCarga si se eligió uno
     if (formData.idTipoCarga !== '') {
       payload.idTipoCarga = Number(formData.idTipoCarga)
     }
 
-    if (cargaToEdit) {
-      payload.id = cargaToEdit.id
-      await handlePut(payload)
-      if (!isErrorPut) onSuccess?.()
-      return;
-    }
+    try {
+      if (cargaToEdit) {
+        payload.id = cargaToEdit.id
+        await handlePut(payload)
+        showFeedback('success', 'Carga actualizada', 'La carga se actualizó correctamente.')
+        onSuccess?.()
+        return
+      }
 
-    await handlePost(payload)
-    if (!isErrorPost) onSuccess?.()
-  };
+      await handlePost(payload)
+      showFeedback('success', 'Carga creada', 'La carga se creó correctamente.')
+      onSuccess?.()
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo guardar la carga. Revisa los datos e intenta de nuevo.')
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -73,7 +82,7 @@ export function CargaForm({ onSuccess, cargaToEdit }) {
           control={control}
           rules={{ required: 'El "Tipo de Carga" es requerido' }}
           render={({ field }) => (
-            <EntitySelector value={field.value} onChange={field.onChange} entityList={tipoCargas} fetchNextPage={nextTipoCargas} hasNextPage={hasNextTipoCargas} entityName="tipoCarga" />
+            <EntitySelector value={field.value} onChange={field.onChange} entityList={tipoCargas} fetchNextPage={nextTipoCargas} hasNextPage={hasNextTipoCargas} entityName='tipoCarga' />
           )}
         />
         {errors.idTipoCarga && <span className='text-danger'>{errors.idTipoCarga.message}</span>}
@@ -105,7 +114,7 @@ export function CargaForm({ onSuccess, cargaToEdit }) {
               return !isNaN(num) && num > 0
                 ? true
                 : 'Tiene que ser un número mayor a 0'
-            },
+            }
           })}
           className='form-control'
           placeholder='Precio de la carga'

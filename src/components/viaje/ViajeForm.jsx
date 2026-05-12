@@ -6,8 +6,9 @@ import { useRecorridosInfinite } from '../../hooks/recorrido/useRecorridoInfinit
 import { useConductoresInfinite } from '../../hooks/conductor/useConductorInfinite.js'
 import { useTrenesInfinite } from '../../hooks/tren/useTrenInfinite.js'
 import { EntitySelector } from '../shared/EntitySelector.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
-export function ViajeForm({ onSuccess, viajeToEdit }) {
+export function ViajeForm ({ onSuccess, viajeToEdit }) {
   // Hooks de datos de react query para los infinite scrolls
   const { data: dataRecorridos, fetchNextPage: nextRecorridos, hasNextPage: hasNextRecorridos } = useRecorridosInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
   const { data: dataConductores, fetchNextPage: nextConductor, hasNextPage: hasNextConductor } = useConductoresInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
@@ -21,6 +22,7 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
   const { mutateAsync: handlePost, isError: isErrorPost, isPending: isPendingPost, error: errorPost } = useViajePost()
   const { mutateAsync: handlePut, isError: isErrorPut, isPending: isPendingPut, error: errorPut } = useViajePut()
   const isPendingForm = isPendingPost || isPendingPut
+  const { showFeedback } = useFeedback()
   // Setup del formulario
   const {
     control,
@@ -32,13 +34,13 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
     mode: 'onBlur',
     defaultValues: viajeToEdit
       ? {
-        fechaIni: viajeToEdit.fechaIni?.slice(0, 16),
-        fechaFin: viajeToEdit.fechaFin?.slice(0, 16),
-        estado: viajeToEdit.estado,
-        idTren: viajeToEdit.tren?.id,
-        idRecorrido: viajeToEdit.recorrido?.id,
-        idConductor: viajeToEdit.conductor?.id
-      }
+          fechaIni: viajeToEdit.fechaIni?.slice(0, 16),
+          fechaFin: viajeToEdit.fechaFin?.slice(0, 16),
+          estado: viajeToEdit.estado,
+          idTren: viajeToEdit.tren?.id,
+          idRecorrido: viajeToEdit.recorrido?.id,
+          idConductor: viajeToEdit.conductor?.id
+        }
       : {}
   })
 
@@ -85,13 +87,20 @@ export function ViajeForm({ onSuccess, viajeToEdit }) {
       idConductor: Number(formData.idConductor)
     }
 
-    if (viajeToEdit) {
-      viaje.id = viajeToEdit.id
-      await handlePut(viaje)
-      if (!isErrorPut) onSuccess()
-    } else {
-      await handlePost(viaje)
-      if (!isErrorPost) onSuccess()
+    try {
+      if (viajeToEdit) {
+        viaje.id = viajeToEdit.id
+        await handlePut(viaje)
+        showFeedback('success', 'Viaje actualizado', 'El viaje se actualizó correctamente.')
+        onSuccess()
+      } else {
+        await handlePost(viaje)
+        showFeedback('success', 'Viaje creado', 'El viaje se creó correctamente.')
+        onSuccess()
+      }
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo guardar el viaje. Intenta nuevamente.')
     }
   }
 

@@ -1,12 +1,13 @@
 import { useForm, Controller } from 'react-hook-form'
 import { useEffect, useState } from 'react'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 import { useObservacionPost } from '../../hooks/observacion/useObservacionPost.js'
 import { useObservacionPut } from '../../hooks/observacion/useObservacionesPut.js'
 import { useCategoriaDenunciasInfinite } from '../../hooks/categoriaDenuncia/useCategoriaDenunciaInfinite.js'
 import { useViajesInfinite } from '../../hooks/viaje/useViajeInfinite.js'
 import { EntitySelector } from '../shared/EntitySelector.jsx'
 
-export function ObservacionForm({ onSuccess, observacionToEdit }) {
+export function ObservacionForm ({ onSuccess, observacionToEdit }) {
   const { data: dataCategoriaDenuncias, fetchNextPage: nextCategoriaDenuncias, hasNextPage: hasNextCategoriaDenuncias } = useCategoriaDenunciasInfinite({ filters: { estado: 'Activo' } })
   const { data: dataViajes, fetchNextPage: nextViajes, hasNextPage: hasNextViajes } = useViajesInfinite({})
   const [categoriaDenuncias, setCategoriaDenuncias] = useState([])
@@ -16,14 +17,15 @@ export function ObservacionForm({ onSuccess, observacionToEdit }) {
     mode: 'onBlur',
     defaultValues: observacionToEdit
       ? {
-        observaciones: observacionToEdit.observaciones,
-        estado: observacionToEdit.estado,
-        idViaje: observacionToEdit.viaje?.id,
-        idCategoria: observacionToEdit.categoriaDenuncia?.id
-      }
+          observaciones: observacionToEdit.observaciones,
+          estado: observacionToEdit.estado,
+          idViaje: observacionToEdit.viaje?.id,
+          idCategoria: observacionToEdit.categoriaDenuncia?.id
+        }
       : {}
   })
 
+  const { showFeedback } = useFeedback()
   const { mutateAsync: handlePost, isError: isErrorPost } = useObservacionPost()
   const { mutateAsync: handlePut, isError: isErrorPut } = useObservacionPut()
 
@@ -54,17 +56,19 @@ export function ObservacionForm({ onSuccess, observacionToEdit }) {
       idCategoria: Number(formData.idCategoria)
     }
 
-    if (observacionToEdit) {
-      observacion.id = observacionToEdit.id
-      await handlePut(observacion)
-
-      if (!isErrorPut) onSuccess()
-      return
+    try {
+      if (observacionToEdit) {
+        observacion.id = observacionToEdit.id
+        await handlePut(observacion)
+        showFeedback('success', 'Observación actualizada', 'La observación se actualizó correctamente.')
+      } else {
+        await handlePost(observacion)
+        showFeedback('success', 'Observación creada', 'La observación se creó correctamente.')
+      }
+      onSuccess()
+    } catch (error) {
+      showFeedback('danger', 'Error', `No se pudo ${observacionToEdit ? 'actualizar' : 'crear'} la observación. Intenta nuevamente.`)
     }
-
-    await handlePost(observacion)
-
-    if (!isErrorPost) onSuccess()
   }
 
   return (

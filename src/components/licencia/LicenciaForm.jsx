@@ -1,14 +1,16 @@
 import { useForm, Controller } from 'react-hook-form'
 import { useEffect, useState } from 'react'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 import { useLicenciaPost } from '../../hooks/licencia/useLicenciaPost'
 import { useLicenciaPut } from '../../hooks/licencia/useLicenciasPut'
 import { useConductoresInfinite } from '../../hooks/conductor/useConductorInfinite.js'
 import { EntitySelector } from '../shared/EntitySelector.jsx'
 
 export function LicenciaForm({ onSuccess, licenciaToEdit }) {
+  const { showFeedback } = useFeedback()
   const { data: dataConductores, fetchNextPage: nextConductores, hasNextPage: hasNextConductores } = useConductoresInfinite({ filterColumn: 'estado', filterValue: 'Activo' })
   const [conductores, setConductores] = useState([])
-  const { register, formState: { errors }, handleSubmit, isPending: isPendingForm, watch, control } = useForm({ 
+  const { register, formState: { errors }, handleSubmit, isPending: isPendingForm, watch, control } = useForm({
     mode: 'onBlur',
     defaultValues: licenciaToEdit ? { idConductor: licenciaToEdit.conductor?.id } : {}
   })
@@ -35,17 +37,19 @@ export function LicenciaForm({ onSuccess, licenciaToEdit }) {
       idConductor: Number(formData.idConductor)
     }
 
-    if (licenciaToEdit) {
-      licencia.id = licenciaToEdit.id
-      await handlePut(licencia)
-
-      if (!isErrorPut) onSuccess()
-      return
+    try {
+      if (licenciaToEdit) {
+        licencia.id = licenciaToEdit.id
+        await handlePut(licencia)
+        showFeedback('success', 'Licencia actualizada', 'La licencia se actualizó correctamente.')
+      } else {
+        await handlePost(licencia)
+        showFeedback('success', 'Licencia creada', 'La licencia se creó correctamente.')
+      }
+      onSuccess()
+    } catch (error) {
+      showFeedback('danger', 'Error', `No se pudo ${licenciaToEdit ? 'actualizar' : 'crear'} la licencia. Intenta nuevamente.`)
     }
-
-    await handlePost(licencia)
-
-    if (!isErrorPost) onSuccess()
 
   }
 

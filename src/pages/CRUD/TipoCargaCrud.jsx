@@ -4,6 +4,7 @@ import { TipoCargaList } from '../../components/tipoCarga/TipoCargaList.jsx'
 import { useTipoCargaCrud } from '../../hooks/tipoCarga/useTipoCargaCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
 export function TipoCargaCrud() {
   const {
@@ -23,15 +24,28 @@ export function TipoCargaCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useTipoCargaCrud()
+  const { showFeedback } = useFeedback()
+
+  const handleDelete = async (tipoCargaId) => {
+    try {
+      await deleteMutation(tipoCargaId)
+      showFeedback('success', 'Tipo de carga eliminado', 'El tipo de carga se eliminó correctamente.')
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo eliminar el tipo de carga. Intenta nuevamente.')
+    }
+  }
 
   const tipoCargaFilterAttributes = [
     { key: 'id', label: 'ID', type: 'id' },
     { key: 'name', label: 'Nombre', type: 'partial' },
     { key: 'desc', label: 'Descripción', type: 'partial' },
-    { key: 'estado', label: 'Estado', type: 'exact', options: [
-      { label: 'Activo', value: 'Activo' },
-      { label: 'Inactivo', value: 'Inactivo' }
-    ]},
+    {
+      key: 'estado', label: 'Estado', type: 'exact', options: [
+        { label: 'Activo', value: 'Activo' },
+        { label: 'Inactivo', value: 'Inactivo' }
+      ]
+    },
     { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' }
   ]
 
@@ -56,9 +70,9 @@ export function TipoCargaCrud() {
           Crear un tipo de Carga
         </button>
       </div>
-      {/* Logica pensada para ordenar los tipoCargas segun el atributo que apreta el usuario, todavian no hecha */ }
-      <TipoCargaList tipoCargas={tipoCargas} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation}/>
-      
+      {/* Logica pensada para ordenar los tipoCargas segun el atributo que apreta el usuario, todavian no hecha */}
+      <TipoCargaList tipoCargas={tipoCargas} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={handleDelete} />
+
       {
         showModal &&
         <Modal onClose={() => setShowModal(false)} title={(tipoCargaToEdit.current ? 'Editar' : 'Crear') + ' TipoCarga'}>

@@ -4,6 +4,7 @@ import { CargaList } from '../../components/carga/CargaList.jsx'
 import { useCargaCrud } from '../../hooks/carga/useCargasCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
 export function CargaCrud() {
   const {
@@ -23,15 +24,28 @@ export function CargaCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useCargaCrud()
+  const { showFeedback } = useFeedback()
+
+  const handleDelete = async (cargaId) => {
+    try {
+      await deleteMutation(cargaId)
+      showFeedback('success', 'Carga eliminada', 'La carga se eliminó correctamente.')
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo eliminar la carga. Intenta nuevamente.')
+    }
+  }
 
   const cargaFilterAttributes = [
     { key: 'id', label: 'ID', type: 'id' },
     { key: 'name', label: 'Nombre', type: 'partial' },
     { key: 'precio', label: 'Precio', type: 'range' },
-    { key: 'estado', label: 'Estado', type: 'exact', options: [
-      { label: 'Activo', value: 'Activo' },
-      { label: 'Inactivo', value: 'Inactivo' }
-    ]},
+    {
+      key: 'estado', label: 'Estado', type: 'exact', options: [
+        { label: 'Activo', value: 'Activo' },
+        { label: 'Inactivo', value: 'Inactivo' }
+      ]
+    },
     { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' },
     { key: 'nombreTipoCarga', label: 'Tipo de carga', type: 'partial' }
   ]
@@ -57,9 +71,9 @@ export function CargaCrud() {
           Crear una carga
         </button>
       </div>
-      {/* Logica pensada para ordenar los cargas segun el atributo que apreta el usuario, todavian no hecha */ }
-      <CargaList cargas={cargas} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation}/>
-      
+      {/* Logica pensada para ordenar los cargas segun el atributo que apreta el usuario, todavian no hecha */}
+      <CargaList cargas={cargas} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={handleDelete} />
+
       {
         showModal &&
         <Modal onClose={() => setShowModal(false)} title={(cargaToEdit.current ? 'Editar' : 'Crear') + ' Carga'}>

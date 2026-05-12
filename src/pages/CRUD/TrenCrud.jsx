@@ -4,6 +4,7 @@ import { TrenList } from '../../components/tren/TrenList.jsx'
 import { useTrenCrud } from '../../hooks/tren/useTrenCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
 export function TrenCrud() {
   const {
@@ -23,17 +24,30 @@ export function TrenCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useTrenCrud()
+  const { showFeedback } = useFeedback()
+
+  const handleDelete = async (trenId) => {
+    try {
+      await deleteMutation(trenId)
+      showFeedback('success', 'Tren eliminado', 'El tren se eliminó correctamente.')
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo eliminar el tren. Intenta nuevamente.')
+    }
+  }
 
   const trenFilterAttributes = [
-  { key: 'modelo', label: 'Modelo', type: 'partial' },
-  { key: 'id', label: 'Tren ID', type: 'id' },
-  { key: 'estadoTren', label: 'Estado', type: 'exact', options: [
-      { label: 'Disponible', value: 'Disponible' },
-      { label: 'En Reparacion', value: 'En Reparacion' },
-      { label: 'Obsoleto', value: 'Obsoleto' }
-    ]},
-  { key: 'fechaCreacion', label: 'Fecha de creacion', type: 'dateRange', startKey: 'fechaIni', endKey: 'fechaFin' }
-]
+    { key: 'modelo', label: 'Modelo', type: 'partial' },
+    { key: 'id', label: 'Tren ID', type: 'id' },
+    {
+      key: 'estadoTren', label: 'Estado', type: 'exact', options: [
+        { label: 'Disponible', value: 'Disponible' },
+        { label: 'En Reparacion', value: 'En Reparacion' },
+        { label: 'Obsoleto', value: 'Obsoleto' }
+      ]
+    },
+    { key: 'fechaCreacion', label: 'Fecha de creacion', type: 'dateRange', startKey: 'fechaIni', endKey: 'fechaFin' }
+  ]
 
   if (isLoading) return < LoadingScreen title='Cargando trenes...' />
 
@@ -56,8 +70,8 @@ export function TrenCrud() {
           Crear un tren
         </button>
       </div>
-      <TrenList trenes={trenes} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation}/>
-      
+      <TrenList trenes={trenes} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={handleDelete} />
+
       {
         showModal &&
         <Modal onClose={() => setShowModal(false)} title={(trenToEdit.current ? 'Editar' : 'Crear') + ' Tren'}>

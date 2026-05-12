@@ -4,6 +4,7 @@ import { LineaCargaList } from '../../components/lineaCarga/LineaCargaList.jsx'
 import { useLineaCargaCrud } from '../../hooks/lineaCarga/useLineaCargaCrud.js'
 import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
 export function LineaCargaCrud() {
   const {
@@ -23,14 +24,27 @@ export function LineaCargaCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useLineaCargaCrud()
+  const { showFeedback } = useFeedback()
+
+  const handleDelete = async (lineaCargaId) => {
+    try {
+      await deleteMutation(lineaCargaId)
+      showFeedback('success', 'Línea eliminada', 'La línea de carga se eliminó correctamente.')
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo eliminar la línea de carga. Intenta nuevamente.')
+    }
+  }
 
   const lineaCargaFilterAttributes = [
     { key: 'id', label: 'ID', type: 'id' },
     { key: 'cantidadVagon', label: 'Cantidad de vagones', type: 'range' },
-    { key: 'estado', label: 'Estado', type: 'exact', options: [
-      { label: 'Activo', value: 'Activo' },
-      { label: 'Inactivo', value: 'Inactivo' }
-    ]},
+    {
+      key: 'estado', label: 'Estado', type: 'exact', options: [
+        { label: 'Activo', value: 'Activo' },
+        { label: 'Inactivo', value: 'Inactivo' }
+      ]
+    },
     { key: 'cargaId', label: 'ID Carga', type: 'id' },
     { key: 'viajeId', label: 'ID Viaje', type: 'id' },
     { key: 'createdAt', label: 'Fecha de creación', type: 'dateRange', startKey: 'fechaCreacionIni', endKey: 'fechaCreacionFin' },
@@ -59,7 +73,7 @@ export function LineaCargaCrud() {
         </button>
       </div>
       {/* Logica pensada para ordenar los LineaCargas segun el atributo que apreta el usuario, todavia no hecha */}
-      <LineaCargaList lineaCargas={lineaCargas} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation} />
+      <LineaCargaList lineaCargas={lineaCargas} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={handleDelete} />
 
       {
         showModal &&

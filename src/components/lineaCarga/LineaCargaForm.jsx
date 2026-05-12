@@ -1,5 +1,6 @@
 import { useForm, Controller } from 'react-hook-form'
 import { useState, useEffect } from 'react'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 import { useLineaCargaPost } from '../../hooks/lineaCarga/useLineaCargaPost.js'
 import { useLineaCargaPut } from '../../hooks/lineaCarga/useLineaCargasPut.js'
 import { useViajesInfinite } from '../../hooks/viaje/useViajeInfinite.js'
@@ -7,7 +8,8 @@ import { useCargasInfinite } from '../../hooks/carga/useCargaInfinite.js'
 import { LineaCargaFindAll } from '../../hooks/lineaCarga/useLineaCargaQuery.js'
 import { EntitySelector } from '../shared/EntitySelector.jsx'
 
-export function LineaCargaForm({ onSuccess, lineaCargaToEdit }) {
+export function LineaCargaForm ({ onSuccess, lineaCargaToEdit }) {
+  const { showFeedback } = useFeedback()
   const { data: dataCargas, fetchNextPage: nextCargas, hasNextPage: hasNextCargas } = useCargasInfinite({ filters: { estado: 'Activo' } })
   const { data: dataViajes, fetchNextPage: nextViajes, hasNextPage: hasNextViajes } = useViajesInfinite({})
   const [cargas, setCargas] = useState([])
@@ -26,11 +28,11 @@ export function LineaCargaForm({ onSuccess, lineaCargaToEdit }) {
     mode: 'onBlur',
     defaultValues: lineaCargaToEdit
       ? {
-        estado: lineaCargaToEdit.estado,
-        idViaje: lineaCargaToEdit.viaje?.id,
-        idCarga: lineaCargaToEdit.carga?.id,
-        cantidadVagon: lineaCargaToEdit.cantidadVagon
-      }
+          estado: lineaCargaToEdit.estado,
+          idViaje: lineaCargaToEdit.viaje?.id,
+          idCarga: lineaCargaToEdit.carga?.id,
+          cantidadVagon: lineaCargaToEdit.cantidadVagon
+        }
       : {}
   })
 
@@ -78,15 +80,19 @@ export function LineaCargaForm({ onSuccess, lineaCargaToEdit }) {
       cantidadVagon: Number(formData.cantidadVagon)
     }
 
-    if (lineaCargaToEdit) {
-      lineaCarga.id = lineaCargaToEdit.id
-      await handlePut(lineaCarga)
-      if (!isErrorPut) onSuccess()
-      return
+    try {
+      if (lineaCargaToEdit) {
+        lineaCarga.id = lineaCargaToEdit.id
+        await handlePut(lineaCarga)
+        showFeedback('success', 'Línea de carga actualizada', 'La línea de carga se actualizó correctamente.')
+      } else {
+        await handlePost(lineaCarga)
+        showFeedback('success', 'Línea de carga creada', 'La línea de carga se creó correctamente.')
+      }
+      onSuccess()
+    } catch (error) {
+      showFeedback('danger', 'Error', `No se pudo ${lineaCargaToEdit ? 'actualizar' : 'crear'} la línea de carga. Intenta nuevamente.`)
     }
-
-    await handlePost(lineaCarga)
-    if (!isErrorPost) onSuccess()
   }
 
   const isPendingForm = isPendingPost || isPendingPut

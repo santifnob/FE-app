@@ -6,6 +6,7 @@ import { ConductorGetOne } from "../../hooks/conductor/useConductorQuery";
 import { useConductorPut } from "../../hooks/conductor/useConductorPut";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { LoadingScreen } from "../../components/shared/LoadingScreen.jsx";
+import { useFeedback } from "../../context/FeedbackContext.jsx";
 
 function normalizeDate(dateValue) {
   const date = new Date(dateValue);
@@ -33,10 +34,10 @@ function isLicenseActive(license) {
 
   const expirationDate = normalizeDate(license.fechaVencimiento);
 
-  if((expirationDate >= today) && (license.estado === "Activo")) {
+  if ((expirationDate >= today) && (license.estado === "Activo")) {
     return 'Activa';
   }
-  if(license.estado === "Inactivo") {
+  if (license.estado === "Inactivo") {
     return 'Suspendida';
   }
   return 'Vencida';
@@ -236,6 +237,7 @@ export default function PerfilConductor() {
   const [showLicensesModal, setShowLicensesModal] = useState(false);
 
   const { user: currentUser, isLoading: isAuthLoading } = useCurrentUser();
+  const { showFeedback } = useFeedback();
 
   const conductorPut = useConductorPut();
 
@@ -318,7 +320,14 @@ export default function PerfilConductor() {
   );
 
   const handleSaveField = async (field, value) => {
-    await updateFieldMutation.mutateAsync({ field, value });
+    try {
+      await updateFieldMutation.mutateAsync({ field, value });
+      const fieldLabel = { nombre: 'Nombre', apellido: 'Apellido', password: 'Contraseña' }[field] || 'Perfil';
+      showFeedback('success', 'Perfil actualizado', `${fieldLabel} actualizado correctamente.`);
+    } catch (error) {
+      showFeedback('danger', 'Error', 'No se pudo actualizar tu perfil. Intenta nuevamente.');
+      throw error;
+    }
   };
 
   if (!currentUser?.id) {
@@ -347,9 +356,8 @@ export default function PerfilConductor() {
     );
   }
 
-  const initials = `${user?.nombre?.[0] || ""}${
-    user?.apellido?.[0] || ""
-  }`.toUpperCase();
+  const initials = `${user?.nombre?.[0] || ""}${user?.apellido?.[0] || ""
+    }`.toUpperCase();
 
   return (
     <div className="container py-4">
@@ -425,9 +433,8 @@ export default function PerfilConductor() {
             <div className="d-flex align-items-center justify-content-between gap-3">
               <div className="form-control bg-light">
                 <span
-                  className={`badge ${
-                    hasActiveLicense ? "bg-success" : "bg-danger"
-                  } me-2`}
+                  className={`badge ${hasActiveLicense ? "bg-success" : "bg-danger"
+                    } me-2`}
                 >
                   {hasActiveLicense ? "Licencia activa" : "Sin licencia activa"}
                 </span>

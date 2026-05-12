@@ -4,11 +4,13 @@ import { useEstadoTrenPost } from '../../hooks/estadoTren/useEstadoTrenPost'
 import { useEstadoTrenPut } from '../../hooks/estadoTren/useEstadoTrenesPut'
 import { useTrenesInfinite } from '../../hooks/tren/useTrenInfinite.js'
 import { EntitySelector } from '../shared/EntitySelector.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
 export function EstadoTrenForm({ onSuccess, estadoTrenToEdit }) {
     const { data: dataTrenes, fetchNextPage: nextTrenes, hasNextPage: hasNextTrenes } = useTrenesInfinite({})
     const [trenes, setTrenes] = useState([])
-    const { register, formState: { errors }, handleSubmit, isPending: isPendingForm, control } = useForm({ 
+    const { showFeedback } = useFeedback()
+    const { register, formState: { errors }, handleSubmit, isPending: isPendingForm, control } = useForm({
         mode: 'onBlur',
         defaultValues: estadoTrenToEdit ? { idTren: estadoTrenToEdit.tren?.id } : {}
     })
@@ -35,17 +37,22 @@ export function EstadoTrenForm({ onSuccess, estadoTrenToEdit }) {
             idTren: Number(formData.idTren),
         }
 
-        if (estadoTrenToEdit) {
-            estadoTren.id = estadoTrenToEdit.id
-            await handlePut(estadoTren)
-            if (!isErrorPut) onSuccess()
-            return
+        try {
+            if (estadoTrenToEdit) {
+                estadoTren.id = estadoTrenToEdit.id
+                await handlePut(estadoTren)
+                showFeedback('success', 'Estado actualizado', 'El estado del tren se actualizó correctamente.')
+                onSuccess()
+                return
+            }
+
+            await handlePost(estadoTren)
+            showFeedback('success', 'Estado creado', 'El estado del tren se creó correctamente.')
+            onSuccess()
+        } catch (error) {
+            console.error(error)
+            showFeedback('danger', 'Error', 'No se pudo guardar el estado del tren. Intenta de nuevo.')
         }
-
-        await handlePost(estadoTren)
-
-        if (!isErrorPost) onSuccess()
-
     }
 
     return (

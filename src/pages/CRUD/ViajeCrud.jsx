@@ -5,16 +5,19 @@ import { EntityFilters } from '../../components/EntityFilters.jsx'
 import { useViajeCrud } from '../../hooks/viaje/useViajeCrud.js'
 import { ViajeCards } from '../../components/viaje/ViajeCards.jsx'
 import { LoadingScreen } from '../../components/shared/LoadingScreen.jsx'
+import { useFeedback } from '../../context/FeedbackContext.jsx'
 
 const viajeFilterAttributes = [
-  { key: 'estado', label: 'Estado', type: 'exact', options: [
-    { value: 'Cancelado/Suspendido', label: 'Cancelado/Suspendido' },
-    { value: 'Rechazado', label: 'Rechazado' },
-    { value: 'Viaje no aceptado', label: 'Viaje no aceptado' },
-    { value: 'Finalizado', label: 'Finalizado' },
-    { value: 'Programado', label: 'Programado' },
-    { value: 'En curso', label: 'En curso' }
-  ] },
+  {
+    key: 'estado', label: 'Estado', type: 'exact', options: [
+      { value: 'Cancelado/Suspendido', label: 'Cancelado/Suspendido' },
+      { value: 'Rechazado', label: 'Rechazado' },
+      { value: 'Viaje no aceptado', label: 'Viaje no aceptado' },
+      { value: 'Finalizado', label: 'Finalizado' },
+      { value: 'Programado', label: 'Programado' },
+      { value: 'En curso', label: 'En curso' }
+    ]
+  },
   { key: 'trenId', label: 'Tren ID', type: 'id' },
   { key: 'conductorId', label: 'Conductor ID', type: 'id' },
   { key: 'recorridoId', label: 'Recorrido ID', type: 'id' },
@@ -44,8 +47,20 @@ export function ViajeCrud() {
     handleAscOrder,
     handleApplyFilters
   } = useViajeCrud()
+  const { showFeedback } = useFeedback()
 
   if (isLoading) return <LoadingScreen title='Cargando viajes...' />
+  const handleDelete = async (viajeId) => {
+    try {
+      await deleteMutation(viajeId)
+      showFeedback('success', 'Viaje eliminado', 'El viaje se eliminó correctamente.')
+    } catch (error) {
+      console.error(error)
+      showFeedback('danger', 'Error', 'No se pudo eliminar el viaje. Intenta nuevamente.')
+    }
+  }
+
+  if (isLoading) return <h1 className='text-center'>Cargando..</h1>
 
   if (isError) return <h1>{error}</h1>
 
@@ -67,15 +82,15 @@ export function ViajeCrud() {
         </button>
       </div>
       <>
-      {/* TABLA DESKTOP */}
-      <div className="d-none d-md-block">
-        <ViajeTableExpandable viajes={viajes} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation} />
-      </div>
+        {/* TABLA DESKTOP */}
+        <div className="d-none d-md-block">
+          <ViajeTableExpandable viajes={viajes} handleAscOrder={handleAscOrder} ascOrder={ascOrder} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={handleDelete} />
+        </div>
 
-      {/* CARDS MOBILE */}
-      <div className="d-md-none">
-        <ViajeCards viajes={viajes} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={deleteMutation} />
-      </div>
+        {/* CARDS MOBILE */}
+        <div className="d-md-none">
+          <ViajeCards viajes={viajes} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} handleEdit={handleEdit} deleteMutation={handleDelete} />
+        </div>
       </>
 
       {
